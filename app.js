@@ -1,53 +1,69 @@
-// Study Hub 3.0
-// Main App Controller
+// =========================
+// STUDY HUB 3.0
+// APP CONTROLS
+// =========================
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
+    updateDate();
+
     updateClock();
 
-    setInterval(updateClock, 1000);
+    loadSettings();
+
+
+    setInterval(updateClock,1000);
+
 
 });
 
 
 
 
-// Page navigation
+
+
+
+
+// PAGE SWITCHING
+
 
 function showPage(page){
 
 
-    document
-    .querySelectorAll(".page")
+    document.querySelectorAll(".page")
     .forEach(section=>{
+
 
         section.classList.remove("active");
 
+
+    });
+
+
+
+    document.getElementById(page)
+    .classList.add("active");
+
+
+
+
+
+    document.querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+
+
+        btn.classList.remove("active");
+
+
     });
 
 
 
-    const selected =
-    document.getElementById(page);
+    event.target.classList.add("active");
 
-
-
-    if(selected){
-
-        selected.classList.add("active");
-
-    }
-
-
-
-    document
-    .querySelectorAll(".nav-btn")
-    .forEach(button=>{
-
-        button.classList.remove("active");
-
-    });
 
 
 }
@@ -58,21 +74,158 @@ function showPage(page){
 
 
 
-// Dark mode toggle
+
+// DATE
+
+
+function updateDate(){
+
+
+    let date = new Date();
+
+
+    let element =
+    document.getElementById("date");
+
+
+    if(element){
+
+
+        element.textContent =
+        date.toDateString();
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+// CLOCK
+
+
+function updateClock(){
+
+
+    let clock =
+    document.getElementById("clock");
+
+
+
+    if(clock){
+
+
+        clock.textContent =
+        new Date()
+        .toLocaleTimeString();
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+// THEME
+
 
 function toggleTheme(){
 
 
-    document.body.classList.toggle("light");
+    document.body.classList.toggle("dark");
+
+
+    saveSettings();
+
+
+}
+
+
+
+
+
+
+
+
+
+// FONT
+
+
+function changeFont(font){
+
+
+    document.body.style.fontFamily =
+    font;
+
+
+    localStorage.setItem(
+        "studyFont",
+        font
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// ACCENT COLOUR
+
+
+function changeAccent(color){
+
+
+    document.documentElement
+    .style.setProperty(
+        "--accent",
+        color
+    );
+
+
+
+    localStorage.setItem(
+        "studyAccent",
+        color
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// SETTINGS SAVE
+
+
+function saveSettings(){
 
 
     localStorage.setItem(
 
-        "theme",
+        "studyDark",
 
-        document.body.classList.contains("light")
-        ? "light"
-        : "dark"
+        document.body.classList.contains("dark")
 
     );
 
@@ -85,61 +238,117 @@ function toggleTheme(){
 
 
 
-// Load saved theme
 
-window.onload = () => {
-
-
-    const theme =
-    localStorage.getItem("theme");
+function loadSettings(){
 
 
-    if(theme === "light"){
 
-        document.body.classList.add("light");
-
-    }
+    let font =
+    localStorage.getItem("studyFont");
 
 
-};
+
+    let accent =
+    localStorage.getItem("studyAccent");
 
 
+
+    let dark =
+    localStorage.getItem("studyDark");
 
 
 
 
 
-// Clock
-
-function updateClock(){
+    if(font){
 
 
-    const date =
-    document.getElementById("date");
-
-
-    const clock =
-    document.getElementById("clock");
+        document.body.style.fontFamily =
+        font;
 
 
 
-    const now = new Date();
+        let select =
+        document.getElementById("fontSelect");
 
 
 
-    if(date){
+        if(select){
 
-        date.textContent =
-        now.toLocaleDateString();
+            select.value = font;
+
+        }
+
 
     }
 
 
 
-    if(clock){
 
-        clock.textContent =
-        now.toLocaleTimeString();
+
+
+    if(accent){
+
+
+        document.documentElement
+        .style.setProperty(
+            "--accent",
+            accent
+        );
+
+
+        let picker =
+        document.getElementById("accentPicker");
+
+
+        if(picker){
+
+            picker.value = accent;
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+    if(dark === "true"){
+
+
+        document.body.classList.add("dark");
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+// RESET
+
+
+function clearData(){
+
+
+    if(confirm("Delete all Study Hub data?")){
+
+
+        localStorage.clear();
+
+
+        location.reload();
+
 
     }
 
