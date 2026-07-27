@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Study Hub 3.0</title>
+
+<link rel="stylesheet" href="css/main.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<aside class="sidebar">
+
+
+<div class="logo">
+
+📚 Study Hub
+
+<span>3.0</span>
+
+</div>
+
+
+
+<nav>
+
+
+<button class="nav-btn active" onclick="showPage('dashboard')">
+
+🏠 Dashboard
+
+</button>
+
+
+
+<button class="nav-btn" onclick="showPage('planner')">
+
+📖 Learning Planner
+
+</button>
+
+
+
+<button class="nav-btn" onclick="showPage('notes')">
+
+📝 Notes
+
+</button>
+
+
+
+<button class="nav-btn" onclick="showPage('tools')">
+
+🛠 Tools
+
+</button>
+
+
+
+<button class="nav-btn" onclick="showPage('settings')">
+
+⚙️ Settings
+
+</button>
+
+
+
+</nav>
+
+
+
+<button class="theme-btn" onclick="toggleTheme()">
+
+🌙 Toggle Theme
+
+</button>
+
+
+
+</aside>
+
+
+
+
+
+
+<main class="main">
+
+
+
+
+
+<section id="dashboard" class="page active">
+
+
+<h1>
+
+Welcome back 👋
+
+</h1>
+
+
+
+<div class="grid">
+
+
+
+<div class="card">
+
+<h2>📅 Today</h2>
+
+<p id="date"></p>
+
+<p id="clock"></p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h2>📈 Progress</h2>
+
+<div class="progress">
+
+0%
+
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h2>🎯 Goals</h2>
+
+<p>
+
+Your goals will appear here.
+
+</p>
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="planner" class="page">
+
+
+<h1>
+
+📖 Learning Planner
+
+</h1>
+
+
+
+<div class="planner-controls">
+
+
+<button onclick="createPlan()">
+
+➕ New Week
+
+</button>
+
+
+
+<select id="planSelector" onchange="changePlan(this.value)">
+
+</select>
+
+
+
+</div>
+
+
+
+
+<div id="plannerContainer">
+
+
+<div class="card">
+
+<h2>
+
+Loading Planner...
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section id="notes" class="page">
+
+
+<h1>
+
+📝 Notes
+
+</h1>
+
+
+
+<div class="card">
+
+
+<textarea placeholder="Write notes here..."></textarea>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section id="tools" class="page">
+
+
+<h1>
+
+🛠 Tools
+
+</h1>
+
+
+
+<div class="card">
+
+
+<p>
+
+Tools coming soon.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section id="settings" class="page">
+
+
+<h1>
+
+⚙️ Settings
+
+</h1>
+
+
+
+<div class="card">
+
+
+<h2>
+
+Study Hub 3.0
+
+</h2>
+
+
+<p>
+
+Foundation build.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+</div>
+
+
+
+
+
+<script src="js/storage.js"></script>
+
+<script src="js/planner.js"></script>
+
+<script src="js/app.js"></script>
+
+
+</body>
+
+</html>

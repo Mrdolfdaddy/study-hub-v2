@@ -1,0 +1,464 @@
+* {
+
+    box-sizing:border-box;
+
+    font-family:"Segoe UI", Arial, sans-serif;
+
+}
+
+
+
+body {
+
+    margin:0;
+
+    min-height:100vh;
+
+    background:
+
+    linear-gradient(
+        rgba(5,8,22,.75),
+        rgba(5,8,22,.9)
+    ),
+
+    url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
+
+    background-size:cover;
+
+    background-position:center;
+
+    color:white;
+
+}
+
+
+
+.app {
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+
+
+
+/* SIDEBAR */
+
+
+.sidebar {
+
+    width:260px;
+
+    background:rgba(15,23,42,.95);
+
+    padding:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    border-right:1px solid rgba(255,255,255,.1);
+
+}
+
+
+
+.logo {
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.logo span {
+
+    color:#a78bfa;
+
+}
+
+
+
+nav {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+
+.nav-btn,
+.theme-btn {
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:#1e293b;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.2s;
+
+}
+
+
+
+.nav-btn:hover,
+.theme-btn:hover {
+
+    background:#6366f1;
+
+    transform:translateX(4px);
+
+}
+
+
+
+.nav-btn.active {
+
+    background:#6366f1;
+
+}
+
+
+
+.theme-btn {
+
+    margin-top:auto;
+
+}
+
+
+
+
+
+
+/* MAIN */
+
+
+.main {
+
+    flex:1;
+
+    padding:35px;
+
+}
+
+
+
+.page {
+
+    display:none;
+
+}
+
+
+
+.page.active {
+
+    display:block;
+
+}
+
+
+
+h1 {
+
+    font-size:36px;
+
+}
+
+
+
+
+
+
+/* CARDS */
+
+
+.card {
+
+    background:rgba(15,23,42,.88);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+}
+
+
+
+
+
+
+/* PLANNER */
+
+
+.planner-controls {
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.planner-controls button {
+
+    background:#6366f1;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+}
+
+
+
+.planner-controls select {
+
+    background:#1e293b;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:12px;
+
+}
+
+
+
+
+
+
+.learning-table {
+
+    width:100%;
+
+    border-collapse:separate;
+
+    border-spacing:10px;
+
+}
+
+
+
+.learning-table th {
+
+    background:#312e81;
+
+    padding:15px;
+
+    border-radius:12px;
+
+}
+
+
+
+.learning-table td {
+
+    background:rgba(30,41,59,.9);
+
+    padding:18px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+}
+
+
+
+.learning-table td:first-child {
+
+    text-align:left;
+
+    width:35%;
+
+}
+
+
+
+.learning-table h3 {
+
+    margin-top:0;
+
+    color:#c4b5fd;
+
+}
+
+
+
+
+
+
+
+/* TEXT BOXES */
+
+
+.learning-table textarea,
+.card textarea {
+
+    width:100%;
+
+    min-height:70px;
+
+    margin-top:10px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:none;
+
+    background:#0f172a;
+
+    color:white;
+
+    resize:vertical;
+
+}
+
+
+
+
+
+
+
+/* BETTER CHECKBOXES */
+
+
+.learning-table input[type="checkbox"] {
+
+    appearance:none;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:12px;
+
+    border:3px solid #818cf8;
+
+    background:#0f172a;
+
+    cursor:pointer;
+
+    display:block;
+
+    margin:auto;
+
+    transition:.2s;
+
+}
+
+
+
+.learning-table input[type="checkbox"]:hover {
+
+    transform:scale(1.1);
+
+}
+
+
+
+.learning-table input[type="checkbox"]:checked {
+
+    background:#6366f1;
+
+    border-color:#a78bfa;
+
+}
+
+
+
+.learning-table input[type="checkbox"]:checked::after {
+
+    content:"✓";
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100%;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+
+/* NOTES */
+
+
+#plannerContainer .card > textarea {
+
+    min-height:120px;
+
+}
+
+
+
+@media(max-width:900px){
+
+.sidebar {
+
+    width:90px;
+
+}
+
+
+.main {
+
+    padding:15px;
+
+}
+
+
+.learning-table {
+
+    font-size:12px;
+
+}
+
+}
