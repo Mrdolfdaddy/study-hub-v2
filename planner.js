@@ -1,5 +1,5 @@
 // Study Hub 3.0
-// Learning Planner System
+// Learning Planner 3.1
 
 
 let plans = loadPlans();
@@ -7,11 +7,9 @@ let plans = loadPlans();
 
 
 
-// Start planner
+// Load planner
 
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
     loadPlanner();
 
@@ -21,60 +19,19 @@ document.addEventListener(
 
 
 
-
-
-// Load planner
-
 function loadPlanner(){
-
-
-    const selector =
-    document.getElementById("planSelector");
-
-
-    if(!selector) return;
-
 
 
     plans = loadPlans();
 
 
-
-    selector.innerHTML="";
-
+    const container = document.getElementById("plannerContainer");
 
 
-    plans.forEach(plan=>{
+    if(!container) return;
 
 
-        let option =
-        document.createElement("option");
-
-
-        option.value = plan.id;
-
-
-        option.textContent = plan.name;
-
-
-        selector.appendChild(option);
-
-
-    });
-
-
-
-    const current =
-    getCurrentPlan();
-
-
-
-    selector.value =
-    current.id;
-
-
-
-    renderPlanner(current);
+    renderPlanner(getCurrentPlan());
 
 
 }
@@ -84,8 +41,6 @@ function loadPlanner(){
 
 
 
-
-// Display planner
 
 function renderPlanner(plan){
 
@@ -98,21 +53,53 @@ function renderPlanner(plan){
 
 
 
-    container.innerHTML="";
-
-
-
     let html = `
 
 
-<div class="card">
+<div class="planner-card">
+
+
+<div class="planner-header">
 
 
 <h2>${plan.name}</h2>
 
 
+<div class="date-box">
+
+
+<label>
+
+Start:
+
+<input type="date">
+
+</label>
+
+
+
+<label>
+
+End:
+
+<input type="date">
+
+</label>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
 <table class="learning-table">
 
+
+<thead>
 
 <tr>
 
@@ -130,6 +117,10 @@ function renderPlanner(plan){
 
 </tr>
 
+</thead>
+
+
+<tbody>
 
 
 `;
@@ -147,22 +138,60 @@ html += `
 <tr>
 
 
-<td>
+<td class="subject-box">
 
 
 <h3>
+
 ${subject.title}
+
 </h3>
+
+
+
+<label>
+
+🎯 Goal
+
+</label>
 
 
 <textarea
 
-placeholder="Learning goal..."
+placeholder="What are you learning?"
 
 onchange="updateDescription(${index},this.value)"
 
->${subject.description}</textarea>
+>${subject.description || ""}</textarea>
 
+
+
+
+
+<label>
+
+🔗 Resources
+
+</label>
+
+
+<textarea
+
+placeholder="Paste links here..."
+
+onchange="updateResources(${index},this.value)"
+
+>${subject.resources || ""}</textarea>
+
+
+
+
+
+<label>
+
+📝 Notes
+
+</label>
 
 
 <textarea
@@ -171,7 +200,7 @@ placeholder="Notes..."
 
 onchange="updateNotes(${index},this.value)"
 
->${subject.notes}</textarea>
+>${subject.notes || ""}</textarea>
 
 
 
@@ -179,15 +208,39 @@ onchange="updateNotes(${index},this.value)"
 
 
 
-${createCheckbox(index,"Monday",subject.days.Monday)}
+<td>
 
-${createCheckbox(index,"Tuesday",subject.days.Tuesday)}
+${checkbox(index,"Monday",subject.days.Monday)}
 
-${createCheckbox(index,"Wednesday",subject.days.Wednesday)}
+</td>
 
-${createCheckbox(index,"Thursday",subject.days.Thursday)}
 
-${createCheckbox(index,"Friday",subject.days.Friday)}
+<td>
+
+${checkbox(index,"Tuesday",subject.days.Tuesday)}
+
+</td>
+
+
+<td>
+
+${checkbox(index,"Wednesday",subject.days.Wednesday)}
+
+</td>
+
+
+<td>
+
+${checkbox(index,"Thursday",subject.days.Thursday)}
+
+</td>
+
+
+<td>
+
+${checkbox(index,"Friday",subject.days.Friday)}
+
+</td>
 
 
 
@@ -202,38 +255,20 @@ ${createCheckbox(index,"Friday",subject.days.Friday)}
 
 
 
+
+
 html += `
+
+
+</tbody>
+
 
 </table>
 
 
-<h3>📝 Student Notes</h3>
-
-
-<textarea
-
-placeholder="Student notes..."
-
-onchange="updateStudentNotes(this.value)"
-
->${plan.studentNotes || ""}</textarea>
-
-
-
-<h3>👨‍🏫 Teacher Notes</h3>
-
-
-<textarea
-
-placeholder="Teacher notes..."
-
-onchange="updateTeacherNotes(this.value)"
-
->${plan.teacherNotes || ""}</textarea>
-
-
 
 </div>
+
 
 `;
 
@@ -251,15 +286,13 @@ container.innerHTML = html;
 
 
 
-// Create checkbox
-
-function createCheckbox(subject,day,value){
+function checkbox(subject,day,value){
 
 
 return `
 
 
-<td>
+<label class="big-check">
 
 
 <input
@@ -273,11 +306,13 @@ onchange="toggleDay(${subject},'${day}',this.checked)"
 >
 
 
-</td>
+<span></span>
+
+
+</label>
 
 
 `;
-
 
 }
 
@@ -288,13 +323,31 @@ onchange="toggleDay(${subject},'${day}',this.checked)"
 
 
 
-// Update description
+
+function toggleDay(subject,day,value){
+
+
+let plan = getCurrentPlan();
+
+
+plan.subjects[subject].days[day] = value;
+
+
+savePlans(plans);
+
+
+}
+
+
+
+
+
+
 
 function updateDescription(index,value){
 
 
-let plan =
-getCurrentPlan();
+let plan=getCurrentPlan();
 
 
 plan.subjects[index].description=value;
@@ -311,195 +364,36 @@ savePlans(plans);
 
 
 
-// Update notes
+function updateResources(index,value){
+
+
+let plan=getCurrentPlan();
+
+
+plan.subjects[index].resources=value;
+
+
+savePlans(plans);
+
+
+}
+
+
+
+
+
+
 
 function updateNotes(index,value){
 
 
-let plan =
-getCurrentPlan();
+let plan=getCurrentPlan();
 
 
 plan.subjects[index].notes=value;
 
 
 savePlans(plans);
-
-
-}
-
-
-
-
-
-
-
-
-// Toggle checkbox
-
-function toggleDay(subject,day,value){
-
-
-let plan =
-getCurrentPlan();
-
-
-plan.subjects[subject].days[day]=value;
-
-
-savePlans(plans);
-
-
-}
-
-
-
-
-
-
-
-
-// Student notes
-
-function updateStudentNotes(value){
-
-
-let plan =
-getCurrentPlan();
-
-
-plan.studentNotes=value;
-
-
-savePlans(plans);
-
-
-}
-
-
-
-
-
-
-
-// Teacher notes
-
-function updateTeacherNotes(value){
-
-
-let plan =
-getCurrentPlan();
-
-
-plan.teacherNotes=value;
-
-
-savePlans(plans);
-
-
-}
-
-
-
-
-
-
-
-
-// New week
-
-function createPlan(){
-
-
-let name =
-prompt("Name your week:");
-
-
-
-if(!name) return;
-
-
-
-
-let newPlan={
-
-
-id:Date.now(),
-
-
-name:name,
-
-
-startDate:"",
-
-
-endDate:"",
-
-
-studentNotes:"",
-
-
-teacherNotes:"",
-
-
-subjects:[
-
-createSubject("Reading"),
-
-createSubject("Writing"),
-
-createSubject("Numeracy"),
-
-createSubject("Careers Education"),
-
-createSubject("Respectful Relationships"),
-
-createSubject("Brain Warm Up"),
-
-createSubject("Brain Break")
-
-]
-
-
-};
-
-
-
-plans.push(newPlan);
-
-
-
-savePlans(plans);
-
-
-
-setCurrentPlanID(newPlan.id);
-
-
-
-loadPlanner();
-
-
-}
-
-
-
-
-
-
-
-
-// Change week
-
-function changePlan(id){
-
-
-setCurrentPlanID(id);
-
-
-renderPlanner(
-getCurrentPlan()
-);
 
 
 }
