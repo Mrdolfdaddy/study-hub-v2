@@ -1,8 +1,10 @@
 // Study Hub 3.0
-// Learning Planner
+// Planner with Week Selector
 
 
-let plans = loadPlans();
+let plans = [];
+
+let currentPlanId = null;
 
 
 
@@ -22,10 +24,73 @@ function loadPlanner(){
     plans = loadPlans();
 
 
-    const container = document.getElementById("plannerContainer");
+    const selector = document.getElementById("planSelector");
 
 
-    if(!container) return;
+    if(selector){
+
+
+        selector.innerHTML = "";
+
+
+        plans.forEach(plan=>{
+
+
+            let option = document.createElement("option");
+
+
+            option.value = plan.id;
+
+
+            option.textContent = plan.name;
+
+
+            selector.appendChild(option);
+
+
+        });
+
+
+        currentPlanId = plans[0].id;
+
+
+        selector.value = currentPlanId;
+
+
+    }
+
+
+
+    renderPlanner(getCurrentPlan());
+
+}
+
+
+
+
+
+
+
+function getCurrentPlan(){
+
+
+    return plans.find(
+        plan => plan.id == currentPlanId
+    ) || plans[0];
+
+
+}
+
+
+
+
+
+
+
+function changePlan(id){
+
+
+    currentPlanId = Number(id);
 
 
     renderPlanner(getCurrentPlan());
@@ -42,10 +107,12 @@ function loadPlanner(){
 function renderPlanner(plan){
 
 
-    const container = document.getElementById("plannerContainer");
+    const container =
+    document.getElementById("plannerContainer");
 
 
-    if(!container) return;
+
+    if(!container || !plan) return;
 
 
 
@@ -59,9 +126,8 @@ function renderPlanner(plan){
 
 <h2>${plan.name}</h2>
 
+
 </div>
-
-
 
 
 
@@ -97,6 +163,7 @@ function renderPlanner(plan){
 
 
 
+
 plan.subjects.forEach((subject,index)=>{
 
 
@@ -112,11 +179,10 @@ html += `
 <h3>${subject.title}</h3>
 
 
-<label>🎯 Goal</label>
 
 <textarea
 
-placeholder="What are you learning?"
+placeholder="Goal"
 
 onchange="updateDescription(${index},this.value)"
 
@@ -124,23 +190,25 @@ onchange="updateDescription(${index},this.value)"
 
 
 
-<label>🔗 Resources</label>
+
+<div class="resources">
+
+
+<h4>🔗 Resources</h4>
+
+
+${renderResources(subject)}
+
+
+</div>
+
+
+
+
 
 <textarea
 
-placeholder="Spotify, Google Docs, ChatGPT links..."
-
-onchange="updateResources(${index},this.value)"
-
->${subject.resources || ""}</textarea>
-
-
-
-<label>📝 Notes</label>
-
-<textarea
-
-placeholder="Notes..."
+placeholder="Notes"
 
 onchange="updateNotes(${index},this.value)"
 
@@ -152,39 +220,18 @@ onchange="updateNotes(${index},this.value)"
 
 
 
-<td>
-
-${makeCheckbox(index,"Monday",subject.days.Monday)}
-
-</td>
 
 
-<td>
+<td>${makeCheckbox(index,"Monday",subject.days.Monday)}</td>
 
-${makeCheckbox(index,"Tuesday",subject.days.Tuesday)}
+<td>${makeCheckbox(index,"Tuesday",subject.days.Tuesday)}</td>
 
-</td>
+<td>${makeCheckbox(index,"Wednesday",subject.days.Wednesday)}</td>
 
+<td>${makeCheckbox(index,"Thursday",subject.days.Thursday)}</td>
 
-<td>
+<td>${makeCheckbox(index,"Friday",subject.days.Friday)}</td>
 
-${makeCheckbox(index,"Wednesday",subject.days.Wednesday)}
-
-</td>
-
-
-<td>
-
-${makeCheckbox(index,"Thursday",subject.days.Thursday)}
-
-</td>
-
-
-<td>
-
-${makeCheckbox(index,"Friday",subject.days.Friday)}
-
-</td>
 
 
 </tr>
@@ -200,7 +247,9 @@ ${makeCheckbox(index,"Friday",subject.days.Friday)}
 
 
 
+
 html += `
+
 
 </tbody>
 
@@ -208,6 +257,7 @@ html += `
 
 
 </div>
+
 
 `;
 
@@ -219,6 +269,40 @@ container.innerHTML = html;
 }
 
 
+
+
+
+
+
+
+function renderResources(subject){
+
+
+if(!subject.resources) return "";
+
+
+return subject.resources.map(resource=>{
+
+
+return `
+
+
+<a href="${resource.url}" target="_blank">
+
+${resource.name}
+
+</a>
+
+
+`;
+
+
+
+}).join("<br>");
+
+
+
+}
 
 
 
@@ -238,16 +322,16 @@ return `
 
 type="checkbox"
 
-${value ? "checked" : ""}
+${value ? "checked":""}
 
-onchange="toggleDay(${subject}, '${day}', this.checked)"
+onchange="toggleDay(${subject},'${day}',this.checked)"
 
 >
 
 
 <span class="check-box">
 
-${value ? "✓" : ""}
+${value ? "✓":""}
 
 </span>
 
@@ -265,14 +349,13 @@ ${value ? "✓" : ""}
 
 
 
-
 function toggleDay(subject,day,value){
 
 
-let plan = getCurrentPlan();
+let plan=getCurrentPlan();
 
 
-plan.subjects[subject].days[day] = value;
+plan.subjects[subject].days[day]=value;
 
 
 savePlans(plans);
@@ -308,21 +391,6 @@ savePlans(plans);
 
 
 
-function updateResources(index,value){
-
-
-let plan=getCurrentPlan();
-
-
-plan.subjects[index].resources=value;
-
-
-savePlans(plans);
-
-
-}
-
-
 
 
 
@@ -350,36 +418,46 @@ savePlans(plans);
 function createPlan(){
 
 
-let name = prompt("Enter plan name");
+let name = prompt("Week name?");
 
 
 if(!name) return;
 
 
 
-let newPlan = {
+let plan = {
+
 
 id:Date.now(),
 
+
 name:name,
+
 
 subjects:[
 
 createSubject("Reading"),
+
 createSubject("Writing"),
+
 createSubject("Numeracy"),
+
 createSubject("Careers Education"),
+
 createSubject("Respectful Relationships"),
+
 createSubject("Brain Warm Up"),
+
 createSubject("Brain Break")
 
 ]
+
 
 };
 
 
 
-plans.push(newPlan);
+plans.push(plan);
 
 
 savePlans(plans);
