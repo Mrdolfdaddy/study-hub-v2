@@ -1,3 +1,8 @@
+/* Study Hub 3.0
+   Main Styling
+*/
+
+
 * {
 
     box-sizing:border-box;
@@ -14,11 +19,13 @@ body {
 
     min-height:100vh;
 
+    color:white;
+
     background:
 
     linear-gradient(
-        rgba(5,8,22,.75),
-        rgba(5,8,22,.9)
+        rgba(5,8,25,.75),
+        rgba(5,8,25,.9)
     ),
 
     url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
@@ -27,10 +34,14 @@ body {
 
     background-position:center;
 
-    color:white;
+    background-attachment:fixed;
 
 }
 
+
+
+
+/* APP LAYOUT */
 
 
 .app {
@@ -44,6 +55,7 @@ body {
 
 
 
+
 /* SIDEBAR */
 
 
@@ -51,15 +63,13 @@ body {
 
     width:260px;
 
-    background:rgba(15,23,42,.95);
-
     padding:25px;
 
-    display:flex;
+    background:rgba(15,23,42,.9);
 
-    flex-direction:column;
+    backdrop-filter:blur(15px);
 
-    border-right:1px solid rgba(255,255,255,.1);
+    border-right:1px solid rgba(255,255,255,.15);
 
 }
 
@@ -69,7 +79,7 @@ body {
 
     font-size:28px;
 
-    font-weight:bold;
+    font-weight:800;
 
     margin-bottom:40px;
 
@@ -82,6 +92,8 @@ body {
     color:#a78bfa;
 
 }
+
+
 
 
 
@@ -100,13 +112,14 @@ nav {
 .nav-btn,
 .theme-btn {
 
-    padding:14px;
 
-    border:0;
+    border:none;
 
-    border-radius:14px;
+    padding:15px;
 
-    background:#1e293b;
+    border-radius:15px;
+
+    background:rgba(255,255,255,.08);
 
     color:white;
 
@@ -114,7 +127,8 @@ nav {
 
     font-size:16px;
 
-    transition:.2s;
+    transition:.25s;
+
 
 }
 
@@ -123,9 +137,11 @@ nav {
 .nav-btn:hover,
 .theme-btn:hover {
 
+
     background:#6366f1;
 
-    transform:translateX(4px);
+    transform:translateX(5px);
+
 
 }
 
@@ -133,7 +149,9 @@ nav {
 
 .nav-btn.active {
 
+
     background:#6366f1;
+
 
 }
 
@@ -141,7 +159,11 @@ nav {
 
 .theme-btn {
 
-    margin-top:auto;
+
+    width:100%;
+
+    margin-top:30px;
+
 
 }
 
@@ -155,9 +177,11 @@ nav {
 
 .main {
 
+
     flex:1;
 
     padding:35px;
+
 
 }
 
@@ -165,7 +189,9 @@ nav {
 
 .page {
 
+
     display:none;
+
 
 }
 
@@ -173,17 +199,23 @@ nav {
 
 .page.active {
 
+
     display:block;
 
+
 }
+
 
 
 
 h1 {
 
-    font-size:36px;
+
+    font-size:38px;
+
 
 }
+
 
 
 
@@ -193,11 +225,15 @@ h1 {
 /* CARDS */
 
 
-.card {
+.card,
+.planner-card {
 
-    background:rgba(15,23,42,.88);
 
-    border-radius:20px;
+    background:rgba(15,23,42,.85);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:25px;
 
     padding:25px;
 
@@ -210,65 +246,72 @@ h1 {
 
 
 
-/* PLANNER */
+
+/* PLANNER HEADER */
 
 
-.planner-controls {
+.planner-header {
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.date-box {
+
 
     display:flex;
 
     gap:15px;
 
-    margin-bottom:25px;
 
 }
 
 
 
-.planner-controls button {
+.date-box input {
 
-    background:#6366f1;
+
+    background:#111827;
 
     color:white;
 
     border:none;
 
-    padding:12px 20px;
+    padding:10px;
 
     border-radius:12px;
 
-    cursor:pointer;
-
-}
-
-
-
-.planner-controls select {
-
-    background:#1e293b;
-
-    color:white;
-
-    border:none;
-
-    border-radius:12px;
-
-    padding:12px;
 
 }
 
 
 
 
+
+
+
+/* TABLE */
 
 
 .learning-table {
+
 
     width:100%;
 
     border-collapse:separate;
 
-    border-spacing:10px;
+    border-spacing:12px;
+
 
 }
 
@@ -276,11 +319,15 @@ h1 {
 
 .learning-table th {
 
+
+    padding:16px;
+
     background:#312e81;
 
-    padding:15px;
+    border-radius:15px;
 
-    border-radius:12px;
+    font-size:15px;
+
 
 }
 
@@ -288,67 +335,88 @@ h1 {
 
 .learning-table td {
 
-    background:rgba(30,41,59,.9);
+
+    background:rgba(30,41,59,.85);
+
+    border-radius:20px;
 
     padding:18px;
 
-    border-radius:16px;
+    vertical-align:top;
 
-    text-align:center;
-
-    vertical-align:middle;
 
 }
 
 
 
-.learning-table td:first-child {
 
-    text-align:left;
+
+
+/* SUBJECT */
+
+
+.subject-box {
+
 
     width:35%;
 
+
 }
 
 
 
-.learning-table h3 {
+.subject-box h3 {
+
 
     margin-top:0;
 
     color:#c4b5fd;
 
+    font-size:22px;
+
+
+}
+
+
+
+.subject-box label {
+
+
+    display:block;
+
+    margin-top:12px;
+
+    font-size:14px;
+
+    color:#ddd;
+
+
 }
 
 
 
 
+textarea {
 
-
-
-/* TEXT BOXES */
-
-
-.learning-table textarea,
-.card textarea {
 
     width:100%;
 
     min-height:70px;
 
-    margin-top:10px;
+    margin-top:8px;
 
     padding:12px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     border:none;
 
-    background:#0f172a;
+    background:#0b1220;
 
     color:white;
 
     resize:vertical;
+
 
 }
 
@@ -357,19 +425,29 @@ h1 {
 
 
 
+/* CHECKBOX */
 
-/* BETTER CHECKBOXES */
+
+.big-check input {
 
 
-.learning-table input[type="checkbox"] {
+    display:none;
 
-    appearance:none;
 
-    width:42px;
+}
 
-    height:42px;
 
-    border-radius:12px;
+
+.big-check span {
+
+
+    display:block;
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:14px;
 
     border:3px solid #818cf8;
 
@@ -377,35 +455,39 @@ h1 {
 
     cursor:pointer;
 
-    display:block;
-
     margin:auto;
 
     transition:.2s;
 
+
 }
 
 
 
-.learning-table input[type="checkbox"]:hover {
+.big-check span:hover {
+
 
     transform:scale(1.1);
 
+
 }
 
 
 
-.learning-table input[type="checkbox"]:checked {
+.big-check input:checked + span {
+
 
     background:#6366f1;
 
     border-color:#a78bfa;
 
+
 }
 
 
 
-.learning-table input[type="checkbox"]:checked::after {
+.big-check input:checked + span::after {
+
 
     content:"✓";
 
@@ -417,47 +499,60 @@ h1 {
 
     height:100%;
 
-    font-size:28px;
+    font-size:30px;
 
     font-weight:bold;
 
-}
-
-
-
-
-
-
-/* NOTES */
-
-
-#plannerContainer .card > textarea {
-
-    min-height:120px;
 
 }
 
+
+
+
+
+
+
+/* MOBILE */
 
 
 @media(max-width:900px){
 
-.sidebar {
 
-    width:90px;
+.app {
+
+
+    flex-direction:column;
+
 
 }
+
+
+
+.sidebar {
+
+
+    width:100%;
+
+
+}
+
 
 
 .main {
 
+
     padding:15px;
+
 
 }
 
 
+
 .learning-table {
 
+
     font-size:12px;
+
 
 }
 
