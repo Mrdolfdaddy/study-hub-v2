@@ -6,9 +6,6 @@ let plans = loadPlans();
 
 
 
-
-// Load planner
-
 document.addEventListener("DOMContentLoaded", () => {
 
     loadPlanner();
@@ -25,10 +22,34 @@ function loadPlanner(){
     plans = loadPlans();
 
 
+    const selector = document.getElementById("planSelector");
+
+
+    if(selector){
+
+        selector.innerHTML = "";
+
+        plans.forEach(plan=>{
+
+            let option = document.createElement("option");
+
+            option.value = plan.id;
+
+            option.textContent = plan.name;
+
+            selector.appendChild(option);
+
+        });
+
+    }
+
+
+
     const container = document.getElementById("plannerContainer");
 
 
     if(!container) return;
+
 
 
     renderPlanner(getCurrentPlan());
@@ -61,7 +82,6 @@ function renderPlanner(plan){
 
 <div class="planner-header">
 
-
 <h2>${plan.name}</h2>
 
 
@@ -75,7 +95,6 @@ Start:
 <input type="date">
 
 </label>
-
 
 
 <label>
@@ -120,8 +139,8 @@ End:
 </thead>
 
 
-<tbody>
 
+<tbody>
 
 `;
 
@@ -141,11 +160,7 @@ html += `
 <td class="subject-box">
 
 
-<h3>
-
-${subject.title}
-
-</h3>
+<h3>${subject.title}</h3>
 
 
 
@@ -167,7 +182,6 @@ onchange="updateDescription(${index},this.value)"
 
 
 
-
 <label>
 
 🔗 Resources
@@ -177,12 +191,11 @@ onchange="updateDescription(${index},this.value)"
 
 <textarea
 
-placeholder="Paste links here..."
+placeholder="Spotify, Google Docs, ChatGPT links..."
 
 onchange="updateResources(${index},this.value)"
 
 >${subject.resources || ""}</textarea>
-
 
 
 
@@ -243,7 +256,6 @@ ${checkbox(index,"Friday",subject.days.Friday)}
 </td>
 
 
-
 </tr>
 
 
@@ -259,16 +271,12 @@ ${checkbox(index,"Friday",subject.days.Friday)}
 
 html += `
 
-
 </tbody>
-
 
 </table>
 
 
-
 </div>
-
 
 `;
 
@@ -278,6 +286,7 @@ container.innerHTML = html;
 
 
 }
+
 
 
 
@@ -299,14 +308,18 @@ return `
 
 type="checkbox"
 
-${value ? "checked":""}
+${value ? "checked" : ""}
 
 onchange="toggleDay(${subject},'${day}',this.checked)"
 
 >
 
 
-<span></span>
+<div class="check-box">
+
+${value ? "✓" : ""}
+
+</div>
 
 
 </label>
@@ -336,7 +349,11 @@ plan.subjects[subject].days[day] = value;
 savePlans(plans);
 
 
+renderPlanner(plan);
+
+
 }
+
 
 
 
@@ -347,10 +364,10 @@ savePlans(plans);
 function updateDescription(index,value){
 
 
-let plan=getCurrentPlan();
+let plan = getCurrentPlan();
 
 
-plan.subjects[index].description=value;
+plan.subjects[index].description = value;
 
 
 savePlans(plans);
@@ -367,10 +384,10 @@ savePlans(plans);
 function updateResources(index,value){
 
 
-let plan=getCurrentPlan();
+let plan = getCurrentPlan();
 
 
-plan.subjects[index].resources=value;
+plan.subjects[index].resources = value;
 
 
 savePlans(plans);
@@ -387,13 +404,97 @@ savePlans(plans);
 function updateNotes(index,value){
 
 
-let plan=getCurrentPlan();
+let plan = getCurrentPlan();
 
 
-plan.subjects[index].notes=value;
+plan.subjects[index].notes = value;
 
 
 savePlans(plans);
+
+
+}
+
+
+
+
+
+
+
+function createPlan(){
+
+
+let name = prompt("Name your week:");
+
+
+
+if(!name) return;
+
+
+
+let newPlan = {
+
+
+id: Date.now(),
+
+name:name,
+
+studentNotes:"",
+
+teacherNotes:"",
+
+
+subjects:[
+
+createSubject("Reading"),
+
+createSubject("Writing"),
+
+createSubject("Numeracy"),
+
+createSubject("Careers Education"),
+
+createSubject("Respectful Relationships"),
+
+createSubject("Brain Warm Up"),
+
+createSubject("Brain Break")
+
+]
+
+
+};
+
+
+
+plans.push(newPlan);
+
+
+savePlans(plans);
+
+
+loadPlanner();
+
+
+}
+
+
+
+
+
+
+
+function changePlan(id){
+
+
+let plan = plans.find(p=>p.id==id);
+
+
+if(plan){
+
+renderPlanner(plan);
+
+}
 
 
 }
