@@ -10,11 +10,14 @@ let currentPlanId = null;
 
 
 
+
 document.addEventListener("DOMContentLoaded", () => {
 
     loadPlanner();
 
 });
+
+
 
 
 
@@ -93,6 +96,7 @@ function getCurrentPlan(){
 
 
 }
+
 
 
 
@@ -203,10 +207,12 @@ onchange="updateDescription(${index},this.value)"
 
 
 
+
 <h4>🔗 Resources</h4>
 
 
 ${renderResources(subject)}
+
 
 
 
@@ -287,17 +293,19 @@ function renderResources(subject){
 if(!subject.resources) return "";
 
 
+
 return subject.resources.map(resource => {
 
 
 return `
 
-
 <a href="${resource.url}" target="_blank">
 
 ${resource.name}
 
-</a><br>
+</a>
+
+<br>
 
 
 `;
@@ -315,6 +323,9 @@ ${resource.name}
 
 
 
+
+// CLEAN CHECKBOX
+// Uses the browser checkbox only
 
 
 function makeCheckbox(subject,day,value){
@@ -335,13 +346,6 @@ ${value ? "checked" : ""}
 onchange="toggleDay(${subject}, '${day}', this.checked)"
 
 >
-
-
-<span class="check-box">
-
-${value ? "✓" : ""}
-
-</span>
 
 
 </label>
@@ -385,14 +389,15 @@ renderPlanner(plan);
 
 
 
-
 function updateDescription(index,value){
 
 
 let plan = getCurrentPlan();
 
 
+
 plan.subjects[index].description = value;
+
 
 
 savePlans(plans);
@@ -413,7 +418,9 @@ function updateNotes(index,value){
 let plan = getCurrentPlan();
 
 
+
 plan.subjects[index].notes = value;
+
 
 
 savePlans(plans);
