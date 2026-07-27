@@ -1,36 +1,76 @@
+/* =========================
+   STUDY HUB 3.0
+   MAIN DESIGN
+========================= */
+
+
 * {
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
+
+    box-sizing:border-box;
+
+    font-family:"Segoe UI", Arial, sans-serif;
+
 }
+
+
+
+:root {
+
+    --accent:#8b5cf6;
+
+    --bg:#050816;
+
+    --card:rgba(15,23,42,.85);
+
+    --text:white;
+
+}
+
+
 
 
 body {
 
     margin:0;
+
     min-height:100vh;
-    color:white;
+
+    color:var(--text);
 
     background:
+
     linear-gradient(
-        rgba(5,8,25,.75),
-        rgba(5,8,25,.9)
+        rgba(5,8,22,.75),
+        rgba(5,8,22,.9)
     ),
+
     url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
 
     background-size:cover;
+
     background-position:center;
+
     background-attachment:fixed;
 
 }
 
 
 
+
+
+
+
+/* APP */
+
+
 .app {
 
     display:flex;
+
     min-height:100vh;
 
 }
+
 
 
 
@@ -41,14 +81,15 @@ body {
 
 .sidebar {
 
-    width:260px;
+    width:270px;
+
     padding:25px;
 
-    background:rgba(15,23,42,.9);
+    background:rgba(15,23,42,.75);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(20px);
 
-    border-right:1px solid rgba(255,255,255,.15);
+    border-right:1px solid rgba(255,255,255,.1);
 
 }
 
@@ -56,18 +97,22 @@ body {
 
 .logo {
 
-    font-size:28px;
+    font-size:30px;
+
     font-weight:800;
+
     margin-bottom:40px;
 
 }
 
 
+
 .logo span {
 
-    color:#a78bfa;
+    color:var(--accent);
 
 }
+
 
 
 
@@ -75,31 +120,37 @@ body {
 nav {
 
     display:flex;
+
     flex-direction:column;
+
     gap:12px;
 
 }
 
 
 
+
+
 .nav-btn,
 .theme-btn {
 
+
     border:none;
 
-    padding:15px;
-
-    border-radius:15px;
+    color:white;
 
     background:rgba(255,255,255,.08);
 
-    color:white;
+    padding:15px;
+
+    border-radius:16px;
 
     cursor:pointer;
 
     font-size:16px;
 
     transition:.25s;
+
 
 }
 
@@ -108,9 +159,11 @@ nav {
 .nav-btn:hover,
 .theme-btn:hover {
 
-    background:#6366f1;
+
+    background:var(--accent);
 
     transform:translateX(5px);
+
 
 }
 
@@ -118,18 +171,24 @@ nav {
 
 .nav-btn.active {
 
-    background:#6366f1;
+
+    background:var(--accent);
 
 }
+
 
 
 
 .theme-btn {
 
-    width:100%;
+
     margin-top:30px;
 
+    width:100%;
+
 }
+
+
 
 
 
@@ -142,7 +201,8 @@ nav {
 .main {
 
     flex:1;
-    padding:35px;
+
+    padding:40px;
 
 }
 
@@ -164,9 +224,28 @@ nav {
 
 
 
+
 h1 {
 
-    font-size:38px;
+    font-size:42px;
+
+}
+
+
+
+
+
+
+/* DASHBOARD */
+
+
+.dashboard-grid {
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
 
 }
 
@@ -182,17 +261,48 @@ h1 {
 .card,
 .planner-card {
 
-    background:rgba(15,23,42,.85);
 
-    backdrop-filter:blur(15px);
+    background:var(--card);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.1);
 
     border-radius:25px;
 
     padding:25px;
 
-    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+
 
 }
+
+
+
+
+
+
+.progress-box {
+
+
+    height:120px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:35px;
+
+    font-weight:bold;
+
+    color:#c4b5fd;
+
+
+}
+
+
 
 
 
@@ -202,7 +312,8 @@ h1 {
 /* PLANNER */
 
 
-.planner-header {
+.page-title {
+
 
     display:flex;
 
@@ -210,35 +321,53 @@ h1 {
 
     align-items:center;
 
-    margin-bottom:25px;
 
 }
 
 
 
-.date-box {
+
+.planner-actions {
+
 
     display:flex;
 
     gap:15px;
 
+
 }
 
 
 
-.date-box input {
+button,
+select {
 
-    background:#111827;
-
-    color:white;
 
     border:none;
 
-    padding:10px;
+    border-radius:14px;
 
-    border-radius:12px;
+    padding:12px 18px;
+
+    background:rgba(255,255,255,.1);
+
+    color:white;
+
+    cursor:pointer;
+
 
 }
+
+
+
+select option {
+
+    background:#111827;
+
+}
+
+
+
 
 
 
@@ -246,11 +375,15 @@ h1 {
 
 .learning-table {
 
+
     width:100%;
+
+    margin-top:25px;
 
     border-collapse:separate;
 
     border-spacing:12px;
+
 
 }
 
@@ -258,11 +391,13 @@ h1 {
 
 .learning-table th {
 
-    padding:16px;
 
     background:#312e81;
 
+    padding:15px;
+
     border-radius:15px;
+
 
 }
 
@@ -270,45 +405,26 @@ h1 {
 
 .learning-table td {
 
-    background:rgba(30,41,59,.85);
+
+    background:rgba(30,41,59,.8);
 
     border-radius:20px;
 
-    padding:18px;
+    padding:20px;
 
     vertical-align:top;
 
+
 }
+
 
 
 
 .subject-box {
 
+
     width:35%;
 
-}
-
-
-
-.subject-box h3 {
-
-    margin-top:0;
-
-    color:#c4b5fd;
-
-    font-size:22px;
-
-}
-
-
-
-.subject-box label {
-
-    display:block;
-
-    margin-top:12px;
-
-    color:#ddd;
 
 }
 
@@ -316,23 +432,25 @@ h1 {
 
 textarea {
 
+
     width:100%;
 
-    min-height:70px;
-
-    margin-top:8px;
-
-    padding:12px;
-
-    border-radius:14px;
-
-    border:none;
+    min-height:90px;
 
     background:#0b1220;
 
     color:white;
 
+    border:none;
+
+    border-radius:15px;
+
+    padding:15px;
+
     resize:vertical;
+
+    margin-top:10px;
+
 
 }
 
@@ -342,80 +460,46 @@ textarea {
 
 
 
-/* FIXED CHECKBOXES */
+
+/* SETTINGS */
 
 
-.big-check {
+.settings-grid {
 
-    display:flex;
 
-    justify-content:center;
+    display:grid;
 
-    align-items:center;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+
+
+}
+
+
+
+input[type="color"] {
+
+
+    width:60px;
+
+    height:40px;
+
+    border:none;
 
     cursor:pointer;
 
-}
-
-
-
-.big-check input {
-
-    display:none;
-
-}
-
-
-
-.check-box {
-
-    width:45px;
-
-    height:45px;
-
-    border-radius:14px;
-
-    border:3px solid #818cf8;
-
-    background:#0f172a;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:30px;
-
-    font-weight:bold;
-
-    color:white;
-
-    transition:.2s;
-
-}
-
-
-
-.big-check:hover .check-box {
-
-    transform:scale(1.1);
-
-}
-
-
-
-.big-check input:checked + .check-box {
-
-    background:#6366f1;
-
-    border-color:#a78bfa;
 
 }
 
 
 
 
+
+
+
+
+/* RESPONSIVE */
 
 
 @media(max-width:900px){
@@ -437,14 +521,7 @@ textarea {
 
 .main {
 
-    padding:15px;
-
-}
-
-
-.learning-table {
-
-    font-size:12px;
+    padding:20px;
 
 }
 
