@@ -1,5 +1,5 @@
 // Study Hub 3.0
-// Storage System
+// Storage System + Default Resources
 
 
 const STORAGE_KEY = "studyHubPlans";
@@ -7,19 +7,59 @@ const STORAGE_KEY = "studyHubPlans";
 
 
 
-// Create a subject
+// Permanent links that are always available
+
+const defaultResources = [
+
+    {
+        name:"🤖 ChatGPT",
+        url:"https://chat.openai.com"
+    },
+
+    {
+        name:"🎵 Spotify",
+        url:"https://spotify.com"
+    },
+
+    {
+        name:"📄 Google Docs",
+        url:"https://docs.google.com"
+    },
+
+    {
+        name:"▶️ YouTube",
+        url:"https://youtube.com"
+    }
+
+];
+
+
+
+
+
+
 
 function createSubject(name){
 
+
     return {
+
 
         title:name,
 
+
         description:"",
+
 
         notes:"",
 
+
+        resources:[...defaultResources],
+
+
+
         days:{
+
 
             Monday:false,
 
@@ -31,9 +71,12 @@ function createSubject(name){
 
             Friday:false
 
+
         }
 
+
     };
+
 
 }
 
@@ -42,23 +85,32 @@ function createSubject(name){
 
 
 
-// Default plan
+
 
 const defaultPlan = {
 
+
     id:Date.now(),
+
 
     name:"Week 1",
 
-    startDate:"",
 
-    endDate:"",
+    weekStart:"",
+
+
+    weekEnd:"",
+
 
     studentNotes:"",
 
+
     teacherNotes:"",
 
+
+
     subjects:[
+
 
         createSubject("Reading"),
 
@@ -74,7 +126,10 @@ const defaultPlan = {
 
         createSubject("Brain Break")
 
+
     ]
+
+
 
 };
 
@@ -83,28 +138,32 @@ const defaultPlan = {
 
 
 
-// Load plans
+
 
 function loadPlans(){
 
 
-    const saved =
-    localStorage.getItem(STORAGE_KEY);
+
+    let saved = localStorage.getItem(STORAGE_KEY);
 
 
 
     if(saved){
 
+
         return JSON.parse(saved);
+
 
     }
 
 
 
-    const plans=[defaultPlan];
+    let plans = [defaultPlan];
+
 
 
     savePlans(plans);
+
 
 
     return plans;
@@ -118,9 +177,9 @@ function loadPlans(){
 
 
 
-// Save plans
 
 function savePlans(plans){
+
 
 
     localStorage.setItem(
@@ -140,80 +199,32 @@ function savePlans(plans){
 
 
 
-// Current plan
-
-function getCurrentPlanID(){
-
-
-    return localStorage.getItem(
-        "currentPlan"
-    );
-
-
-}
-
-
-
-
-
-
-
-function setCurrentPlanID(id){
-
-
-    localStorage.setItem(
-
-        "currentPlan",
-
-        id
-
-    );
-
-
-}
-
-
-
-
-
-
-
-// Get active plan
 
 function getCurrentPlan(){
 
 
-    const plans =
-    loadPlans();
+
+    let plans = loadPlans();
 
 
 
-    let id =
-    getCurrentPlanID();
+    return plans[0];
 
 
 
-    if(!id){
-
-
-        setCurrentPlanID(
-            plans[0].id
-        );
-
-
-        return plans[0];
-
-
-    }
+}
 
 
 
 
-    return plans.find(
 
-        plan => plan.id == id
 
-    ) || plans[0];
+
+
+function getDefaultResources(){
+
+
+    return [...defaultResources];
 
 
 }
