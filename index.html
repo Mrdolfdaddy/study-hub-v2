@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Study Hub 3.0</title>
@@ -36,43 +37,28 @@
 
 
 <button class="nav-btn active" onclick="showPage('dashboard')">
-
 🏠 Dashboard
-
 </button>
-
 
 
 <button class="nav-btn" onclick="showPage('planner')">
-
 📖 Learning Planner
-
 </button>
 
+
+<button class="nav-btn" onclick="showPage('projects')">
+🚀 Projects
+</button>
 
 
 <button class="nav-btn" onclick="showPage('notes')">
-
 📝 Notes
-
 </button>
-
-
-
-<button class="nav-btn" onclick="showPage('tools')">
-
-🛠 Tools
-
-</button>
-
 
 
 <button class="nav-btn" onclick="showPage('settings')">
-
 ⚙️ Settings
-
 </button>
-
 
 
 </nav>
@@ -80,15 +66,11 @@
 
 
 <button class="theme-btn" onclick="toggleTheme()">
-
-🌙 Toggle Theme
-
+🌙 Theme
 </button>
 
 
-
 </aside>
-
 
 
 
@@ -103,16 +85,10 @@
 <section id="dashboard" class="page active">
 
 
-<h1>
-
-Welcome back 👋
-
-</h1>
+<h1>Welcome back 👋</h1>
 
 
-
-<div class="grid">
-
+<div class="dashboard-grid">
 
 
 <div class="card">
@@ -127,12 +103,11 @@ Welcome back 👋
 
 
 
-
 <div class="card">
 
 <h2>📈 Progress</h2>
 
-<div class="progress">
+<div class="progress-box">
 
 0%
 
@@ -145,16 +120,13 @@ Welcome back 👋
 
 <div class="card">
 
-<h2>🎯 Goals</h2>
+<h2>🎯 Current Focus</h2>
 
 <p>
-
-Your goals will appear here.
-
+Keep building your goals.
 </p>
 
 </div>
-
 
 
 </div>
@@ -168,35 +140,36 @@ Your goals will appear here.
 
 
 
+
+
 <section id="planner" class="page">
 
 
-<h1>
-
-📖 Learning Planner
-
-</h1>
+<div class="page-title">
 
 
+<h1>📖 Learning Planner</h1>
 
-<div class="planner-controls">
+
+<div class="planner-actions">
+
+
+<select id="planSelector" onchange="changePlan(this.value)">
+</select>
 
 
 <button onclick="createPlan()">
 
-➕ New Week
++ New Week
 
 </button>
 
 
-
-<select id="planSelector" onchange="changePlan(this.value)">
-
-</select>
-
+</div>
 
 
 </div>
+
 
 
 
@@ -206,17 +179,41 @@ Your goals will appear here.
 
 <div class="card">
 
-<h2>
-
-Loading Planner...
-
-</h2>
+Loading planner...
 
 </div>
 
 
 </div>
 
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section id="projects" class="page">
+
+
+<h1>🚀 Projects</h1>
+
+
+<div class="card">
+
+
+<h2>Your Projects</h2>
+
+
+<textarea placeholder="Add things you are working on..."></textarea>
+
+
+</div>
 
 
 </section>
@@ -232,12 +229,7 @@ Loading Planner...
 <section id="notes" class="page">
 
 
-<h1>
-
-📝 Notes
-
-</h1>
-
+<h1>📝 Notes</h1>
 
 
 <div class="card">
@@ -259,78 +251,91 @@ Loading Planner...
 
 
 
-<section id="tools" class="page">
-
-
-<h1>
-
-🛠 Tools
-
-</h1>
-
-
-
-<div class="card">
-
-
-<h2>
-
-Coming Soon
-
-</h2>
-
-
-<p>
-
-AI tools, timers, calculators, and resources will go here.
-
-</p>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-
-
 <section id="settings" class="page">
 
 
-<h1>
+<h1>⚙️ Settings</h1>
 
-⚙️ Settings
 
-</h1>
+
+<div class="settings-grid">
+
+
+<div class="card">
+
+
+<h2>🎨 Appearance</h2>
+
+
+
+<label>
+
+Font
+
+</label>
+
+
+<select id="fontSelect" onchange="changeFont(this.value)">
+
+
+<option value="Segoe UI">
+Segoe UI
+</option>
+
+
+<option value="Arial">
+Arial
+</option>
+
+
+<option value="Verdana">
+Verdana
+</option>
+
+
+<option value="Poppins">
+Poppins
+</option>
+
+
+</select>
+
+
+
+
+<label>
+
+Accent Colour
+
+</label>
+
+
+<input type="color" id="accentPicker" onchange="changeAccent(this.value)">
+
+
+
+</div>
+
+
 
 
 
 <div class="card">
 
 
-<h2>
-
-Study Hub 3.0
-
-</h2>
+<h2>💾 Data</h2>
 
 
-<p>
+<button onclick="clearData()">
 
-Your learning dashboard.
+Reset Planner
 
-</p>
+</button>
 
 
 <p>
 
-Data is saved automatically.
+Everything saves automatically.
 
 </p>
 
@@ -338,7 +343,14 @@ Data is saved automatically.
 </div>
 
 
+
+</div>
+
+
+
 </section>
+
+
 
 
 
