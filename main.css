@@ -727,3 +727,97 @@ input[type="color"] {
 
 
 }
+/* =========================
+   PROJECT CHECKBOXES
+========================= */
+
+
+.project-check {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:12px 0;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+
+.project-check input[type="checkbox"] {
+
+
+    appearance:none;
+
+    -webkit-appearance:none;
+
+
+    width:28px;
+
+    height:28px;
+
+
+    border-radius:8px;
+
+
+    border:3px solid var(--accent);
+
+
+    background:#0f172a;
+
+
+    cursor:pointer;
+
+
+    position:relative;
+
+
+    flex-shrink:0;
+
+}
+
+
+
+
+.project-check input[type="checkbox"]:checked {
+
+
+    background:var(--accent);
+
+
+}
+
+
+
+
+.project-check input[type="checkbox"]:checked::after {
+
+
+    content:"✓";
+
+
+    position:absolute;
+
+
+    color:white;
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+    left:4px;
+
+
+    top:-4px;
+
+
+}
