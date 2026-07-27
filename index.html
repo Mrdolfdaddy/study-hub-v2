@@ -4,10 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Study Hub 3.0</title>
+<title>Study Hub 4.1</title>
 
 <link rel="stylesheet" href="main.css">
 
@@ -27,7 +26,7 @@
 
 📚 Study Hub
 
-<span>3.0</span>
+<span>4.1</span>
 
 </div>
 
@@ -37,28 +36,51 @@
 
 
 <button class="nav-btn active" onclick="showPage('dashboard')">
+
 🏠 Dashboard
+
 </button>
+
 
 
 <button class="nav-btn" onclick="showPage('planner')">
+
 📖 Learning Planner
+
 </button>
+
 
 
 <button class="nav-btn" onclick="showPage('projects')">
+
 🚀 Projects
+
 </button>
+
 
 
 <button class="nav-btn" onclick="showPage('notes')">
+
 📝 Notes
+
 </button>
+
+
+
+<button class="nav-btn" onclick="showPage('tools')">
+
+🛠 Tools
+
+</button>
+
 
 
 <button class="nav-btn" onclick="showPage('settings')">
+
 ⚙️ Settings
+
 </button>
+
 
 
 </nav>
@@ -66,11 +88,15 @@
 
 
 <button class="theme-btn" onclick="toggleTheme()">
-🌙 Theme
+
+🌙 Toggle Theme
+
 </button>
 
 
+
 </aside>
+
 
 
 
@@ -85,10 +111,16 @@
 <section id="dashboard" class="page active">
 
 
-<h1>Welcome back 👋</h1>
+<h1>
+
+Welcome back 👋
+
+</h1>
 
 
-<div class="dashboard-grid">
+
+<div class="grid">
+
 
 
 <div class="card">
@@ -103,11 +135,12 @@
 
 
 
+
 <div class="card">
 
 <h2>📈 Progress</h2>
 
-<div class="progress-box">
+<div class="progress">
 
 0%
 
@@ -120,21 +153,22 @@
 
 <div class="card">
 
-<h2>🎯 Current Focus</h2>
+<h2>🎯 Goals</h2>
 
 <p>
-Keep building your goals.
+
+Your goals will appear here.
+
 </p>
 
 </div>
+
 
 
 </div>
 
 
 </section>
-
-
 
 
 
@@ -145,31 +179,32 @@ Keep building your goals.
 <section id="planner" class="page">
 
 
-<div class="page-title">
+<h1>
+
+📖 Learning Planner
+
+</h1>
 
 
-<h1>📖 Learning Planner</h1>
 
-
-<div class="planner-actions">
-
-
-<select id="planSelector" onchange="changePlan(this.value)">
-</select>
+<div class="planner-controls">
 
 
 <button onclick="createPlan()">
 
-+ New Week
+➕ New Week
 
 </button>
 
 
+
+<select id="planSelector" onchange="changePlan(this.value)">
+
+</select>
+
+
+
 </div>
-
-
-</div>
-
 
 
 
@@ -179,7 +214,11 @@ Keep building your goals.
 
 <div class="card">
 
-Loading planner...
+<h2>
+
+Loading Planner...
+
+</h2>
 
 </div>
 
@@ -189,7 +228,6 @@ Loading planner...
 
 
 </section>
-
 
 
 
@@ -201,19 +239,47 @@ Loading planner...
 <section id="projects" class="page">
 
 
-<h1>🚀 Projects</h1>
+<h1>
+
+🚀 Projects
+
+</h1>
+
+
+
+<div class="planner-actions">
+
+
+<button onclick="createProject()">
+
+➕ New Project
+
+</button>
+
+
+</div>
+
+
+
+
+<div id="projectsContainer">
 
 
 <div class="card">
 
 
-<h2>Your Projects</h2>
+<h2>
 
+Loading Projects...
 
-<textarea placeholder="Add things you are working on..."></textarea>
+</h2>
 
 
 </div>
+
+
+</div>
+
 
 
 </section>
@@ -229,7 +295,12 @@ Loading planner...
 <section id="notes" class="page">
 
 
-<h1>📝 Notes</h1>
+<h1>
+
+📝 Notes
+
+</h1>
+
 
 
 <div class="card">
@@ -251,91 +322,30 @@ Loading planner...
 
 
 
-<section id="settings" class="page">
+<section id="tools" class="page">
 
 
-<h1>⚙️ Settings</h1>
+<h1>
 
+🛠 Tools
 
-
-<div class="settings-grid">
-
-
-<div class="card">
-
-
-<h2>🎨 Appearance</h2>
-
-
-
-<label>
-
-Font
-
-</label>
-
-
-<select id="fontSelect" onchange="changeFont(this.value)">
-
-
-<option value="Segoe UI">
-Segoe UI
-</option>
-
-
-<option value="Arial">
-Arial
-</option>
-
-
-<option value="Verdana">
-Verdana
-</option>
-
-
-<option value="Poppins">
-Poppins
-</option>
-
-
-</select>
-
-
-
-
-<label>
-
-Accent Colour
-
-</label>
-
-
-<input type="color" id="accentPicker" onchange="changeAccent(this.value)">
-
-
-
-</div>
-
-
+</h1>
 
 
 
 <div class="card">
 
 
-<h2>💾 Data</h2>
+<h2>
 
+Coming Soon
 
-<button onclick="clearData()">
-
-Reset Planner
-
-</button>
+</h2>
 
 
 <p>
 
-Everything saves automatically.
+AI tools, timers, calculators, and resources will go here.
 
 </p>
 
@@ -343,9 +353,52 @@ Everything saves automatically.
 </div>
 
 
+</section>
+
+
+
+
+
+
+
+
+
+<section id="settings" class="page">
+
+
+<h1>
+
+⚙️ Settings
+
+</h1>
+
+
+
+<div class="card">
+
+
+<h2>
+
+Study Hub 4.1
+
+</h2>
+
+
+<p>
+
+Your learning dashboard.
+
+</p>
+
+
+<p>
+
+Data is saved automatically.
+
+</p>
+
 
 </div>
-
 
 
 </section>
@@ -366,11 +419,16 @@ Everything saves automatically.
 
 
 
+
+
 <script src="storage.js"></script>
 
 <script src="planner.js"></script>
 
+<script src="projects.js"></script>
+
 <script src="app.js"></script>
+
 
 
 </body>
