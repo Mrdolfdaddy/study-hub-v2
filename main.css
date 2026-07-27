@@ -13,7 +13,6 @@
 }
 
 
-
 :root {
 
     --accent:#8b5cf6;
@@ -34,6 +33,7 @@ body {
 
     color:white;
 
+
     background:
 
     linear-gradient(
@@ -42,6 +42,7 @@ body {
     ),
 
     url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
+
 
     background-size:cover;
 
@@ -55,6 +56,7 @@ body {
 
 
 
+
 .app {
 
     display:flex;
@@ -62,6 +64,7 @@ body {
     min-height:100vh;
 
 }
+
 
 
 
@@ -98,7 +101,6 @@ body {
 }
 
 
-
 .logo span {
 
     color:var(--accent);
@@ -119,25 +121,28 @@ nav {
 
 
 
+
+
 .nav-btn,
 .theme-btn {
 
 
     border:none;
 
-    color:white;
-
-    background:rgba(255,255,255,.08);
-
     padding:15px;
 
     border-radius:16px;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
 
     cursor:pointer;
 
     font-size:16px;
 
-    transition:.2s;
+    transition:.25s;
+
 
 }
 
@@ -146,9 +151,11 @@ nav {
 .nav-btn:hover,
 .theme-btn:hover {
 
+
     background:var(--accent);
 
     transform:translateX(5px);
+
 
 }
 
@@ -156,7 +163,9 @@ nav {
 
 .nav-btn.active {
 
+
     background:var(--accent);
+
 
 }
 
@@ -164,11 +173,14 @@ nav {
 
 .theme-btn {
 
+
     width:100%;
 
     margin-top:30px;
 
+
 }
+
 
 
 
@@ -196,13 +208,11 @@ nav {
 }
 
 
-
 .page.active {
 
     display:block;
 
 }
-
 
 
 
@@ -226,6 +236,7 @@ h1 {
 .card,
 .planner-card {
 
+
     background:var(--card);
 
     backdrop-filter:blur(20px);
@@ -240,9 +251,8 @@ h1 {
 
 
 
-
-
 .dashboard-grid {
+
 
     display:grid;
 
@@ -250,13 +260,14 @@ h1 {
 
     gap:25px;
 
+
 }
 
 
 
 
-
 .progress-box {
+
 
     height:120px;
 
@@ -269,6 +280,7 @@ h1 {
     font-size:35px;
 
     color:#c4b5fd;
+
 
 }
 
@@ -284,40 +296,94 @@ h1 {
 
 .page-title {
 
+
     display:flex;
 
     justify-content:space-between;
 
     align-items:center;
 
+
 }
+
 
 
 
 .planner-actions {
 
+
     display:flex;
 
     gap:15px;
 
+
 }
 
 
 
-button,
-select {
+
+
+
+
+
+/* GOOD BUTTONS */
+
+
+button {
+
 
     border:none;
 
-    border-radius:14px;
+    padding:14px 22px;
 
-    padding:12px 18px;
+    border-radius:16px;
 
-    background:rgba(255,255,255,.1);
+
+    background:linear-gradient(
+        135deg,
+        var(--accent),
+        #6366f1
+    );
+
 
     color:white;
 
+    font-size:15px;
+
+    font-weight:600;
+
     cursor:pointer;
+
+
+    transition:.25s;
+
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.25);
+
+
+}
+
+
+
+
+button:hover {
+
+
+    transform:translateY(-3px);
+
+    filter:brightness(1.15);
+
+
+}
+
+
+
+button:active {
+
+
+    transform:scale(.96);
+
 
 }
 
@@ -325,7 +391,73 @@ select {
 
 
 
+
+
+
+/* DROPDOWNS */
+
+
+select {
+
+
+    border:none;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+
+    background:rgba(255,255,255,.12);
+
+
+    color:white;
+
+    font-size:15px;
+
+
+    cursor:pointer;
+
+
+    backdrop-filter:blur(10px);
+
+
+}
+
+
+
+select:hover {
+
+
+    background:rgba(255,255,255,.2);
+
+
+}
+
+
+
+select option {
+
+
+    background:#111827;
+
+    color:white;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* TABLE */
+
+
 .learning-table {
+
 
     width:100%;
 
@@ -335,11 +467,13 @@ select {
 
     margin-top:20px;
 
+
 }
 
 
 
 .learning-table th {
+
 
     background:#312e81;
 
@@ -347,11 +481,13 @@ select {
 
     border-radius:15px;
 
+
 }
 
 
 
 .learning-table td {
+
 
     background:rgba(30,41,59,.85);
 
@@ -361,13 +497,16 @@ select {
 
     vertical-align:top;
 
+
 }
 
 
 
 .subject-box {
 
+
     width:35%;
+
 
 }
 
@@ -375,9 +514,12 @@ select {
 
 .subject-box h3 {
 
+
     color:#c4b5fd;
 
+
 }
+
 
 
 
@@ -385,23 +527,32 @@ select {
 
 textarea {
 
+
     width:100%;
 
     min-height:90px;
 
+
     background:#0b1220;
+
 
     color:white;
 
+
     border:none;
+
 
     border-radius:15px;
 
+
     padding:15px;
+
 
     margin-top:10px;
 
+
     resize:vertical;
+
 
 }
 
@@ -412,13 +563,12 @@ textarea {
 
 
 
-/* =========================
-   CHECKBOX FIX
-   REAL CHECKBOXES
-========================= */
+
+/* CHECKBOXES */
 
 
 .big-check {
+
 
     display:flex;
 
@@ -428,7 +578,9 @@ textarea {
 
     cursor:pointer;
 
+
 }
+
 
 
 
@@ -439,22 +591,29 @@ textarea {
 
     appearance:none;
 
+
     width:35px;
 
     height:35px;
 
+
     border-radius:10px;
+
 
     border:3px solid var(--accent);
 
+
     background:#0f172a;
 
+
     cursor:pointer;
+
 
     position:relative;
 
 
 }
+
 
 
 
@@ -468,20 +627,27 @@ textarea {
 
 
 
+
 .big-check input[type="checkbox"]:checked::after {
 
 
     content:"✓";
 
+
     color:white;
+
 
     font-size:25px;
 
+
     font-weight:bold;
+
 
     position:absolute;
 
+
     left:5px;
+
 
     top:-3px;
 
@@ -500,11 +666,13 @@ textarea {
 
 .settings-grid {
 
+
     display:grid;
 
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 
     gap:25px;
+
 
 }
 
@@ -512,9 +680,11 @@ textarea {
 
 input[type="color"] {
 
+
     width:60px;
 
     height:40px;
+
 
 }
 
@@ -529,7 +699,9 @@ input[type="color"] {
 
 .app {
 
+
     flex-direction:column;
+
 
 }
 
@@ -537,7 +709,9 @@ input[type="color"] {
 
 .sidebar {
 
+
     width:100%;
+
 
 }
 
@@ -545,7 +719,9 @@ input[type="color"] {
 
 .main {
 
+
     padding:20px;
+
 
 }
 
