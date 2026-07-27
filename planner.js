@@ -1,5 +1,5 @@
 // Study Hub 3.0
-// Learning Planner 3.1
+// Learning Planner
 
 
 let plans = loadPlans();
@@ -22,34 +22,10 @@ function loadPlanner(){
     plans = loadPlans();
 
 
-    const selector = document.getElementById("planSelector");
-
-
-    if(selector){
-
-        selector.innerHTML = "";
-
-        plans.forEach(plan=>{
-
-            let option = document.createElement("option");
-
-            option.value = plan.id;
-
-            option.textContent = plan.name;
-
-            selector.appendChild(option);
-
-        });
-
-    }
-
-
-
     const container = document.getElementById("plannerContainer");
 
 
     if(!container) return;
-
 
 
     renderPlanner(getCurrentPlan());
@@ -66,8 +42,7 @@ function loadPlanner(){
 function renderPlanner(plan){
 
 
-    const container =
-    document.getElementById("plannerContainer");
+    const container = document.getElementById("plannerContainer");
 
 
     if(!container) return;
@@ -83,31 +58,6 @@ function renderPlanner(plan){
 <div class="planner-header">
 
 <h2>${plan.name}</h2>
-
-
-<div class="date-box">
-
-
-<label>
-
-Start:
-
-<input type="date">
-
-</label>
-
-
-<label>
-
-End:
-
-<input type="date">
-
-</label>
-
-
-</div>
-
 
 </div>
 
@@ -139,7 +89,6 @@ End:
 </thead>
 
 
-
 <tbody>
 
 `;
@@ -163,13 +112,7 @@ html += `
 <h3>${subject.title}</h3>
 
 
-
-<label>
-
-🎯 Goal
-
-</label>
-
+<label>🎯 Goal</label>
 
 <textarea
 
@@ -181,13 +124,7 @@ onchange="updateDescription(${index},this.value)"
 
 
 
-
-<label>
-
-🔗 Resources
-
-</label>
-
+<label>🔗 Resources</label>
 
 <textarea
 
@@ -199,13 +136,7 @@ onchange="updateResources(${index},this.value)"
 
 
 
-
-<label>
-
-📝 Notes
-
-</label>
-
+<label>📝 Notes</label>
 
 <textarea
 
@@ -223,35 +154,35 @@ onchange="updateNotes(${index},this.value)"
 
 <td>
 
-${checkbox(index,"Monday",subject.days.Monday)}
+${makeCheckbox(index,"Monday",subject.days.Monday)}
 
 </td>
 
 
 <td>
 
-${checkbox(index,"Tuesday",subject.days.Tuesday)}
+${makeCheckbox(index,"Tuesday",subject.days.Tuesday)}
 
 </td>
 
 
 <td>
 
-${checkbox(index,"Wednesday",subject.days.Wednesday)}
+${makeCheckbox(index,"Wednesday",subject.days.Wednesday)}
 
 </td>
 
 
 <td>
 
-${checkbox(index,"Thursday",subject.days.Thursday)}
+${makeCheckbox(index,"Thursday",subject.days.Thursday)}
 
 </td>
 
 
 <td>
 
-${checkbox(index,"Friday",subject.days.Friday)}
+${makeCheckbox(index,"Friday",subject.days.Friday)}
 
 </td>
 
@@ -295,11 +226,10 @@ container.innerHTML = html;
 
 
 
-function checkbox(subject,day,value){
+function makeCheckbox(subject,day,value){
 
 
 return `
-
 
 <label class="big-check">
 
@@ -310,20 +240,19 @@ type="checkbox"
 
 ${value ? "checked" : ""}
 
-onchange="toggleDay(${subject},'${day}',this.checked)"
+onchange="toggleDay(${subject}, '${day}', this.checked)"
 
 >
 
 
-<div class="check-box">
+<span class="check-box">
 
 ${value ? "✓" : ""}
 
-</div>
+</span>
 
 
 </label>
-
 
 `;
 
@@ -364,18 +293,16 @@ renderPlanner(plan);
 function updateDescription(index,value){
 
 
-let plan = getCurrentPlan();
+let plan=getCurrentPlan();
 
 
-plan.subjects[index].description = value;
+plan.subjects[index].description=value;
 
 
 savePlans(plans);
 
 
 }
-
-
 
 
 
@@ -384,18 +311,16 @@ savePlans(plans);
 function updateResources(index,value){
 
 
-let plan = getCurrentPlan();
+let plan=getCurrentPlan();
 
 
-plan.subjects[index].resources = value;
+plan.subjects[index].resources=value;
 
 
 savePlans(plans);
 
 
 }
-
-
 
 
 
@@ -404,16 +329,17 @@ savePlans(plans);
 function updateNotes(index,value){
 
 
-let plan = getCurrentPlan();
+let plan=getCurrentPlan();
 
 
-plan.subjects[index].notes = value;
+plan.subjects[index].notes=value;
 
 
 savePlans(plans);
 
 
 }
+
 
 
 
@@ -424,8 +350,7 @@ savePlans(plans);
 function createPlan(){
 
 
-let name = prompt("Name your week:");
-
+let name = prompt("Enter plan name");
 
 
 if(!name) return;
@@ -434,34 +359,21 @@ if(!name) return;
 
 let newPlan = {
 
-
-id: Date.now(),
+id:Date.now(),
 
 name:name,
-
-studentNotes:"",
-
-teacherNotes:"",
-
 
 subjects:[
 
 createSubject("Reading"),
-
 createSubject("Writing"),
-
 createSubject("Numeracy"),
-
 createSubject("Careers Education"),
-
 createSubject("Respectful Relationships"),
-
 createSubject("Brain Warm Up"),
-
 createSubject("Brain Break")
 
 ]
-
 
 };
 
@@ -474,27 +386,6 @@ savePlans(plans);
 
 
 loadPlanner();
-
-
-}
-
-
-
-
-
-
-
-function changePlan(id){
-
-
-let plan = plans.find(p=>p.id==id);
-
-
-if(plan){
-
-renderPlanner(plan);
-
-}
 
 
 }
