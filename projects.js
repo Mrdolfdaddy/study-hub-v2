@@ -1,5 +1,5 @@
 // =========================
-// STUDY HUB 4.1
+// STUDY HUB 4.3
 // PROJECTS
 // =========================
 
@@ -27,7 +27,10 @@ function loadProjects(){
 
     renderProjects();
 
+    updateDashboardProgress();
+
 }
+
 
 
 
@@ -41,6 +44,8 @@ function saveProjects(){
     );
 
 }
+
+
 
 
 
@@ -72,6 +77,8 @@ function createProject(){
     saveProjects();
 
     renderProjects();
+
+    updateDashboardProgress();
 
 }
 
@@ -109,6 +116,8 @@ function renderProjects(){
         return;
 
     }
+
+
 
 
 
@@ -152,6 +161,7 @@ onchange="updateDescription(${project.id},this.value)"
 
 
 
+
 <h3>Tasks</h3>
 
 
@@ -161,6 +171,7 @@ onchange="updateDescription(${project.id},this.value)"
 ${renderTasks(project)}
 
 </div>
+
 
 
 
@@ -205,6 +216,7 @@ return "<p>No tasks yet</p>";
 
 
 
+
 return project.tasks.map((task,index)=>`
 
 
@@ -241,6 +253,10 @@ ${task.text}
 
 
 
+
+
+
+
 function addTask(id){
 
 
@@ -272,8 +288,14 @@ saveProjects();
 
 renderProjects();
 
+updateDashboardProgress();
+
 
 }
+
+
+
+
 
 
 
@@ -299,8 +321,14 @@ saveProjects();
 
 renderProjects();
 
+updateDashboardProgress();
+
 
 }
+
+
+
+
 
 
 
@@ -326,7 +354,6 @@ task=>task.done
 
 
 
-// smoother progress
 project.progress =
 Math.round(
 (completed / project.tasks.length) * 100
@@ -334,6 +361,10 @@ Math.round(
 
 
 }
+
+
+
+
 
 
 
@@ -358,6 +389,10 @@ saveProjects();
 
 
 
+
+
+
+
 function deleteProject(id){
 
 
@@ -371,6 +406,100 @@ saveProjects();
 
 
 renderProjects();
+
+updateDashboardProgress();
+
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
+// DASHBOARD SYNC
+// =========================
+
+
+function updateDashboardProgress(){
+
+
+let totalTasks = 0;
+
+let completedTasks = 0;
+
+
+
+projects.forEach(project=>{
+
+
+project.tasks.forEach(task=>{
+
+
+totalTasks++;
+
+
+if(task.done){
+
+completedTasks++;
+
+}
+
+
+});
+
+
+});
+
+
+
+let percentage = 0;
+
+
+
+if(totalTasks > 0){
+
+percentage =
+Math.round(
+(completedTasks / totalTasks) * 100
+);
+
+}
+
+
+
+
+let progressText =
+document.getElementById("progressText");
+
+
+if(progressText){
+
+progressText.innerText =
+percentage + "%";
+
+}
+
+
+
+
+let progressCircle =
+document.getElementById("progressCircle");
+
+
+if(progressCircle){
+
+progressCircle.style.setProperty(
+"--progress",
+percentage + "%"
+);
+
+}
+
 
 
 }
