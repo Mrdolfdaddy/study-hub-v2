@@ -1,5 +1,5 @@
 /* =========================
-   STUDY HUB 3.0
+   STUDY HUB 4.3
    MAIN CSS
 ========================= */
 
@@ -11,6 +11,7 @@
     font-family:"Segoe UI", Arial, sans-serif;
 
 }
+
 
 
 :root {
@@ -50,8 +51,10 @@ body {
 
     background-attachment:fixed;
 
-}
 
+    overflow:hidden;
+
+}
 
 
 
@@ -69,12 +72,11 @@ body {
 
 
 
-
-
 /* SIDEBAR */
 
 
 .sidebar {
+
 
     width:270px;
 
@@ -86,7 +88,20 @@ body {
 
     border-right:1px solid rgba(255,255,255,.1);
 
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+
 }
+
 
 
 
@@ -101,11 +116,13 @@ body {
 }
 
 
+
 .logo span {
 
     color:var(--accent);
 
 }
+
 
 
 
@@ -118,7 +135,6 @@ nav {
     gap:12px;
 
 }
-
 
 
 
@@ -145,6 +161,7 @@ nav {
 
 
 }
+
 
 
 
@@ -185,19 +202,25 @@ nav {
 
 
 
-
-
-
 /* MAIN */
 
 
 .main {
 
+
     flex:1;
+
+    margin-left:270px;
 
     padding:40px;
 
+    height:100vh;
+
+    overflow-y:auto;
+
+
 }
+
 
 
 
@@ -206,6 +229,7 @@ nav {
     display:none;
 
 }
+
 
 
 .page.active {
@@ -221,10 +245,9 @@ h1 {
 
     font-size:42px;
 
+    margin-top:0;
+
 }
-
-
-
 
 
 
@@ -247,8 +270,32 @@ h1 {
 
     border:1px solid rgba(255,255,255,.1);
 
+
+    margin-bottom:25px;
+
+
+    transition:.25s;
+
+
 }
 
+
+
+.card:hover {
+
+
+    transform:translateY(-4px);
+
+
+}
+
+
+
+
+
+
+
+/* DASHBOARD */
 
 
 .dashboard-grid {
@@ -256,7 +303,9 @@ h1 {
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
 
     gap:25px;
 
@@ -265,19 +314,26 @@ h1 {
 
 
 
-
 .progress-box {
 
 
     height:120px;
 
+
     display:flex;
+
 
     justify-content:center;
 
+
     align-items:center;
 
-    font-size:35px;
+
+    font-size:42px;
+
+
+    font-weight:800;
+
 
     color:#c4b5fd;
 
@@ -288,33 +344,10 @@ h1 {
 
 
 
+#progressText {
 
 
-
-/* PLANNER */
-
-
-.page-title {
-
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-
-}
-
-
-
-
-.planner-actions {
-
-
-    display:flex;
-
-    gap:15px;
+    opacity:.8;
 
 
 }
@@ -324,9 +357,7 @@ h1 {
 
 
 
-
-
-/* GOOD BUTTONS */
+/* BUTTONS */
 
 
 button {
@@ -348,9 +379,12 @@ button {
 
     color:white;
 
+
     font-size:15px;
 
+
     font-weight:600;
+
 
     cursor:pointer;
 
@@ -366,11 +400,11 @@ button {
 
 
 
-
 button:hover {
 
 
     transform:translateY(-3px);
+
 
     filter:brightness(1.15);
 
@@ -393,8 +427,19 @@ button:active {
 
 
 
+/* PLANNER */
 
-/* DROPDOWNS */
+
+.planner-actions {
+
+
+    display:flex;
+
+    gap:15px;
+
+
+}
+
 
 
 select {
@@ -412,41 +457,8 @@ select {
 
     color:white;
 
-    font-size:15px;
-
-
-    cursor:pointer;
-
-
-    backdrop-filter:blur(10px);
-
 
 }
-
-
-
-select:hover {
-
-
-    background:rgba(255,255,255,.2);
-
-
-}
-
-
-
-select option {
-
-
-    background:#111827;
-
-    color:white;
-
-
-}
-
-
-
 
 
 
@@ -461,11 +473,11 @@ select option {
 
     width:100%;
 
+
     border-collapse:separate;
 
-    border-spacing:12px;
 
-    margin-top:20px;
+    border-spacing:12px;
 
 
 }
@@ -477,7 +489,9 @@ select option {
 
     background:#312e81;
 
+
     padding:15px;
+
 
     border-radius:15px;
 
@@ -486,39 +500,24 @@ select option {
 
 
 
+
 .learning-table td {
 
 
     background:rgba(30,41,59,.85);
 
+
     border-radius:20px;
 
+
     padding:20px;
+
 
     vertical-align:top;
 
 
 }
 
-
-
-.subject-box {
-
-
-    width:35%;
-
-
-}
-
-
-
-.subject-box h3 {
-
-
-    color:#c4b5fd;
-
-
-}
 
 
 
@@ -529,6 +528,7 @@ textarea {
 
 
     width:100%;
+
 
     min-height:90px;
 
@@ -548,15 +548,10 @@ textarea {
     padding:15px;
 
 
-    margin-top:10px;
-
-
     resize:vertical;
 
 
 }
-
-
 
 
 
@@ -576,25 +571,20 @@ textarea {
 
     align-items:center;
 
-    cursor:pointer;
-
-
 }
 
 
 
-
-.big-check input[type="checkbox"] {
-
-
-    display:block !important;
-
-    appearance:none;
+.big-check input {
 
 
     width:35px;
 
+
     height:35px;
+
+
+    appearance:none;
 
 
     border-radius:10px;
@@ -606,18 +596,12 @@ textarea {
     background:#0f172a;
 
 
-    cursor:pointer;
-
-
-    position:relative;
-
-
 }
 
 
 
 
-.big-check input[type="checkbox"]:checked {
+.big-check input:checked {
 
 
     background:var(--accent);
@@ -628,34 +612,79 @@ textarea {
 
 
 
-.big-check input[type="checkbox"]:checked::after {
+
+/* PROJECTS */
 
 
-    content:"✓";
+.project-card {
 
 
-    color:white;
-
-
-    font-size:25px;
-
-
-    font-weight:bold;
-
-
-    position:absolute;
-
-
-    left:5px;
-
-
-    top:-3px;
+    margin-bottom:25px;
 
 
 }
 
 
 
+.project-progress {
+
+
+    height:18px;
+
+
+    width:100%;
+
+
+    background:rgba(255,255,255,.1);
+
+
+    border-radius:20px;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.progress-fill {
+
+
+    height:100%;
+
+
+    background:linear-gradient(
+        90deg,
+        var(--accent),
+        #6366f1
+    );
+
+
+    transition:.4s;
+
+
+}
+
+
+
+
+
+
+
+.project-check {
+
+
+    display:flex;
+
+
+    gap:12px;
+
+
+    margin:12px 0;
+
+
+}
 
 
 
@@ -669,7 +698,10 @@ textarea {
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
 
     gap:25px;
 
@@ -678,23 +710,13 @@ textarea {
 
 
 
-input[type="color"] {
 
 
-    width:60px;
-
-    height:40px;
-
-
-}
-
-
-
-
-
+/* MOBILE */
 
 
 @media(max-width:900px){
+
 
 
 .app {
@@ -710,7 +732,13 @@ input[type="color"] {
 .sidebar {
 
 
+    position:relative;
+
+
     width:100%;
+
+
+    height:auto;
 
 
 }
@@ -718,6 +746,9 @@ input[type="color"] {
 
 
 .main {
+
+
+    margin-left:0;
 
 
     padding:20px;
@@ -725,303 +756,5 @@ input[type="color"] {
 
 }
 
-
-}
-/* =========================
-   PROJECT CHECKBOXES
-========================= */
-
-
-.project-check {
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    margin:12px 0;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-}
-
-
-
-.project-check input[type="checkbox"] {
-
-
-    appearance:none;
-
-    -webkit-appearance:none;
-
-
-    width:28px;
-
-    height:28px;
-
-
-    border-radius:8px;
-
-
-    border:3px solid var(--accent);
-
-
-    background:#0f172a;
-
-
-    cursor:pointer;
-
-
-    position:relative;
-
-
-    flex-shrink:0;
-
-}
-
-
-
-
-.project-check input[type="checkbox"]:checked {
-
-
-    background:var(--accent);
-
-
-}
-
-
-
-
-.project-check input[type="checkbox"]:checked::after {
-
-
-    content:"✓";
-
-
-    position:absolute;
-
-
-    color:white;
-
-
-    font-size:22px;
-
-
-    font-weight:bold;
-
-
-    left:4px;
-
-
-    top:-4px;
-
-
-}
-/* =========================
-   PROJECT CARDS DESIGN
-========================= */
-
-
-.project-card {
-
-    margin-bottom:25px;
-
-    transition:0.25s;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-}
-
-
-
-.project-card:hover {
-
-    transform:translateY(-5px);
-
-}
-
-
-
-
-
-.project-card h2 {
-
-    margin-top:0;
-
-    font-size:26px;
-
-}
-
-
-
-
-
-.project-card textarea {
-
-    margin:15px 0;
-
-    resize:vertical;
-
-    min-height:80px;
-
-}
-
-
-
-
-
-/* Project progress bar */
-
-.project-progress {
-
-    height:18px;
-
-    width:100%;
-
-    background:rgba(255,255,255,0.1);
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    margin:15px 0;
-
-}
-
-
-
-
-.project-progress .progress-fill {
-
-    height:100%;
-
-    background:linear-gradient(
-        90deg,
-        var(--accent),
-        #6366f1
-    );
-
-    border-radius:20px;
-
-    transition:0.4s;
-
-}
-
-
-
-
-
-/* Project task list */
-
-.project-tasks {
-
-    margin:20px 0;
-
-    padding:15px;
-
-    background:rgba(0,0,0,0.15);
-
-    border-radius:18px;
-
-}
-
-
-
-
-
-.project-check {
-
-    padding:10px;
-
-    border-radius:12px;
-
-    transition:0.2s;
-
-}
-
-
-
-.project-check:hover {
-
-    background:rgba(255,255,255,0.08);
-
-}
-
-
-
-
-
-.project-check span {
-
-    transition:0.2s;
-
-}
-
-
-
-
-
-.project-check input[type="checkbox"]:checked + span {
-
-    text-decoration:line-through;
-
-    opacity:0.6;
-
-}
-
-
-
-
-
-/* Project buttons */
-
-.project-card button {
-
-    margin-right:10px;
-
-    margin-top:10px;
-
-}
-/* =========================
-   FIXED SIDEBAR LAYOUT
-========================= */
-
-
-body {
-
-    overflow:hidden;
-
-}
-
-
-
-.sidebar {
-
-    position:fixed;
-
-    left:0;
-
-    top:0;
-
-    height:100vh;
-
-    overflow-y:auto;
-
-}
-
-
-
-
-.main {
-
-    margin-left:270px;
-
-    height:100vh;
-
-    overflow-y:auto;
 
 }
