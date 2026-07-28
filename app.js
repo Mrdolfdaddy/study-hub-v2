@@ -1,18 +1,19 @@
 // =========================
-// STUDY HUB 3.0
-// APP CONTROLS
+// STUDY HUB 4.3
+// APP CONTROLS + DASHBOARD
 // =========================
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
     updateDate();
 
     updateClock();
 
     loadSettings();
+
+    updateDashboard();
 
 
     setInterval(updateClock,1000);
@@ -26,27 +27,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+// =========================
 // PAGE SWITCHING
+// =========================
 
 
-function showPage(page){
+function showPage(page, button){
 
 
     document.querySelectorAll(".page")
     .forEach(section=>{
 
-
         section.classList.remove("active");
-
 
     });
 
 
 
-    document.getElementById(page)
-    .classList.add("active");
+    let selected =
+    document.getElementById(page);
 
+
+
+    if(selected){
+
+        selected.classList.add("active");
+
+    }
 
 
 
@@ -54,46 +61,15 @@ function showPage(page){
     document.querySelectorAll(".nav-btn")
     .forEach(btn=>{
 
-
         btn.classList.remove("active");
-
 
     });
 
 
 
-    event.target.classList.add("active");
+    if(button){
 
-
-
-}
-
-
-
-
-
-
-
-
-// DATE
-
-
-function updateDate(){
-
-
-    let date = new Date();
-
-
-    let element =
-    document.getElementById("date");
-
-
-    if(element){
-
-
-        element.textContent =
-        date.toDateString();
-
+        button.classList.add("active");
 
     }
 
@@ -107,7 +83,40 @@ function updateDate(){
 
 
 
+
+// =========================
+// DATE
+// =========================
+
+
+function updateDate(){
+
+
+    let date =
+    document.getElementById("date");
+
+
+    if(date){
+
+        date.textContent =
+        new Date().toDateString();
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
 // CLOCK
+// =========================
 
 
 function updateClock(){
@@ -120,10 +129,67 @@ function updateClock(){
 
     if(clock){
 
-
         clock.textContent =
-        new Date()
-        .toLocaleTimeString();
+        new Date().toLocaleTimeString();
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
+// DASHBOARD
+// =========================
+
+
+function updateDashboard(){
+
+
+    updateProjectCount();
+
+    updateProgress();
+
+    updateTasks();
+
+
+}
+
+
+
+
+
+
+
+
+function updateProjectCount(){
+
+
+    let projects =
+    JSON.parse(
+        localStorage.getItem("studyHubProjects")
+    ) || [];
+
+
+
+    let element =
+    document.getElementById("projectCount");
+
+
+
+    if(element){
+
+
+        element.textContent =
+        projects.length +
+        (projects.length === 1 ? " Project" : " Projects");
 
 
     }
@@ -139,7 +205,217 @@ function updateClock(){
 
 
 
+function updateProgress(){
+
+
+    let projects =
+    JSON.parse(
+        localStorage.getItem("studyHubProjects")
+    ) || [];
+
+
+
+    let total = 0;
+
+    let completed = 0;
+
+
+
+    projects.forEach(project=>{
+
+
+        if(project.tasks){
+
+
+            total += project.tasks.length;
+
+
+
+            project.tasks.forEach(task=>{
+
+
+                if(task.done){
+
+                    completed++;
+
+                }
+
+
+            });
+
+
+        }
+
+
+    });
+
+
+
+
+
+    let percent = 0;
+
+
+
+    if(total > 0){
+
+        percent =
+        Math.round(
+            (completed / total) * 100
+        );
+
+    }
+
+
+
+
+
+
+    let progress =
+    document.getElementById(
+        "dashboardProgress"
+    );
+
+
+
+    let text =
+    document.getElementById(
+        "progressText"
+    );
+
+
+
+
+
+    if(progress){
+
+        progress.textContent =
+        percent + "%";
+
+    }
+
+
+
+
+    if(text){
+
+
+        text.textContent =
+        completed +
+        " / " +
+        total +
+        " tasks completed";
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function updateTasks(){
+
+
+    let container =
+    document.getElementById(
+        "todayTasks"
+    );
+
+
+
+    if(!container) return;
+
+
+
+
+
+    let projects =
+    JSON.parse(
+        localStorage.getItem("studyHubProjects")
+    ) || [];
+
+
+
+    let tasks = [];
+
+
+
+
+
+    projects.forEach(project=>{
+
+
+        if(project.tasks){
+
+
+            project.tasks.forEach(task=>{
+
+
+                if(!task.done){
+
+                    tasks.push(task.text);
+
+                }
+
+
+            });
+
+
+        }
+
+
+    });
+
+
+
+
+
+
+    if(tasks.length === 0){
+
+
+        container.innerHTML =
+        "<p>🎉 No unfinished tasks!</p>";
+
+        return;
+
+
+    }
+
+
+
+
+
+    container.innerHTML = tasks
+    .slice(0,5)
+    .map(task=>`
+
+        <p>☐ ${task}</p>
+
+    `)
+    .join("");
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
 // THEME
+// =========================
 
 
 function toggleTheme(){
@@ -161,7 +437,9 @@ function toggleTheme(){
 
 
 
+// =========================
 // FONT
+// =========================
 
 
 function changeFont(font){
@@ -186,7 +464,10 @@ function changeFont(font){
 
 
 
+
+// =========================
 // ACCENT COLOUR
+// =========================
 
 
 function changeAccent(color){
@@ -215,7 +496,10 @@ function changeAccent(color){
 
 
 
+
+// =========================
 // SETTINGS SAVE
+// =========================
 
 
 function saveSettings(){
@@ -239,22 +523,30 @@ function saveSettings(){
 
 
 
+
 function loadSettings(){
 
 
 
     let font =
-    localStorage.getItem("studyFont");
+    localStorage.getItem(
+        "studyFont"
+    );
 
 
 
     let accent =
-    localStorage.getItem("studyAccent");
+    localStorage.getItem(
+        "studyAccent"
+    );
 
 
 
     let dark =
-    localStorage.getItem("studyDark");
+    localStorage.getItem(
+        "studyDark"
+    );
+
 
 
 
@@ -267,21 +559,7 @@ function loadSettings(){
         font;
 
 
-
-        let select =
-        document.getElementById("fontSelect");
-
-
-
-        if(select){
-
-            select.value = font;
-
-        }
-
-
     }
-
 
 
 
@@ -297,19 +575,7 @@ function loadSettings(){
         );
 
 
-        let picker =
-        document.getElementById("accentPicker");
-
-
-        if(picker){
-
-            picker.value = accent;
-
-        }
-
-
     }
-
 
 
 
@@ -335,7 +601,10 @@ function loadSettings(){
 
 
 
+
+// =========================
 // RESET
+// =========================
 
 
 function clearData(){
