@@ -821,3 +821,168 @@ input[type="color"] {
 
 
 }
+/* =========================
+   PROJECT CARDS DESIGN
+========================= */
+
+
+.project-card {
+
+    margin-bottom:25px;
+
+    transition:0.25s;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+}
+
+
+
+.project-card:hover {
+
+    transform:translateY(-5px);
+
+}
+
+
+
+
+
+.project-card h2 {
+
+    margin-top:0;
+
+    font-size:26px;
+
+}
+
+
+
+
+
+.project-card textarea {
+
+    margin:15px 0;
+
+    resize:vertical;
+
+    min-height:80px;
+
+}
+
+
+
+
+
+/* Project progress bar */
+
+.project-progress {
+
+    height:18px;
+
+    width:100%;
+
+    background:rgba(255,255,255,0.1);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin:15px 0;
+
+}
+
+
+
+
+.project-progress .progress-fill {
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        var(--accent),
+        #6366f1
+    );
+
+    border-radius:20px;
+
+    transition:0.4s;
+
+}
+
+
+
+
+
+/* Project task list */
+
+.project-tasks {
+
+    margin:20px 0;
+
+    padding:15px;
+
+    background:rgba(0,0,0,0.15);
+
+    border-radius:18px;
+
+}
+
+
+
+
+
+.project-check {
+
+    padding:10px;
+
+    border-radius:12px;
+
+    transition:0.2s;
+
+}
+
+
+
+.project-check:hover {
+
+    background:rgba(255,255,255,0.08);
+
+}
+
+
+
+
+
+.project-check span {
+
+    transition:0.2s;
+
+}
+
+
+
+
+
+.project-check input[type="checkbox"]:checked + span {
+
+    text-decoration:line-through;
+
+    opacity:0.6;
+
+}
+
+
+
+
+
+/* Project buttons */
+
+.project-card button {
+
+    margin-right:10px;
+
+    margin-top:10px;
+
+}
