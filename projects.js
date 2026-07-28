@@ -25,11 +25,19 @@ function loadProjects(){
     ) || [];
 
 
+    projects.forEach(project => {
+
+        updateProgress(project);
+
+    });
+
+
+    saveProjects();
+
     renderProjects();
 
-    updateDashboardProgress();
-
 }
+
 
 
 
@@ -59,6 +67,7 @@ function createProject(){
     if(!name) return;
 
 
+
     projects.push({
 
         id:Date.now(),
@@ -74,11 +83,13 @@ function createProject(){
     });
 
 
+
     saveProjects();
 
     renderProjects();
 
-    updateDashboardProgress();
+    updateDashboard();
+
 
 }
 
@@ -89,6 +100,14 @@ function createProject(){
 
 
 function renderProjects(){
+
+
+    projects.forEach(project => {
+
+        updateProgress(project);
+
+    });
+
 
 
     let container =
@@ -132,6 +151,7 @@ function renderProjects(){
 <h2>🚀 ${project.name}</h2>
 
 
+
 <div class="project-progress">
 
 
@@ -145,7 +165,9 @@ style="width:${project.progress}%">
 </div>
 
 
+
 <p>${project.progress}% Complete</p>
+
 
 
 
@@ -157,6 +179,7 @@ placeholder="Description"
 onchange="updateDescription(${project.id},this.value)"
 
 >${project.description}</textarea>
+
 
 
 
@@ -184,6 +207,7 @@ ${renderTasks(project)}
 
 
 
+
 <button onclick="deleteProject(${project.id})">
 
 🗑 Delete
@@ -204,20 +228,22 @@ ${renderTasks(project)}
 
 
 
+
+
+
 function renderTasks(project){
 
 
-if(project.tasks.length === 0){
+    if(project.tasks.length === 0){
 
-return "<p>No tasks yet</p>";
+        return "<p>No tasks yet</p>";
 
-}
-
-
+    }
 
 
 
-return project.tasks.map((task,index)=>`
+
+    return project.tasks.map((task,index)=>`
 
 
 <label class="project-check">
@@ -260,35 +286,37 @@ ${task.text}
 function addTask(id){
 
 
-let text = prompt("Task name:");
+    let text = prompt("Task name:");
 
-if(!text) return;
-
-
-
-let project =
-projects.find(p=>p.id===id);
+    if(!text) return;
 
 
 
-project.tasks.push({
-
-text:text,
-
-done:false
-
-});
+    let project =
+    projects.find(p=>p.id===id);
 
 
 
-updateProgress(project);
+    project.tasks.push({
+
+        text:text,
+
+        done:false
+
+    });
 
 
-saveProjects();
 
-renderProjects();
+    updateProgress(project);
 
-updateDashboardProgress();
+
+    saveProjects();
+
+
+    renderProjects();
+
+
+    updateDashboard();
 
 
 }
@@ -304,24 +332,26 @@ updateDashboardProgress();
 function toggleTask(id,index){
 
 
-let project =
-projects.find(p=>p.id===id);
+    let project =
+    projects.find(p=>p.id===id);
 
 
 
-project.tasks[index].done =
-!project.tasks[index].done;
+    project.tasks[index].done =
+    !project.tasks[index].done;
 
 
 
-updateProgress(project);
+    updateProgress(project);
 
 
-saveProjects();
+    saveProjects();
 
-renderProjects();
 
-updateDashboardProgress();
+    renderProjects();
+
+
+    updateDashboard();
 
 
 }
@@ -337,27 +367,27 @@ updateDashboardProgress();
 function updateProgress(project){
 
 
-if(project.tasks.length === 0){
+    if(project.tasks.length === 0){
 
-project.progress = 0;
+        project.progress = 0;
 
-return;
+        return;
 
-}
-
-
-
-let completed =
-project.tasks.filter(
-task=>task.done
-).length;
+    }
 
 
 
-project.progress =
-Math.round(
-(completed / project.tasks.length) * 100
-);
+    let completed =
+    project.tasks.filter(
+        task=>task.done
+    ).length;
+
+
+
+    project.progress =
+    Math.round(
+        (completed / project.tasks.length) * 100
+    );
 
 
 }
@@ -373,14 +403,16 @@ Math.round(
 function updateDescription(id,value){
 
 
-let project =
-projects.find(p=>p.id===id);
+    let project =
+    projects.find(p=>p.id===id);
 
 
-project.description=value;
+
+    project.description=value;
 
 
-saveProjects();
+
+    saveProjects();
 
 
 }
@@ -396,110 +428,20 @@ saveProjects();
 function deleteProject(id){
 
 
-projects =
-projects.filter(
-project=>project.id !== id
-);
-
-
-saveProjects();
-
-
-renderProjects();
-
-updateDashboardProgress();
-
-
-}
+    projects =
+    projects.filter(
+        project=>project.id !== id
+    );
 
 
 
+    saveProjects();
 
 
+    renderProjects();
 
 
-
-
-// =========================
-// DASHBOARD SYNC
-// =========================
-
-
-function updateDashboardProgress(){
-
-
-let totalTasks = 0;
-
-let completedTasks = 0;
-
-
-
-projects.forEach(project=>{
-
-
-project.tasks.forEach(task=>{
-
-
-totalTasks++;
-
-
-if(task.done){
-
-completedTasks++;
-
-}
-
-
-});
-
-
-});
-
-
-
-let percentage = 0;
-
-
-
-if(totalTasks > 0){
-
-percentage =
-Math.round(
-(completedTasks / totalTasks) * 100
-);
-
-}
-
-
-
-
-let progressText =
-document.getElementById("progressText");
-
-
-if(progressText){
-
-progressText.innerText =
-percentage + "%";
-
-}
-
-
-
-
-let progressCircle =
-document.getElementById("progressCircle");
-
-
-if(progressCircle){
-
-progressCircle.style.setProperty(
-"--progress",
-percentage + "%"
-);
-
-}
-
+    updateDashboard();
 
 
 }
