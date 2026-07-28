@@ -986,3 +986,42 @@ input[type="color"] {
     margin-top:10px;
 
 }
+/* =========================
+   FIXED SIDEBAR LAYOUT
+========================= */
+
+
+body {
+
+    overflow:hidden;
+
+}
+
+
+
+.sidebar {
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+}
+
+
+
+
+.main {
+
+    margin-left:270px;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+}
