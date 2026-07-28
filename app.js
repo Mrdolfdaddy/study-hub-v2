@@ -1,23 +1,16 @@
 // =========================
 // STUDY HUB 4.3
-// APP CONTROLS + DASHBOARD
+// PROJECTS
 // =========================
+
+
+let projects = [];
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    updateDate();
-
-    updateClock();
-
-    loadSettings();
-
-    updateDashboard();
-
-
-    setInterval(updateClock,1000);
-
+    loadProjects();
 
 });
 
@@ -25,175 +18,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+function loadProjects(){
 
-
-// =========================
-// PAGE SWITCHING
-// =========================
-
-
-function showPage(page, button){
-
-
-    document.querySelectorAll(".page")
-    .forEach(section=>{
-
-        section.classList.remove("active");
-
-    });
-
-
-
-    let selected =
-    document.getElementById(page);
-
-
-
-    if(selected){
-
-        selected.classList.add("active");
-
-    }
-
-
-
-
-    document.querySelectorAll(".nav-btn")
-    .forEach(btn=>{
-
-        btn.classList.remove("active");
-
-    });
-
-
-
-    if(button){
-
-        button.classList.add("active");
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// DATE
-// =========================
-
-
-function updateDate(){
-
-
-    let date =
-    document.getElementById("date");
-
-
-    if(date){
-
-        date.textContent =
-        new Date().toDateString();
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// CLOCK
-// =========================
-
-
-function updateClock(){
-
-
-    let clock =
-    document.getElementById("clock");
-
-
-
-    if(clock){
-
-        clock.textContent =
-        new Date().toLocaleTimeString();
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// DASHBOARD
-// =========================
-
-
-function updateDashboard(){
-
-
-    updateProjectCount();
-
-    updateProgress();
-
-    updateTasks();
-
-
-}
-
-
-
-
-
-
-
-
-function updateProjectCount(){
-
-
-    let projects =
-    JSON.parse(
+    projects = JSON.parse(
         localStorage.getItem("studyHubProjects")
     ) || [];
 
 
+    // recalculate all project progress
+    projects.forEach(project => {
 
-    let element =
-    document.getElementById("projectCount");
+        updateProgress(project);
 
-
-
-    if(element){
-
-
-        element.textContent =
-        projects.length +
-        (projects.length === 1 ? " Project" : " Projects");
+    });
 
 
-    }
+    saveProjects();
 
+    renderProjects();
 
 }
 
@@ -203,112 +45,51 @@ function updateProjectCount(){
 
 
 
+function saveProjects(){
 
+    localStorage.setItem(
+        "studyHubProjects",
+        JSON.stringify(projects)
+    );
 
-function updateProgress(){
-
-
-    let projects =
-    JSON.parse(
-        localStorage.getItem("studyHubProjects")
-    ) || [];
-
-
-
-    let total = 0;
-
-    let completed = 0;
+}
 
 
 
-    projects.forEach(project=>{
-
-
-        if(project.tasks){
-
-
-            total += project.tasks.length;
 
 
 
-            project.tasks.forEach(task=>{
+
+function createProject(){
 
 
-                if(task.done){
+    let name = prompt("Project name:");
 
-                    completed++;
-
-                }
+    if(!name) return;
 
 
-            });
 
+    projects.push({
 
-        }
+        id:Date.now(),
 
+        name:name,
+
+        description:"",
+
+        progress:0,
+
+        tasks:[]
 
     });
 
 
 
+    saveProjects();
 
+    renderProjects();
 
-    let percent = 0;
-
-
-
-    if(total > 0){
-
-        percent =
-        Math.round(
-            (completed / total) * 100
-        );
-
-    }
-
-
-
-
-
-
-    let progress =
-    document.getElementById(
-        "dashboardProgress"
-    );
-
-
-
-    let text =
-    document.getElementById(
-        "progressText"
-    );
-
-
-
-
-
-    if(progress){
-
-        progress.textContent =
-        percent + "%";
-
-    }
-
-
-
-
-    if(text){
-
-
-        text.textContent =
-        completed +
-        " / " +
-        total +
-        " tasks completed";
-
-
-    }
-
+    updateDashboard();
 
 
 }
@@ -319,139 +100,282 @@ function updateProgress(){
 
 
 
-
-
-function updateTasks(){
+function renderProjects(){
 
 
     let container =
-    document.getElementById(
-        "todayTasks"
-    );
-
+    document.getElementById("projectsContainer");
 
 
     if(!container) return;
 
 
 
+    if(projects.length === 0){
+
+        container.innerHTML = `
+
+        <div class="card">
+
+        <h2>No Projects Yet 🚀</h2>
+
+        <p>Create your first project.</p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
 
 
-    let projects =
-    JSON.parse(
-        localStorage.getItem("studyHubProjects")
-    ) || [];
-
-
-
-    let tasks = [];
 
 
 
 
 
-    projects.forEach(project=>{
+    container.innerHTML = projects.map(project => `
 
 
-        if(project.tasks){
+<div class="project-card card">
 
 
-            project.tasks.forEach(task=>{
+<h2>🚀 ${project.name}</h2>
 
 
-                if(!task.done){
 
-                    tasks.push(task.text);
-
-                }
+<div class="project-progress">
 
 
-            });
+<div class="progress-fill"
+
+style="width:${project.progress}%">
+
+</div>
 
 
-        }
+</div>
 
+
+
+<p>${project.progress}% Complete</p>
+
+
+
+
+
+<textarea
+
+placeholder="Description"
+
+onchange="updateDescription(${project.id},this.value)"
+
+>${project.description}</textarea>
+
+
+
+
+
+
+<h3>Tasks</h3>
+
+
+
+<div class="project-tasks">
+
+${renderTasks(project)}
+
+</div>
+
+
+
+
+
+<button onclick="addTask(${project.id})">
+
+➕ Add Task
+
+</button>
+
+
+
+
+<button onclick="deleteProject(${project.id})">
+
+🗑 Delete
+
+</button>
+
+
+
+</div>
+
+
+
+`).join("");
+
+}
+
+
+
+
+
+
+
+
+function renderTasks(project){
+
+
+    if(project.tasks.length === 0){
+
+        return "<p>No tasks yet</p>";
+
+    }
+
+
+
+
+    return project.tasks.map((task,index)=>`
+
+
+<label class="project-check">
+
+
+<input
+
+type="checkbox"
+
+${task.done ? "checked":""}
+
+onchange="toggleTask(${project.id},${index})"
+
+>
+
+
+<span>
+
+${task.text}
+
+</span>
+
+
+</label>
+
+
+
+`).join("");
+
+}
+
+
+
+
+
+
+
+
+
+function addTask(id){
+
+
+    let text = prompt("Task name:");
+
+    if(!text) return;
+
+
+
+    let project =
+    projects.find(p=>p.id===id);
+
+
+
+    project.tasks.push({
+
+        text:text,
+
+        done:false
 
     });
 
 
 
+    updateProgress(project);
+
+
+    saveProjects();
+
+    renderProjects();
+
+    updateDashboard();
+
+
+}
 
 
 
-    if(tasks.length === 0){
 
 
-        container.innerHTML =
-        "<p>🎉 No unfinished tasks!</p>";
+
+
+
+
+function toggleTask(id,index){
+
+
+    let project =
+    projects.find(p=>p.id===id);
+
+
+
+    project.tasks[index].done =
+    !project.tasks[index].done;
+
+
+
+    updateProgress(project);
+
+
+    saveProjects();
+
+    renderProjects();
+
+    updateDashboard();
+
+
+}
+
+
+
+
+
+
+
+
+
+function updateProgress(project){
+
+
+    if(project.tasks.length === 0){
+
+        project.progress = 0;
 
         return;
 
-
     }
 
 
 
-
-
-    container.innerHTML = tasks
-    .slice(0,5)
-    .map(task=>`
-
-        <p>☐ ${task}</p>
-
-    `)
-    .join("");
-
-}
+    let completed =
+    project.tasks.filter(
+        task=>task.done
+    ).length;
 
 
 
-
-
-
-
-
-
-// =========================
-// THEME
-// =========================
-
-
-function toggleTheme(){
-
-
-    document.body.classList.toggle("dark");
-
-
-    saveSettings();
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// FONT
-// =========================
-
-
-function changeFont(font){
-
-
-    document.body.style.fontFamily =
-    font;
-
-
-    localStorage.setItem(
-        "studyFont",
-        font
+    project.progress =
+    Math.round(
+        (completed / project.tasks.length) * 100
     );
 
 
@@ -465,26 +389,19 @@ function changeFont(font){
 
 
 
-// =========================
-// ACCENT COLOUR
-// =========================
+function updateDescription(id,value){
 
 
-function changeAccent(color){
-
-
-    document.documentElement
-    .style.setProperty(
-        "--accent",
-        color
-    );
+    let project =
+    projects.find(p=>p.id===id);
 
 
 
-    localStorage.setItem(
-        "studyAccent",
-        color
-    );
+    project.description=value;
+
+
+
+    saveProjects();
 
 
 }
@@ -497,129 +414,23 @@ function changeAccent(color){
 
 
 
-// =========================
-// SETTINGS SAVE
-// =========================
+function deleteProject(id){
 
 
-function saveSettings(){
-
-
-    localStorage.setItem(
-
-        "studyDark",
-
-        document.body.classList.contains("dark")
-
-    );
-
-
-}
-
-
-
-
-
-
-
-
-
-function loadSettings(){
-
-
-
-    let font =
-    localStorage.getItem(
-        "studyFont"
+    projects =
+    projects.filter(
+        project=>project.id !== id
     );
 
 
 
-    let accent =
-    localStorage.getItem(
-        "studyAccent"
-    );
+    saveProjects();
 
 
-
-    let dark =
-    localStorage.getItem(
-        "studyDark"
-    );
+    renderProjects();
 
 
-
-
-
-
-    if(font){
-
-
-        document.body.style.fontFamily =
-        font;
-
-
-    }
-
-
-
-
-
-    if(accent){
-
-
-        document.documentElement
-        .style.setProperty(
-            "--accent",
-            accent
-        );
-
-
-    }
-
-
-
-
-
-
-    if(dark === "true"){
-
-
-        document.body.classList.add("dark");
-
-
-    }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// RESET
-// =========================
-
-
-function clearData(){
-
-
-    if(confirm("Delete all Study Hub data?")){
-
-
-        localStorage.clear();
-
-
-        location.reload();
-
-
-    }
+    updateDashboard();
 
 
 }
