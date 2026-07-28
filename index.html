@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Study Hub 4.2</title>
+<title>Study Hub 4.3</title>
 
 <link rel="stylesheet" href="main.css">
 
@@ -26,7 +26,7 @@
 
 📚 Study Hub
 
-<span>4.2</span>
+<span>4.3</span>
 
 </div>
 
@@ -35,52 +35,34 @@
 <nav>
 
 
-<button class="nav-btn active" onclick="showPage('dashboard')">
-
+<button class="nav-btn active" onclick="showPage('dashboard', this)">
 🏠 Dashboard
-
 </button>
 
 
-
-<button class="nav-btn" onclick="showPage('planner')">
-
+<button class="nav-btn" onclick="showPage('planner', this)">
 📖 Learning Planner
-
 </button>
 
 
-
-<button class="nav-btn" onclick="showPage('projects')">
-
+<button class="nav-btn" onclick="showPage('projects', this)">
 🚀 Projects
-
 </button>
 
 
-
-<button class="nav-btn" onclick="showPage('notes')">
-
+<button class="nav-btn" onclick="showPage('notes', this)">
 📝 Notes
-
 </button>
 
 
-
-<button class="nav-btn" onclick="showPage('tools')">
-
+<button class="nav-btn" onclick="showPage('tools', this)">
 🛠 Tools
-
 </button>
 
 
-
-<button class="nav-btn" onclick="showPage('settings')">
-
+<button class="nav-btn" onclick="showPage('settings', this)">
 ⚙️ Settings
-
 </button>
-
 
 
 </nav>
@@ -94,9 +76,7 @@
 </button>
 
 
-
 </aside>
-
 
 
 
@@ -111,15 +91,11 @@
 <section id="dashboard" class="page active">
 
 
-<h1>
-
-Welcome back 👋
-
-</h1>
+<h1>Welcome back 👋</h1>
 
 
 
-<div class="grid">
+<div class="dashboard-grid">
 
 
 
@@ -140,35 +116,95 @@ Welcome back 👋
 
 <h2>📈 Progress</h2>
 
-<div class="progress">
+<div class="progress-box" id="dashboardProgress">
 
 0%
 
 </div>
 
-</div>
-
-
-
-
-<div class="card">
-
-<h2>🎯 Goals</h2>
-
-<p>
-
-Your goals will appear here.
-
+<p id="progressText">
+No tasks completed yet.
 </p>
 
 </div>
 
 
 
+
+
+<div class="card">
+
+<h2>🚀 Projects</h2>
+
+<h3 id="projectCount">
+
+0 Projects
+
+</h3>
+
+<p>Your active projects.</p>
+
 </div>
 
 
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+<h2>⚡ Quick Actions</h2>
+
+
+<button onclick="createProject()">
+➕ New Project
+</button>
+
+
+<button onclick="showPage('planner', this)">
+📖 Open Planner
+</button>
+
+
+<button onclick="exportBackup()">
+💾 Backup Now
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>✅ Today's Tasks</h2>
+
+
+<div id="todayTasks">
+
+<p>No tasks loaded.</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
 </section>
+
+
+
 
 
 
@@ -180,9 +216,7 @@ Your goals will appear here.
 
 
 <h1>
-
 📖 Learning Planner
-
 </h1>
 
 
@@ -205,6 +239,7 @@ Your goals will appear here.
 
 
 </div>
+
 
 
 
@@ -236,14 +271,14 @@ Loading Planner...
 
 
 
+
 <section id="projects" class="page">
 
 
 <h1>
-
 🚀 Projects
-
 </h1>
+
 
 
 
@@ -258,6 +293,7 @@ Loading Planner...
 
 
 </div>
+
 
 
 
@@ -280,6 +316,7 @@ Loading Projects...
 
 
 
+
 </section>
 
 
@@ -294,9 +331,7 @@ Loading Projects...
 
 
 <h1>
-
 📝 Notes
-
 </h1>
 
 
@@ -308,6 +343,7 @@ Loading Projects...
 
 
 </div>
+
 
 
 </section>
@@ -324,9 +360,7 @@ Loading Projects...
 
 
 <h1>
-
 🛠 Tools
-
 </h1>
 
 
@@ -335,20 +369,19 @@ Loading Projects...
 
 
 <h2>
-
 Coming Soon
-
 </h2>
 
 
 <p>
 
-AI tools, timers, calculators, and resources will go here.
+AI tools, timers, calculators, games and resources will go here.
 
 </p>
 
 
 </div>
+
 
 
 </section>
@@ -365,10 +398,9 @@ AI tools, timers, calculators, and resources will go here.
 
 
 <h1>
-
 ⚙️ Settings
-
 </h1>
+
 
 
 
@@ -376,22 +408,14 @@ AI tools, timers, calculators, and resources will go here.
 
 
 <h2>
-
-Study Hub 4.2
-
+Study Hub 4.3
 </h2>
 
 
-<p>
-
-Your learning dashboard.
-
-</p>
-
 
 <p>
 
-Data is saved automatically.
+Your personal learning dashboard.
 
 </p>
 
@@ -402,9 +426,7 @@ Data is saved automatically.
 
 
 <h3>
-
 💾 Backup
-
 </h3>
 
 
@@ -417,7 +439,9 @@ Data is saved automatically.
 
 
 
+
 <br><br>
+
 
 
 
@@ -426,6 +450,7 @@ Data is saved automatically.
 📂 Import Backup
 
 <br><br>
+
 
 <input 
 
@@ -437,11 +462,14 @@ onchange="importBackup(event)"
 
 >
 
+
 </label>
 
 
 
 </div>
+
+
 
 
 </section>
@@ -455,8 +483,8 @@ onchange="importBackup(event)"
 
 </main>
 
-
 </div>
+
 
 
 
