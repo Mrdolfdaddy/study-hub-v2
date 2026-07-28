@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Study Hub 4.1</title>
+<title>Study Hub 4.2</title>
 
 <link rel="stylesheet" href="main.css">
 
@@ -26,7 +26,7 @@
 
 📚 Study Hub
 
-<span>4.1</span>
+<span>4.2</span>
 
 </div>
 
@@ -267,13 +267,11 @@ Loading Planner...
 
 <div class="card">
 
-
 <h2>
 
 Loading Projects...
 
 </h2>
-
 
 </div>
 
@@ -379,7 +377,7 @@ AI tools, timers, calculators, and resources will go here.
 
 <h2>
 
-Study Hub 4.1
+Study Hub 4.2
 
 </h2>
 
@@ -396,6 +394,51 @@ Your learning dashboard.
 Data is saved automatically.
 
 </p>
+
+
+
+<hr>
+
+
+
+<h3>
+
+💾 Backup
+
+</h3>
+
+
+
+<button onclick="exportBackup()">
+
+💾 Export Backup
+
+</button>
+
+
+
+<br><br>
+
+
+
+<label>
+
+📂 Import Backup
+
+<br><br>
+
+<input 
+
+type="file"
+
+accept=".json"
+
+onchange="importBackup(event)"
+
+>
+
+</label>
+
 
 
 </div>
@@ -426,6 +469,8 @@ Data is saved automatically.
 <script src="planner.js"></script>
 
 <script src="projects.js"></script>
+
+<script src="backup.js"></script>
 
 <script src="app.js"></script>
 
