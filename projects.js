@@ -3,22 +3,18 @@
 // PROJECTS
 // =========================
 
-
 let projects = [];
 
 
-
 // =========================
-// LOAD PROJECTS
+// LOAD
 // =========================
-
 
 document.addEventListener("DOMContentLoaded", () => {
 
     loadProjects();
 
 });
-
 
 
 function loadProjects() {
@@ -29,8 +25,12 @@ function loadProjects() {
         ) || [];
 
 
-    // Recalculate every project
+    // Make sure every project has valid data
     projects.forEach(project => {
+
+        if (!Array.isArray(project.tasks)) {
+            project.tasks = [];
+        }
 
         updateProgress(project);
 
@@ -44,11 +44,9 @@ function loadProjects() {
 }
 
 
-
 // =========================
-// SAVE PROJECTS
+// SAVE
 // =========================
-
 
 function saveProjects() {
 
@@ -60,23 +58,18 @@ function saveProjects() {
 }
 
 
-
 // =========================
 // CREATE PROJECT
 // =========================
 
-
 function createProject() {
 
-    let name =
-        prompt("Project name:");
-
+    let name = prompt("Project name:");
 
     if (!name) return;
 
 
-
-    projects.push({
+    let project = {
 
         id: Date.now(),
 
@@ -88,27 +81,27 @@ function createProject() {
 
         tasks: []
 
-    });
+    };
 
 
+    projects.push(project);
 
     saveProjects();
 
     renderProjects();
 
-    updateDashboard();
+    if (typeof updateDashboard === "function") {
+        updateDashboard();
+    }
 
 }
-
 
 
 // =========================
 // RENDER PROJECTS
 // =========================
 
-
 function renderProjects() {
-
 
     let container =
         document.getElementById(
@@ -119,20 +112,12 @@ function renderProjects() {
     if (!container) return;
 
 
-
-    // IMPORTANT:
-    // Recalculate progress BEFORE displaying cards
-
+    // ALWAYS recalculate before displaying
     projects.forEach(project => {
 
         updateProgress(project);
 
     });
-
-
-
-    saveProjects();
-
 
 
     if (projects.length === 0) {
@@ -154,101 +139,86 @@ function renderProjects() {
     }
 
 
-
     container.innerHTML =
-        projects.map(project => `
+        projects.map(project => {
+
+            return `
+
+                <div class="project-card card">
+
+                    <h2>
+                        🚀 ${escapeHTML(project.name)}
+                    </h2>
 
 
-        <div class="project-card card">
+                    <div class="project-progress">
+
+                        <div
+                            class="progress-fill"
+                            style="width:${project.progress}%"
+                        ></div>
+
+                    </div>
 
 
-            <h2>
-                🚀 ${project.name}
-            </h2>
+                    <p class="project-progress-text">
+
+                        ${project.progress}% Complete
+
+                    </p>
 
 
-
-            <div class="project-progress">
-
-                <div
-                    class="progress-fill"
-                    style="width:${project.progress}%"
-                ></div>
-
-            </div>
-
-
-
-            <p>
-                ${project.progress}% Complete
-            </p>
+                    <textarea
+                        placeholder="Description"
+                        onchange="
+                            updateDescription(
+                                ${project.id},
+                                this.value
+                            )
+                        "
+                    >${escapeHTML(project.description || "")}</textarea>
 
 
-
-            <textarea
-
-                placeholder="Description"
-
-                onchange="
-                    updateDescription(
-                        ${project.id},
-                        this.value
-                    )
-                "
-
-            >${project.description}</textarea>
+                    <h3>Tasks</h3>
 
 
+                    <div class="project-tasks">
 
-            <h3>
-                Tasks
-            </h3>
+                        ${renderTasks(project)}
 
-
-
-            <div class="project-tasks">
-
-                ${renderTasks(project)}
-
-            </div>
+                    </div>
 
 
-
-            <button
-                onclick="addTask(${project.id})"
-            >
-
-                ➕ Add Task
-
-            </button>
+                    <button
+                        onclick="addTask(${project.id})"
+                    >
+                        ➕ Add Task
+                    </button>
 
 
+                    <button
+                        onclick="deleteProject(${project.id})"
+                    >
+                        🗑 Delete
+                    </button>
 
-            <button
-                onclick="deleteProject(${project.id})"
-            >
+                </div>
 
-                🗑 Delete
+            `;
 
-            </button>
+        }).join("");
 
 
-        </div>
-
-
-        `).join("");
+    saveProjects();
 
 }
-
 
 
 // =========================
 // RENDER TASKS
 // =========================
 
-
 function renderTasks(project) {
-
 
     if (
         !project.tasks ||
@@ -260,64 +230,56 @@ function renderTasks(project) {
     }
 
 
-
     return project.tasks.map(
-        (task, index) => `
+        (task, index) => {
 
-            <label class="project-check">
+            return `
 
-                <input
+                <label class="project-check">
 
-                    type="checkbox"
+                    <input
+                        type="checkbox"
+                        ${task.done ? "checked" : ""}
+                        onchange="
+                            toggleTask(
+                                ${project.id},
+                                ${index}
+                            )
+                        "
+                    >
 
-                    ${task.done ? "checked" : ""}
+                    <span>
+                        ${escapeHTML(task.text)}
+                    </span>
 
-                    onchange="
-                        toggleTask(
-                            ${project.id},
-                            ${index}
-                        )
-                    "
+                </label>
 
-                >
+            `;
 
-                <span>
-                    ${task.text}
-                </span>
-
-            </label>
-
-        `
+        }
     ).join("");
 
 }
-
 
 
 // =========================
 // ADD TASK
 // =========================
 
-
 function addTask(id) {
 
-
-    let text =
-        prompt("Task name:");
-
+    let text = prompt("Task name:");
 
     if (!text) return;
 
 
-
     let project =
         projects.find(
-            p => p.id === id
+            project => project.id === id
         );
 
 
     if (!project) return;
-
 
 
     project.tasks.push({
@@ -329,71 +291,71 @@ function addTask(id) {
     });
 
 
-
-    // Recalculate immediately
     updateProgress(project);
-
-
 
     saveProjects();
 
     renderProjects();
 
-    updateDashboard();
+
+    if (typeof updateDashboard === "function") {
+        updateDashboard();
+    }
 
 }
-
 
 
 // =========================
 // TOGGLE TASK
 // =========================
 
-
 function toggleTask(id, index) {
-
 
     let project =
         projects.find(
-            p => p.id === id
+            project => project.id === id
         );
 
 
     if (!project) return;
 
 
-
-    if (!project.tasks[index]) return;
-
-
-
-    project.tasks[index].done =
-        !project.tasks[index].done;
+    let task =
+        project.tasks[index];
 
 
+    if (!task) return;
 
-    // Recalculate immediately
+
+    // Toggle task
+    task.done = !task.done;
+
+
+    // Recalculate project
     updateProgress(project);
 
 
-
+    // Save immediately
     saveProjects();
 
+
+    // Redraw Projects immediately
     renderProjects();
 
-    updateDashboard();
+
+    // Redraw Dashboard immediately
+    if (typeof updateDashboard === "function") {
+        updateDashboard();
+    }
 
 }
 
 
-
 // =========================
-// UPDATE PROJECT PROGRESS
+// UPDATE PROGRESS
 // =========================
-
 
 function updateProgress(project) {
-
 
     if (
         !project.tasks ||
@@ -407,12 +369,10 @@ function updateProgress(project) {
     }
 
 
-
     let completed =
         project.tasks.filter(
             task => task.done === true
         ).length;
-
 
 
     project.progress =
@@ -426,46 +386,33 @@ function updateProgress(project) {
 }
 
 
-
 // =========================
 // UPDATE DESCRIPTION
 // =========================
 
-
-function updateDescription(
-    id,
-    value
-) {
-
+function updateDescription(id, value) {
 
     let project =
         projects.find(
-            p => p.id === id
+            project => project.id === id
         );
 
 
     if (!project) return;
 
 
-
-    project.description =
-        value;
-
-
+    project.description = value;
 
     saveProjects();
 
 }
 
 
-
 // =========================
 // DELETE PROJECT
 // =========================
 
-
 function deleteProject(id) {
-
 
     projects =
         projects.filter(
@@ -474,11 +421,34 @@ function deleteProject(id) {
         );
 
 
-
     saveProjects();
 
     renderProjects();
 
-    updateDashboard();
+
+    if (typeof updateDashboard === "function") {
+        updateDashboard();
+    }
+
+}
+
+
+// =========================
+// ESCAPE HTML
+// =========================
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
