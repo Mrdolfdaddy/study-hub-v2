@@ -8,6 +8,11 @@ let projects = [];
 
 
 
+// =========================
+// LOAD PROJECTS
+// =========================
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     loadProjects();
@@ -16,15 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+function loadProjects() {
+
+    projects =
+        JSON.parse(
+            localStorage.getItem("studyHubProjects")
+        ) || [];
 
 
-function loadProjects(){
-
-    projects = JSON.parse(
-        localStorage.getItem("studyHubProjects")
-    ) || [];
-
-
+    // Recalculate every project
     projects.forEach(project => {
 
         updateProgress(project);
@@ -40,11 +45,12 @@ function loadProjects(){
 
 
 
+// =========================
+// SAVE PROJECTS
+// =========================
 
 
-
-
-function saveProjects(){
+function saveProjects() {
 
     localStorage.setItem(
         "studyHubProjects",
@@ -55,30 +61,32 @@ function saveProjects(){
 
 
 
+// =========================
+// CREATE PROJECT
+// =========================
 
 
+function createProject() {
+
+    let name =
+        prompt("Project name:");
 
 
-function createProject(){
-
-
-    let name = prompt("Project name:");
-
-    if(!name) return;
+    if (!name) return;
 
 
 
     projects.push({
 
-        id:Date.now(),
+        id: Date.now(),
 
-        name:name,
+        name: name,
 
-        description:"",
+        description: "",
 
-        progress:0,
+        progress: 0,
 
-        tasks:[]
+        tasks: []
 
     });
 
@@ -90,17 +98,30 @@ function createProject(){
 
     updateDashboard();
 
-
 }
 
 
 
+// =========================
+// RENDER PROJECTS
+// =========================
+
+
+function renderProjects() {
+
+
+    let container =
+        document.getElementById(
+            "projectsContainer"
+        );
+
+
+    if (!container) return;
 
 
 
-
-function renderProjects(){
-
+    // IMPORTANT:
+    // Recalculate progress BEFORE displaying cards
 
     projects.forEach(project => {
 
@@ -110,25 +131,21 @@ function renderProjects(){
 
 
 
-    let container =
-    document.getElementById("projectsContainer");
-
-
-    if(!container) return;
+    saveProjects();
 
 
 
-    if(projects.length === 0){
+    if (projects.length === 0) {
 
         container.innerHTML = `
 
-        <div class="card">
+            <div class="card">
 
-        <h2>No Projects Yet 🚀</h2>
+                <h2>No Projects Yet 🚀</h2>
 
-        <p>Create your first project.</p>
+                <p>Create your first project.</p>
 
-        </div>
+            </div>
 
         `;
 
@@ -138,103 +155,105 @@ function renderProjects(){
 
 
 
+    container.innerHTML =
+        projects.map(project => `
+
+
+        <div class="project-card card">
+
+
+            <h2>
+                🚀 ${project.name}
+            </h2>
 
 
 
+            <div class="project-progress">
 
-    container.innerHTML = projects.map(project => `
+                <div
+                    class="progress-fill"
+                    style="width:${project.progress}%"
+                ></div>
 
-
-<div class="project-card card">
-
-
-<h2>🚀 ${project.name}</h2>
-
-
-
-<div class="project-progress">
-
-
-<div class="progress-fill"
-
-style="width:${project.progress}%">
-
-</div>
-
-
-</div>
+            </div>
 
 
 
-<p>${project.progress}% Complete</p>
+            <p>
+                ${project.progress}% Complete
+            </p>
 
 
 
+            <textarea
 
+                placeholder="Description"
 
-<textarea
+                onchange="
+                    updateDescription(
+                        ${project.id},
+                        this.value
+                    )
+                "
 
-placeholder="Description"
-
-onchange="updateDescription(${project.id},this.value)"
-
->${project.description}</textarea>
-
-
-
-
-
-
-<h3>Tasks</h3>
+            >${project.description}</textarea>
 
 
 
-<div class="project-tasks">
-
-${renderTasks(project)}
-
-</div>
+            <h3>
+                Tasks
+            </h3>
 
 
 
+            <div class="project-tasks">
 
+                ${renderTasks(project)}
 
-<button onclick="addTask(${project.id})">
-
-➕ Add Task
-
-</button>
-
+            </div>
 
 
 
-<button onclick="deleteProject(${project.id})">
+            <button
+                onclick="addTask(${project.id})"
+            >
 
-🗑 Delete
+                ➕ Add Task
 
-</button>
-
-
-
-</div>
+            </button>
 
 
 
-`).join("");
+            <button
+                onclick="deleteProject(${project.id})"
+            >
+
+                🗑 Delete
+
+            </button>
+
+
+        </div>
+
+
+        `).join("");
 
 }
 
 
 
+// =========================
+// RENDER TASKS
+// =========================
 
 
+function renderTasks(project) {
 
 
-
-function renderTasks(project){
-
-
-    if(project.tasks.length === 0){
+    if (
+        !project.tasks ||
+        project.tasks.length === 0
+    ) {
 
         return "<p>No tasks yet</p>";
 
@@ -242,132 +261,144 @@ function renderTasks(project){
 
 
 
+    return project.tasks.map(
+        (task, index) => `
 
-    return project.tasks.map((task,index)=>`
+            <label class="project-check">
 
+                <input
 
-<label class="project-check">
+                    type="checkbox"
 
+                    ${task.done ? "checked" : ""}
 
-<input
+                    onchange="
+                        toggleTask(
+                            ${project.id},
+                            ${index}
+                        )
+                    "
 
-type="checkbox"
+                >
 
-${task.done ? "checked":""}
+                <span>
+                    ${task.text}
+                </span>
 
-onchange="toggleTask(${project.id},${index})"
+            </label>
 
->
-
-
-<span>
-
-${task.text}
-
-</span>
-
-
-</label>
-
-
-
-`).join("");
+        `
+    ).join("");
 
 }
 
 
 
+// =========================
+// ADD TASK
+// =========================
 
 
+function addTask(id) {
 
 
+    let text =
+        prompt("Task name:");
 
 
-function addTask(id){
-
-
-    let text = prompt("Task name:");
-
-    if(!text) return;
+    if (!text) return;
 
 
 
     let project =
-    projects.find(p=>p.id===id);
+        projects.find(
+            p => p.id === id
+        );
+
+
+    if (!project) return;
 
 
 
     project.tasks.push({
 
-        text:text,
+        text: text,
 
-        done:false
+        done: false
 
     });
 
 
 
+    // Recalculate immediately
     updateProgress(project);
+
 
 
     saveProjects();
 
-
     renderProjects();
 
-
     updateDashboard();
-
 
 }
 
 
 
+// =========================
+// TOGGLE TASK
+// =========================
 
 
-
-
-
-
-function toggleTask(id,index){
+function toggleTask(id, index) {
 
 
     let project =
-    projects.find(p=>p.id===id);
+        projects.find(
+            p => p.id === id
+        );
+
+
+    if (!project) return;
+
+
+
+    if (!project.tasks[index]) return;
 
 
 
     project.tasks[index].done =
-    !project.tasks[index].done;
+        !project.tasks[index].done;
 
 
 
+    // Recalculate immediately
     updateProgress(project);
+
 
 
     saveProjects();
 
-
     renderProjects();
 
-
     updateDashboard();
-
 
 }
 
 
 
+// =========================
+// UPDATE PROJECT PROGRESS
+// =========================
 
 
+function updateProgress(project) {
 
 
-
-
-function updateProgress(project){
-
-
-    if(project.tasks.length === 0){
+    if (
+        !project.tasks ||
+        project.tasks.length === 0
+    ) {
 
         project.progress = 0;
 
@@ -378,70 +409,76 @@ function updateProgress(project){
 
 
     let completed =
-    project.tasks.filter(
-        task=>task.done
-    ).length;
+        project.tasks.filter(
+            task => task.done === true
+        ).length;
 
 
 
     project.progress =
-    Math.round(
-        (completed / project.tasks.length) * 100
-    );
-
+        Math.round(
+            (
+                completed /
+                project.tasks.length
+            ) * 100
+        );
 
 }
 
 
 
+// =========================
+// UPDATE DESCRIPTION
+// =========================
 
 
-
-
-
-
-function updateDescription(id,value){
+function updateDescription(
+    id,
+    value
+) {
 
 
     let project =
-    projects.find(p=>p.id===id);
+        projects.find(
+            p => p.id === id
+        );
+
+
+    if (!project) return;
 
 
 
-    project.description=value;
+    project.description =
+        value;
 
 
 
     saveProjects();
-
 
 }
 
 
 
+// =========================
+// DELETE PROJECT
+// =========================
 
 
-
-
-
-
-function deleteProject(id){
+function deleteProject(id) {
 
 
     projects =
-    projects.filter(
-        project=>project.id !== id
-    );
+        projects.filter(
+            project =>
+                project.id !== id
+        );
 
 
 
     saveProjects();
 
-
     renderProjects();
 
-
     updateDashboard();
-
 
 }
