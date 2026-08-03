@@ -1,364 +1,343 @@
 // =========================
 // STUDY HUB 4.3
-// PROJECTS
+// APP CONTROLS + DASHBOARD
 // =========================
-
-
-let projects = [];
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadProjects();
+    updateDate();
+
+    updateClock();
+
+    loadSettings();
+
+    updateDashboard();
+
+    setInterval(updateClock, 1000);
 
 });
 
 
 
+// =========================
+// PAGE SWITCHING
+// =========================
 
 
-function loadProjects(){
+function showPage(page, button) {
 
-    projects = JSON.parse(
-        localStorage.getItem("studyHubProjects")
-    ) || [];
+    document.querySelectorAll(".page")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
+        });
 
 
-    // recalculate all project progress
+    let selected =
+        document.getElementById(page);
+
+
+    if (selected) {
+
+        selected.classList.add("active");
+
+    }
+
+
+    document.querySelectorAll(".nav-btn")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+
+    // Refresh relevant page when opened
+    if (page === "dashboard") {
+
+        updateDashboard();
+
+    }
+
+
+    if (page === "projects") {
+
+        if (typeof loadProjects === "function") {
+
+            loadProjects();
+
+        }
+
+    }
+
+
+    if (page === "planner") {
+
+        if (typeof loadPlanner === "function") {
+
+            loadPlanner();
+
+        }
+
+    }
+
+}
+
+
+
+// =========================
+// DATE
+// =========================
+
+
+function updateDate() {
+
+    let date =
+        document.getElementById("date");
+
+
+    if (date) {
+
+        date.textContent =
+            new Date().toDateString();
+
+    }
+
+}
+
+
+
+// =========================
+// CLOCK
+// =========================
+
+
+function updateClock() {
+
+    let clock =
+        document.getElementById("clock");
+
+
+    if (clock) {
+
+        clock.textContent =
+            new Date().toLocaleTimeString();
+
+    }
+
+}
+
+
+
+// =========================
+// DASHBOARD
+// =========================
+
+
+function updateDashboard() {
+
+    updateProjectCount();
+
+    updateProgress();
+
+    updateTasks();
+
+}
+
+
+
+// =========================
+// PROJECT COUNT
+// =========================
+
+
+function updateProjectCount() {
+
+    let projects =
+        JSON.parse(
+            localStorage.getItem("studyHubProjects")
+        ) || [];
+
+
+    let element =
+        document.getElementById("projectCount");
+
+
+    if (element) {
+
+        element.textContent =
+            projects.length +
+            (
+                projects.length === 1
+                    ? " Project"
+                    : " Projects"
+            );
+
+    }
+
+}
+
+
+
+// =========================
+// DASHBOARD PROGRESS
+// =========================
+
+
+function updateProgress() {
+
+    let projects =
+        JSON.parse(
+            localStorage.getItem("studyHubProjects")
+        ) || [];
+
+
+    let total = 0;
+
+    let completed = 0;
+
+
     projects.forEach(project => {
 
-        updateProgress(project);
-
-    });
+        if (!project.tasks) return;
 
 
-    saveProjects();
-
-    renderProjects();
-
-}
+        total += project.tasks.length;
 
 
+        project.tasks.forEach(task => {
 
+            if (task.done) {
 
+                completed++;
 
+            }
 
-
-function saveProjects(){
-
-    localStorage.setItem(
-        "studyHubProjects",
-        JSON.stringify(projects)
-    );
-
-}
-
-
-
-
-
-
-
-function createProject(){
-
-
-    let name = prompt("Project name:");
-
-    if(!name) return;
-
-
-
-    projects.push({
-
-        id:Date.now(),
-
-        name:name,
-
-        description:"",
-
-        progress:0,
-
-        tasks:[]
+        });
 
     });
 
 
 
-    saveProjects();
+    let percent = 0;
 
-    renderProjects();
 
-    updateDashboard();
+    if (total > 0) {
 
+        percent =
+            Math.round(
+                (completed / total) * 100
+            );
+
+    }
+
+
+
+    // Big dashboard progress
+    let progress =
+        document.getElementById(
+            "dashboardProgress"
+        );
+
+
+    if (progress) {
+
+        progress.textContent =
+            percent + "%";
+
+    }
+
+
+
+    // Dashboard task text
+    let text =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    if (text) {
+
+        if (total === 0) {
+
+            text.textContent =
+                "No tasks completed yet.";
+
+        } else {
+
+            text.textContent =
+                completed +
+                " / " +
+                total +
+                " tasks completed";
+
+        }
+
+    }
 
 }
 
 
 
+// =========================
+// TODAY'S TASKS
+// =========================
 
 
-
-
-function renderProjects(){
-
+function updateTasks() {
 
     let container =
-    document.getElementById("projectsContainer");
+        document.getElementById(
+            "todayTasks"
+        );
 
 
-    if(!container) return;
+    if (!container) return;
 
 
 
-    if(projects.length === 0){
+    let projects =
+        JSON.parse(
+            localStorage.getItem("studyHubProjects")
+        ) || [];
 
-        container.innerHTML = `
 
-        <div class="card">
+    let tasks = [];
 
-        <h2>No Projects Yet 🚀</h2>
 
-        <p>Create your first project.</p>
 
-        </div>
+    projects.forEach(project => {
 
-        `;
+        if (!project.tasks) return;
 
-        return;
 
-    }
+        project.tasks.forEach(task => {
 
+            if (!task.done) {
 
+                tasks.push(task.text);
 
+            }
 
-
-
-
-    container.innerHTML = projects.map(project => `
-
-
-<div class="project-card card">
-
-
-<h2>🚀 ${project.name}</h2>
-
-
-
-<div class="project-progress">
-
-
-<div class="progress-fill"
-
-style="width:${project.progress}%">
-
-</div>
-
-
-</div>
-
-
-
-<p>${project.progress}% Complete</p>
-
-
-
-
-
-<textarea
-
-placeholder="Description"
-
-onchange="updateDescription(${project.id},this.value)"
-
->${project.description}</textarea>
-
-
-
-
-
-
-<h3>Tasks</h3>
-
-
-
-<div class="project-tasks">
-
-${renderTasks(project)}
-
-</div>
-
-
-
-
-
-<button onclick="addTask(${project.id})">
-
-➕ Add Task
-
-</button>
-
-
-
-
-<button onclick="deleteProject(${project.id})">
-
-🗑 Delete
-
-</button>
-
-
-
-</div>
-
-
-
-`).join("");
-
-}
-
-
-
-
-
-
-
-
-function renderTasks(project){
-
-
-    if(project.tasks.length === 0){
-
-        return "<p>No tasks yet</p>";
-
-    }
-
-
-
-
-    return project.tasks.map((task,index)=>`
-
-
-<label class="project-check">
-
-
-<input
-
-type="checkbox"
-
-${task.done ? "checked":""}
-
-onchange="toggleTask(${project.id},${index})"
-
->
-
-
-<span>
-
-${task.text}
-
-</span>
-
-
-</label>
-
-
-
-`).join("");
-
-}
-
-
-
-
-
-
-
-
-
-function addTask(id){
-
-
-    let text = prompt("Task name:");
-
-    if(!text) return;
-
-
-
-    let project =
-    projects.find(p=>p.id===id);
-
-
-
-    project.tasks.push({
-
-        text:text,
-
-        done:false
+        });
 
     });
 
 
 
-    updateProgress(project);
+    if (tasks.length === 0) {
 
-
-    saveProjects();
-
-    renderProjects();
-
-    updateDashboard();
-
-
-}
-
-
-
-
-
-
-
-
-
-function toggleTask(id,index){
-
-
-    let project =
-    projects.find(p=>p.id===id);
-
-
-
-    project.tasks[index].done =
-    !project.tasks[index].done;
-
-
-
-    updateProgress(project);
-
-
-    saveProjects();
-
-    renderProjects();
-
-    updateDashboard();
-
-
-}
-
-
-
-
-
-
-
-
-
-function updateProgress(project){
-
-
-    if(project.tasks.length === 0){
-
-        project.progress = 0;
+        container.innerHTML =
+            "<p>🎉 No unfinished tasks!</p>";
 
         return;
 
@@ -366,71 +345,200 @@ function updateProgress(project){
 
 
 
-    let completed =
-    project.tasks.filter(
-        task=>task.done
-    ).length;
+    container.innerHTML =
+        tasks
+            .slice(0, 5)
+            .map(task => `
 
+                <p>☐ ${task}</p>
 
-
-    project.progress =
-    Math.round(
-        (completed / project.tasks.length) * 100
-    );
-
+            `)
+            .join("");
 
 }
 
 
 
+// =========================
+// THEME
+// =========================
 
 
+function toggleTheme() {
 
+    document.body.classList.toggle("dark");
 
-
-
-function updateDescription(id,value){
-
-
-    let project =
-    projects.find(p=>p.id===id);
-
-
-
-    project.description=value;
-
-
-
-    saveProjects();
-
+    saveSettings();
 
 }
 
 
 
+// =========================
+// FONT
+// =========================
 
 
+function changeFont(font) {
+
+    document.body.style.fontFamily =
+        font;
 
 
-
-
-function deleteProject(id){
-
-
-    projects =
-    projects.filter(
-        project=>project.id !== id
+    localStorage.setItem(
+        "studyFont",
+        font
     );
 
+}
 
 
-    saveProjects();
+
+// =========================
+// ACCENT COLOUR
+// =========================
 
 
-    renderProjects();
+function changeAccent(color) {
 
+    document.documentElement
+        .style.setProperty(
+            "--accent",
+            color
+        );
+
+
+    localStorage.setItem(
+        "studyAccent",
+        color
+    );
+
+}
+
+
+
+// =========================
+// SETTINGS SAVE
+// =========================
+
+
+function saveSettings() {
+
+    localStorage.setItem(
+
+        "studyDark",
+
+        document.body.classList.contains("dark")
+
+    );
+
+}
+
+
+
+// =========================
+// SETTINGS LOAD
+// =========================
+
+
+function loadSettings() {
+
+    let font =
+        localStorage.getItem(
+            "studyFont"
+        );
+
+
+    let accent =
+        localStorage.getItem(
+            "studyAccent"
+        );
+
+
+    let dark =
+        localStorage.getItem(
+            "studyDark"
+        );
+
+
+
+    if (font) {
+
+        document.body.style.fontFamily =
+            font;
+
+    }
+
+
+
+    if (accent) {
+
+        document.documentElement
+            .style.setProperty(
+                "--accent",
+                accent
+            );
+
+    }
+
+
+
+    if (dark === "true") {
+
+        document.body.classList.add("dark");
+
+    }
+
+}
+
+
+
+// =========================
+// RESET
+// =========================
+
+
+function clearData() {
+
+    if (
+        confirm(
+            "Delete all Study Hub data?"
+        )
+    ) {
+
+        localStorage.clear();
+
+        location.reload();
+
+    }
+
+}
+
+
+
+// =========================
+// FORCE DASHBOARD REFRESH
+// =========================
+
+
+function refreshDashboard() {
 
     updateDashboard();
 
-
 }
+
+
+
+// =========================
+// STORAGE CHANGE
+// =========================
+
+
+window.addEventListener(
+    "storage",
+    () => {
+
+        updateDashboard();
+
+    }
+);
