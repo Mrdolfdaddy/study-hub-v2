@@ -1,13 +1,14 @@
 // =========================
 // STUDY HUB 4.3
-// PROJECTS
+// PROJECTS - REBUILT
 // =========================
+
 
 let projects = [];
 
 
 // =========================
-// LOAD
+// START
 // =========================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,22 +18,66 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// =========================
+// LOAD PROJECTS
+// =========================
+
 function loadProjects() {
 
-    projects =
-        JSON.parse(
-            localStorage.getItem("studyHubProjects")
-        ) || [];
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "studyHubProjects"
+            );
 
 
-    // Make sure every project has valid data
+        projects =
+            saved
+                ? JSON.parse(saved)
+                : [];
+
+
+        if (!Array.isArray(projects)) {
+
+            projects = [];
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not load projects:",
+            error
+        );
+
+        projects = [];
+
+    }
+
+
+    // Make sure all projects have proper data
     projects.forEach(project => {
 
         if (!Array.isArray(project.tasks)) {
+
             project.tasks = [];
+
         }
 
-        updateProgress(project);
+
+        if (
+            typeof project.description !==
+            "string"
+        ) {
+
+            project.description = "";
+
+        }
+
+
+        calculateProjectProgress(project);
 
     });
 
@@ -45,14 +90,17 @@ function loadProjects() {
 
 
 // =========================
-// SAVE
+// SAVE PROJECTS
 // =========================
 
 function saveProjects() {
 
     localStorage.setItem(
+
         "studyHubProjects",
+
         JSON.stringify(projects)
+
     );
 
 }
@@ -64,16 +112,22 @@ function saveProjects() {
 
 function createProject() {
 
-    let name = prompt("Project name:");
+    const name =
+        prompt("Project name:");
 
-    if (!name) return;
+
+    if (!name || !name.trim()) {
+
+        return;
+
+    }
 
 
-    let project = {
+    const project = {
 
         id: Date.now(),
 
-        name: name,
+        name: name.trim(),
 
         description: "",
 
@@ -86,13 +140,12 @@ function createProject() {
 
     projects.push(project);
 
+
     saveProjects();
 
     renderProjects();
 
-    if (typeof updateDashboard === "function") {
-        updateDashboard();
-    }
+    refreshDashboard();
 
 }
 
@@ -103,19 +156,23 @@ function createProject() {
 
 function renderProjects() {
 
-    let container =
+    const container =
         document.getElementById(
             "projectsContainer"
         );
 
 
-    if (!container) return;
+    if (!container) {
+
+        return;
+
+    }
 
 
-    // ALWAYS recalculate before displaying
+    // Recalculate EVERYTHING before drawing
     projects.forEach(project => {
 
-        updateProgress(project);
+        calculateProjectProgress(project);
 
     });
 
@@ -126,9 +183,13 @@ function renderProjects() {
 
             <div class="card">
 
-                <h2>No Projects Yet 🚀</h2>
+                <h2>
+                    No Projects Yet 🚀
+                </h2>
 
-                <p>Create your first project.</p>
+                <p>
+                    Create your first project.
+                </p>
 
             </div>
 
@@ -140,124 +201,180 @@ function renderProjects() {
 
 
     container.innerHTML =
-        projects.map(project => {
-
-            return `
-
-                <div class="project-card card">
-
-                    <h2>
-                        🚀 ${escapeHTML(project.name)}
-                    </h2>
+        projects
+            .map(project =>
+                createProjectHTML(project)
+            )
+            .join("");
 
 
-                    <div class="project-progress">
-
-                        <div
-                            class="progress-fill"
-                            style="width:${project.progress}%"
-                        ></div>
-
-                    </div>
-
-
-                    <p class="project-progress-text">
-
-                        ${project.progress}% Complete
-
-                    </p>
-
-
-                    <textarea
-                        placeholder="Description"
-                        onchange="
-                            updateDescription(
-                                ${project.id},
-                                this.value
-                            )
-                        "
-                    >${escapeHTML(project.description || "")}</textarea>
-
-
-                    <h3>Tasks</h3>
-
-
-                    <div class="project-tasks">
-
-                        ${renderTasks(project)}
-
-                    </div>
-
-
-                    <button
-                        onclick="addTask(${project.id})"
-                    >
-                        ➕ Add Task
-                    </button>
-
-
-                    <button
-                        onclick="deleteProject(${project.id})"
-                    >
-                        🗑 Delete
-                    </button>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-
+    // Save recalculated percentages
     saveProjects();
 
 }
 
 
 // =========================
-// RENDER TASKS
+// PROJECT HTML
 // =========================
 
-function renderTasks(project) {
+function createProjectHTML(project) {
 
-    if (
-        !project.tasks ||
-        project.tasks.length === 0
-    ) {
-
-        return "<p>No tasks yet</p>";
-
-    }
+    const taskCount =
+        project.tasks.length;
 
 
-    return project.tasks.map(
-        (task, index) => {
+    const completedCount =
+        project.tasks.filter(
+            task => task.done === true
+        ).length;
 
-            return `
 
-                <label class="project-check">
+    return `
 
-                    <input
-                        type="checkbox"
-                        ${task.done ? "checked" : ""}
-                        onchange="
-                            toggleTask(
-                                ${project.id},
-                                ${index}
+        <div
+            class="project-card card"
+            data-project-id="${project.id}"
+        >
+
+            <h2>
+                🚀 ${escapeHTML(project.name)}
+            </h2>
+
+
+            <div class="project-progress">
+
+                <div
+                    class="progress-fill"
+                    style="width:${project.progress}%"
+                ></div>
+
+            </div>
+
+
+            <p class="project-percentage">
+
+                ${project.progress}% Complete
+
+                ${
+                    taskCount > 0
+                        ? `(${completedCount}/${taskCount})`
+                        : ""
+                }
+
+            </p>
+
+
+            <textarea
+                class="project-description"
+                placeholder="Description"
+                data-project-id="${project.id}"
+            >${escapeHTML(
+                project.description
+            )}</textarea>
+
+
+            <h3>
+                Tasks
+            </h3>
+
+
+            <div class="project-tasks">
+
+                ${
+                    taskCount === 0
+                        ? "<p>No tasks yet</p>"
+                        : project.tasks
+                            .map(
+                                (task, index) =>
+                                    createTaskHTML(
+                                        project,
+                                        task,
+                                        index
+                                    )
                             )
-                        "
-                    >
+                            .join("")
+                }
 
-                    <span>
-                        ${escapeHTML(task.text)}
-                    </span>
+            </div>
 
-                </label>
 
-            `;
+            <button
+                type="button"
+                onclick="
+                    addTask(${project.id})
+                "
+            >
 
-        }
-    ).join("");
+                ➕ Add Task
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="
+                    deleteProject(${project.id})
+                "
+            >
+
+                🗑 Delete
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+// =========================
+// TASK HTML
+// =========================
+
+function createTaskHTML(
+    project,
+    task,
+    index
+) {
+
+    return `
+
+        <label
+            class="project-check"
+        >
+
+            <input
+
+                type="checkbox"
+
+                class="project-task-checkbox"
+
+                ${
+                    task.done
+                        ? "checked"
+                        : ""
+                }
+
+                onchange="
+                    toggleTask(
+                        ${project.id},
+                        ${index}
+                    )
+                "
+
+            >
+
+            <span>
+
+                ${escapeHTML(task.text)}
+
+            </span>
+
+        </label>
+
+    `;
 
 }
 
@@ -266,41 +383,48 @@ function renderTasks(project) {
 // ADD TASK
 // =========================
 
-function addTask(id) {
+function addTask(projectId) {
 
-    let text = prompt("Task name:");
-
-    if (!text) return;
-
-
-    let project =
+    const project =
         projects.find(
-            project => project.id === id
+            p => p.id === projectId
         );
 
 
-    if (!project) return;
+    if (!project) {
+
+        return;
+
+    }
+
+
+    const text =
+        prompt("Task name:");
+
+
+    if (!text || !text.trim()) {
+
+        return;
+
+    }
 
 
     project.tasks.push({
 
-        text: text,
+        text: text.trim(),
 
         done: false
 
     });
 
 
-    updateProgress(project);
+    calculateProjectProgress(project);
 
     saveProjects();
 
     renderProjects();
 
-
-    if (typeof updateDashboard === "function") {
-        updateDashboard();
-    }
+    refreshDashboard();
 
 }
 
@@ -309,53 +433,65 @@ function addTask(id) {
 // TOGGLE TASK
 // =========================
 
-function toggleTask(id, index) {
+function toggleTask(
+    projectId,
+    taskIndex
+) {
 
-    let project =
+    const project =
         projects.find(
-            project => project.id === id
+            p => p.id === projectId
         );
 
 
-    if (!project) return;
+    if (!project) {
+
+        return;
+
+    }
 
 
-    let task =
-        project.tasks[index];
+    const task =
+        project.tasks[taskIndex];
 
 
-    if (!task) return;
+    if (!task) {
+
+        return;
+
+    }
 
 
-    // Toggle task
-    task.done = !task.done;
+    // Toggle
+    task.done =
+        !task.done;
 
 
-    // Recalculate project
-    updateProgress(project);
+    // Recalculate immediately
+    calculateProjectProgress(project);
 
 
     // Save immediately
     saveProjects();
 
 
-    // Redraw Projects immediately
+    // Redraw project immediately
     renderProjects();
 
 
-    // Redraw Dashboard immediately
-    if (typeof updateDashboard === "function") {
-        updateDashboard();
-    }
+    // Redraw dashboard immediately
+    refreshDashboard();
 
 }
 
 
 // =========================
-// UPDATE PROGRESS
+// CALCULATE PROGRESS
 // =========================
 
-function updateProgress(project) {
+function calculateProjectProgress(
+    project
+) {
 
     if (
         !project.tasks ||
@@ -364,18 +500,18 @@ function updateProgress(project) {
 
         project.progress = 0;
 
-        return;
+        return 0;
 
     }
 
 
-    let completed =
+    const completed =
         project.tasks.filter(
             task => task.done === true
         ).length;
 
 
-    project.progress =
+    const percentage =
         Math.round(
             (
                 completed /
@@ -383,25 +519,41 @@ function updateProgress(project) {
             ) * 100
         );
 
+
+    project.progress =
+        percentage;
+
+
+    return percentage;
+
 }
 
 
 // =========================
-// UPDATE DESCRIPTION
+// DESCRIPTION
 // =========================
 
-function updateDescription(id, value) {
+function updateDescription(
+    projectId,
+    value
+) {
 
-    let project =
+    const project =
         projects.find(
-            project => project.id === id
+            p => p.id === projectId
         );
 
 
-    if (!project) return;
+    if (!project) {
+
+        return;
+
+    }
 
 
-    project.description = value;
+    project.description =
+        value;
+
 
     saveProjects();
 
@@ -412,12 +564,27 @@ function updateDescription(id, value) {
 // DELETE PROJECT
 // =========================
 
-function deleteProject(id) {
+function deleteProject(
+    projectId
+) {
+
+    const confirmed =
+        confirm(
+            "Delete this project?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
 
     projects =
         projects.filter(
             project =>
-                project.id !== id
+                project.id !== projectId
         );
 
 
@@ -425,12 +592,61 @@ function deleteProject(id) {
 
     renderProjects();
 
+    refreshDashboard();
 
-    if (typeof updateDashboard === "function") {
+}
+
+
+// =========================
+// DASHBOARD REFRESH
+// =========================
+
+function refreshDashboard() {
+
+    if (
+        typeof updateDashboard ===
+        "function"
+    ) {
+
         updateDashboard();
+
     }
 
 }
+
+
+// =========================
+// DESCRIPTION AUTO-SAVE
+// =========================
+
+document.addEventListener(
+    "change",
+    event => {
+
+        if (
+            !event.target.classList.contains(
+                "project-description"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        const projectId =
+            Number(
+                event.target.dataset.projectId
+            );
+
+
+        updateDescription(
+            projectId,
+            event.target.value
+        );
+
+    }
+);
 
 
 // =========================
@@ -439,16 +655,41 @@ function deleteProject(id) {
 
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
         return "";
+
     }
 
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
