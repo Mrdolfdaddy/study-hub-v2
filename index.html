@@ -1,8 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Study Hub 4.3</title>
+
+<link rel="stylesheet" href="main.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<aside class="sidebar">
+
+
+<div class="logo">
+
+📚 Study Hub
+
+<span>4.3</span>
+
+</div>
+
+
+
+<nav>
+
+
+<button class="nav-btn active" onclick="showPage('dashboard', this)">
+🏠 Dashboard
+</button>
+
+
+<button class="nav-btn" onclick="showPage('planner', this)">
+📖 Learning Planner
+</button>
+
+
+<button class="nav-btn" onclick="showPage('projects', this)">
+🚀 Projects
+</button>
+
+
+<button class="nav-btn" onclick="showPage('notes', this)">
+📝 Notes
+</button>
+
+
+<button class="nav-btn" onclick="showPage('tools', this)">
+🛠 Tools
+</button>
+
+
+<button class="nav-btn" onclick="showPage('settings', this)">
+⚙️ Settings
+</button>
+
+
+</nav>
+
+
+
+<button class="theme-btn" onclick="toggleTheme()">
+
+🌙 Toggle Theme
+
+</button>
+
+
+</aside>
+
+
+
+
+
+<main class="main">
+
+
+
 <section id="dashboard" class="page active">
+
 
 <h1>Welcome back 👋</h1>
 
+
+
 <div class="dashboard-grid">
+
+
 
 <div class="card">
 
@@ -13,6 +106,8 @@
 <p id="clock"></p>
 
 </div>
+
+
 
 
 <div class="card">
@@ -32,43 +127,64 @@ No tasks completed yet.
 </div>
 
 
+
+
+
 <div class="card">
 
 <h2>🚀 Projects</h2>
 
 <h3 id="projectCount">
+
 0 Projects
+
 </h3>
 
 <p>Your active projects.</p>
 
 </div>
 
+
+
 </div>
+
+
+
+
 
 
 <div class="card">
 
 <h2>⚡ Quick Actions</h2>
 
+
 <button onclick="createProject()">
 ➕ New Project
 </button>
+
 
 <button onclick="showPage('planner', this)">
 📖 Open Planner
 </button>
 
+
 <button onclick="exportBackup()">
 💾 Backup Now
 </button>
 
+
 </div>
+
+
+
+
 
 
 <div class="card">
 
+
 <h2>✅ Today's Tasks</h2>
+
 
 <div id="todayTasks">
 
@@ -76,6 +192,284 @@ No tasks completed yet.
 
 </div>
 
+
 </div>
 
+
+
+
+
 </section>
+
+
+
+
+
+<section id="planner" class="page">
+
+
+<h1>
+📖 Learning Planner
+</h1>
+
+
+
+<div class="planner-controls">
+
+
+<button onclick="createPlan()">
+
+➕ New Week
+
+</button>
+
+
+
+<select id="planSelector" onchange="changePlan(this.value)">
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+<div id="plannerContainer">
+
+
+<div class="card">
+
+<h2>
+
+Loading Planner...
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section id="projects" class="page">
+
+
+<h1>
+🚀 Projects
+</h1>
+
+
+
+<div class="planner-actions">
+
+
+<button onclick="createProject()">
+
+➕ New Project
+
+</button>
+
+
+</div>
+
+
+
+<div id="projectsContainer">
+
+
+<div class="card">
+
+<h2>
+
+Loading Projects...
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section id="notes" class="page">
+
+
+<h1>
+📝 Notes
+</h1>
+
+
+
+<div class="card">
+
+
+<textarea placeholder="Write notes here..."></textarea>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section id="tools" class="page">
+
+
+<h1>
+🛠 Tools
+</h1>
+
+
+
+<div class="card">
+
+
+<h2>
+Coming Soon
+</h2>
+
+
+<p>
+
+AI tools, timers, calculators, games and resources will go here.
+
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section id="settings" class="page">
+
+
+<h1>
+⚙️ Settings
+</h1>
+
+
+
+
+<div class="card">
+
+
+<h2>
+Study Hub 4.3
+</h2>
+
+
+
+<p>
+
+Your personal learning dashboard.
+
+</p>
+
+
+
+<hr>
+
+
+
+<h3>
+💾 Backup
+</h3>
+
+
+
+<button onclick="exportBackup()">
+
+💾 Export Backup
+
+</button>
+
+
+
+
+<br><br>
+
+
+
+
+<label>
+
+📂 Import Backup
+
+<br><br>
+
+
+<input 
+
+type="file"
+
+accept=".json"
+
+onchange="importBackup(event)"
+
+>
+
+
+</label>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+</main>
+
+</div>
+
+
+
+
+
+<script src="storage.js"></script>
+
+<script src="planner.js"></script>
+
+<script src="projects.js"></script>
+
+<script src="backup.js"></script>
+
+<script src="app.js"></script>
+
+
+
+</body>
+
+</html>
