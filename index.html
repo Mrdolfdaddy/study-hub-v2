@@ -10,6 +10,286 @@
 
 <link rel="stylesheet" href="main.css">
 
+<style>
+
+/* =========================
+   NOTES
+========================= */
+
+.notes-layout {
+
+    display:grid;
+
+    grid-template-columns:
+        260px 1fr;
+
+    gap:20px;
+
+}
+
+
+.notes-sidebar {
+
+    background:var(--card);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:25px;
+
+    padding:20px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+}
+
+
+.notes-sidebar-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:15px;
+
+}
+
+
+.notes-sidebar-header h2 {
+
+    margin:0;
+
+    font-size:20px;
+
+}
+
+
+.notes-sidebar-header button {
+
+    padding:10px 14px;
+
+}
+
+
+.notes-search {
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    outline:none;
+
+    margin-bottom:15px;
+
+}
+
+
+.note-list {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+.note-list-item {
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.05);
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.note-list-item:hover {
+
+    background:rgba(255,255,255,.1);
+
+}
+
+
+.note-list-item.active {
+
+    background:var(--accent);
+
+}
+
+
+.note-list-item strong {
+
+    display:block;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.note-list-item small {
+
+    display:block;
+
+    margin-top:5px;
+
+    opacity:.65;
+
+    font-size:11px;
+
+}
+
+
+.notes-editor {
+
+    background:var(--card);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+}
+
+
+.notes-editor-top {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:10px;
+
+}
+
+
+.note-title {
+
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    outline:none;
+
+    color:white;
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+
+.note-date {
+
+    opacity:.55;
+
+    font-size:13px;
+
+    margin-bottom:15px;
+
+}
+
+
+.note-content {
+
+    width:100%;
+
+    min-height:450px;
+
+    resize:vertical;
+
+    background:#0b1220;
+
+    color:white;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    font-size:16px;
+
+    line-height:1.6;
+
+    outline:none;
+
+}
+
+
+.delete-note {
+
+    margin-top:15px;
+
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+    );
+
+}
+
+
+.note-empty {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:500px;
+
+    text-align:center;
+
+    opacity:.6;
+
+}
+
+
+@media(max-width:800px) {
+
+    .notes-layout {
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
 </head>
 
 
@@ -18,6 +298,8 @@
 
 <div class="app">
 
+
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -86,6 +368,8 @@
 
 
 
+<!-- DASHBOARD -->
+
 <section id="dashboard" class="page active">
 
 
@@ -129,7 +413,6 @@ No tasks completed yet.
 
 
 
-
 <div class="card">
 
 <h2>🚀 Projects</h2>
@@ -143,7 +426,6 @@ No tasks completed yet.
 <p>Your active projects.</p>
 
 </div>
-
 
 
 </div>
@@ -182,7 +464,6 @@ No tasks completed yet.
 
 <div class="card">
 
-
 <h2>✅ Today's Tasks</h2>
 
 
@@ -196,14 +477,13 @@ No tasks completed yet.
 </div>
 
 
-
-
-
 </section>
 
 
 
 
+
+<!-- PLANNER -->
 
 <section id="planner" class="page">
 
@@ -230,10 +510,7 @@ No tasks completed yet.
 </select>
 
 
-
 </div>
-
-
 
 
 
@@ -243,9 +520,7 @@ No tasks completed yet.
 <div class="card">
 
 <h2>
-
 Loading Planner...
-
 </h2>
 
 </div>
@@ -254,12 +529,13 @@ Loading Planner...
 </div>
 
 
-
 </section>
 
 
 
 
+
+<!-- PROJECTS -->
 
 <section id="projects" class="page">
 
@@ -290,9 +566,7 @@ Loading Planner...
 <div class="card">
 
 <h2>
-
 Loading Projects...
-
 </h2>
 
 </div>
@@ -301,12 +575,13 @@ Loading Projects...
 </div>
 
 
-
 </section>
 
 
 
 
+
+<!-- NOTES -->
 
 <section id="notes" class="page">
 
@@ -317,14 +592,133 @@ Loading Projects...
 
 
 
-<div class="card">
+<div class="notes-layout">
 
 
-<textarea placeholder="Write notes here..."></textarea>
+<!-- NOTES LIST -->
+
+<div class="notes-sidebar">
+
+
+<div class="notes-sidebar-header">
+
+<h2>
+My Notes
+</h2>
+
+
+<button onclick="createNote()">
+➕
+</button>
 
 
 </div>
 
+
+
+<input
+
+class="notes-search"
+
+type="text"
+
+placeholder="🔍 Search notes..."
+
+oninput="searchNotes(this.value)"
+
+>
+
+
+
+<div
+    id="notesList"
+    class="note-list"
+>
+
+</div>
+
+
+</div>
+
+
+
+<!-- EDITOR -->
+
+<div class="notes-editor">
+
+
+<div
+    id="noteEditor"
+>
+
+
+<div class="notes-editor-top">
+
+
+<input
+
+id="noteTitle"
+
+class="note-title"
+
+type="text"
+
+placeholder="Note title"
+
+oninput="updateNoteTitle(this.value)"
+
+>
+
+
+
+</div>
+
+
+
+<div
+    id="noteDate"
+    class="note-date"
+>
+
+</div>
+
+
+
+<textarea
+
+id="noteContent"
+
+class="note-content"
+
+placeholder="Start writing your note..."
+
+oninput="updateNoteContent(this.value)"
+
+></textarea>
+
+
+
+<button
+
+class="delete-note"
+
+onclick="deleteNote()"
+
+>
+
+🗑 Delete Note
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
 
 
 </section>
@@ -332,6 +726,8 @@ Loading Projects...
 
 
 
+
+<!-- TOOLS -->
 
 <section id="tools" class="page">
 
@@ -360,12 +756,13 @@ AI tools, timers, calculators, games and resources will go here.
 </div>
 
 
-
 </section>
 
 
 
 
+
+<!-- SETTINGS -->
 
 <section id="settings" class="page">
 
@@ -373,7 +770,6 @@ AI tools, timers, calculators, games and resources will go here.
 <h1>
 ⚙️ Settings
 </h1>
-
 
 
 
@@ -385,13 +781,9 @@ Study Hub 4.3
 </h2>
 
 
-
 <p>
-
 Your personal learning dashboard.
-
 </p>
-
 
 
 <hr>
@@ -412,9 +804,7 @@ Your personal learning dashboard.
 
 
 
-
 <br><br>
-
 
 
 
@@ -425,7 +815,7 @@ Your personal learning dashboard.
 <br><br>
 
 
-<input 
+<input
 
 type="file"
 
@@ -439,15 +829,10 @@ onchange="importBackup(event)"
 </label>
 
 
-
 </div>
 
 
-
 </section>
-
-
-
 
 
 </main>
@@ -464,10 +849,11 @@ onchange="importBackup(event)"
 
 <script src="projects.js"></script>
 
+<script src="notes.js"></script>
+
 <script src="backup.js"></script>
 
 <script src="app.js"></script>
-
 
 
 </body>
