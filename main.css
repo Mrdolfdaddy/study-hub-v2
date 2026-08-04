@@ -1,809 +1,676 @@
-// =========================
-// STUDY HUB 4.4
-// NOTES
-// =========================
+```css
+/* =========================
+   STUDY HUB 4.4
+   MAIN CSS
+========================= */
 
-let notes = [];
-let currentNoteId = null;
-let saveTimer = null;
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
 
-
-// =========================
-// START
-// =========================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    loadNotes();
-
-});
+:root {
+    --accent: #8b5cf6;
+    --card: rgba(15,23,42,.85);
+}
 
 
-// =========================
-// LOAD
-// =========================
+/* =========================
+   BODY
+========================= */
 
-function loadNotes() {
+body {
+    margin: 0;
+    min-height: 100vh;
 
-    notes =
-        JSON.parse(
-            localStorage.getItem("studyHubNotes")
-        ) || [];
+    color: white;
 
+    background:
+        linear-gradient(
+            rgba(5,8,22,.75),
+            rgba(5,8,22,.9)
+        ),
+        url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
 
-    notes.forEach(note => {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 
-        if (note.pinned !== true) {
-
-            note.pinned = false;
-
-        }
-
-    });
-
-
-    saveNotes();
-
-    renderNotesList();
+    overflow: hidden;
+}
 
 
-    if (notes.length > 0) {
+/* =========================
+   APP
+========================= */
 
-        openNote(notes[0].id);
+.app {
+    display: flex;
+    min-height: 100vh;
+}
 
-    } else {
 
-        showEmptyNote();
+/* =========================
+   SIDEBAR
+========================= */
 
+.sidebar {
+    width: 270px;
+
+    padding: 25px;
+
+    background: rgba(15,23,42,.8);
+
+    backdrop-filter: blur(20px);
+
+    border-right:
+        1px solid
+        rgba(255,255,255,.1);
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    height: 100vh;
+
+    overflow-y: auto;
+}
+
+
+.logo {
+    font-size: 30px;
+
+    font-weight: 800;
+
+    margin-bottom: 40px;
+}
+
+
+.logo span {
+    color: var(--accent);
+}
+
+
+nav {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+.nav-btn,
+.theme-btn {
+    border: none;
+
+    padding: 15px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: .25s;
+}
+
+
+.nav-btn:hover,
+.theme-btn:hover {
+    background: var(--accent);
+
+    transform: translateX(5px);
+}
+
+
+.nav-btn.active {
+    background: var(--accent);
+}
+
+
+.theme-btn {
+    width: 100%;
+
+    margin-top: 30px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    flex: 1;
+
+    margin-left: 270px;
+
+    padding: 40px;
+
+    height: 100vh;
+
+    overflow-y: auto;
+}
+
+
+.page {
+    display: none;
+}
+
+
+.page.active {
+    display: block;
+}
+
+
+h1 {
+    font-size: 42px;
+
+    margin-top: 0;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card,
+.planner-card {
+    background: var(--card);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    margin-bottom: 25px;
+
+    transition: .25s;
+}
+
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(250px,1fr)
+        );
+
+    gap: 25px;
+}
+
+
+.progress-box {
+    height: 120px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 42px;
+
+    font-weight: 800;
+
+    color: #c4b5fd;
+}
+
+
+#progressText {
+    opacity: .8;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: none;
+
+    padding: 14px 22px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            #6366f1
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,0,0,.25);
+}
+
+
+button:hover {
+    transform: translateY(-3px);
+
+    filter: brightness(1.15);
+}
+
+
+button:active {
+    transform: scale(.96);
+}
+
+
+/* =========================
+   PLANNER
+========================= */
+
+.planner-actions {
+    display: flex;
+
+    gap: 15px;
+}
+
+
+select {
+    border: none;
+
+    padding: 14px 18px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color: white;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.learning-table {
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 12px;
+}
+
+
+.learning-table th {
+    background: #312e81;
+
+    padding: 15px;
+
+    border-radius: 15px;
+}
+
+
+.learning-table td {
+    background:
+        rgba(30,41,59,.85);
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    vertical-align: top;
+}
+
+
+/* =========================
+   TEXTAREA
+========================= */
+
+textarea {
+    width: 100%;
+
+    min-height: 90px;
+
+    background: #0b1220;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 15px;
+
+    padding: 15px;
+
+    resize: vertical;
+}
+
+
+/* =========================
+   CHECKBOXES
+========================= */
+
+.big-check {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.big-check input {
+    width: 35px;
+
+    height: 35px;
+
+    appearance: none;
+
+    border-radius: 10px;
+
+    border:
+        3px solid
+        var(--accent);
+
+    background: #0f172a;
+}
+
+
+.big-check input:checked {
+    background: var(--accent);
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.project-card {
+    margin-bottom: 25px;
+}
+
+
+.project-progress {
+    height: 18px;
+
+    width: 100%;
+
+    background:
+        rgba(255,255,255,.1);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin: 15px 0;
+}
+
+
+.progress-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            #6366f1
+        );
+
+    border-radius: 20px;
+
+    transition: .4s;
+}
+
+
+.project-check {
+    display: flex;
+
+    gap: 12px;
+
+    margin: 12px 0;
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px,1fr)
+        );
+
+    gap: 25px;
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+#notes {
+    max-width: 1200px;
+}
+
+
+/* Notes selector */
+
+#notesList {
+    width: 100%;
+
+    max-height: 500px;
+
+    overflow-y: auto;
+
+    padding-right: 5px;
+}
+
+
+/* Individual note */
+
+.note-list-item {
+    display: flex;
+
+    align-items: center;
+
+    min-height: 48px;
+
+    padding: 12px 15px;
+
+    margin-bottom: 8px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    cursor: pointer;
+
+    transition:
+        background .2s,
+        transform .2s,
+        border-color .2s;
+}
+
+
+.note-list-item:hover {
+    background:
+        rgba(255,255,255,.11);
+
+    transform: translateX(3px);
+
+    border-color:
+        rgba(139,92,246,.35);
+}
+
+
+/* Currently selected note */
+
+.note-list-item.active {
+    background:
+        rgba(139,92,246,.25);
+
+    border-color:
+        rgba(139,92,246,.5);
+}
+
+
+/* Notes scrollbar */
+
+#notesList::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+#notesList::-webkit-scrollbar-track {
+    background:
+        rgba(255,255,255,.03);
+
+    border-radius: 10px;
+}
+
+
+#notesList::-webkit-scrollbar-thumb {
+    background:
+        rgba(255,255,255,.18);
+
+    border-radius: 10px;
+}
+
+
+/* Note title */
+
+#noteTitle {
+    font-size: 24px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+
+/* Note editor */
+
+#noteContent {
+    min-height: 300px;
+
+    line-height: 1.6;
+
+    font-size: 16px;
+}
+
+
+/* Note save status */
+
+#noteSaveStatus {
+    font-size: 12px;
+
+    opacity: .5;
+
+    margin-top: 8px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width: 900px) {
+
+    .app {
+        flex-direction: column;
+    }
+
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+    }
+
+
+    .main {
+        margin-left: 0;
+
+        padding: 20px;
+    }
+
+
+    h1 {
+        font-size: 32px;
+    }
+
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
     }
 
 }
 
 
-// =========================
-// SAVE
-// =========================
+/* =========================
+   SMALL MOBILE
+========================= */
 
-function saveNotes() {
+@media(max-width: 600px) {
 
-    localStorage.setItem(
-        "studyHubNotes",
-        JSON.stringify(notes)
-    );
-
-}
-
-
-// =========================
-// CREATE
-// =========================
-
-function createNote() {
-
-    let name =
-        prompt("What do you want to name this note?");
-
-
-    if (!name) return;
-
-
-    name = name.trim();
-
-
-    if (!name) return;
-
-
-    let note = {
-
-        id: Date.now(),
-
-        title: name,
-
-        content: "",
-
-        pinned: false,
-
-        updated: new Date().toISOString()
-
-    };
-
-
-    notes.unshift(note);
-
-
-    saveNotes();
-
-
-    currentNoteId = note.id;
-
-
-    renderNotesList();
-
-    openNote(note.id);
-
-}
-
-
-// =========================
-// OPEN
-// =========================
-
-function openNote(id) {
-
-    let note =
-        notes.find(
-            n => n.id === id
-        );
-
-
-    if (!note) return;
-
-
-    currentNoteId = id;
-
-
-    let title =
-        document.getElementById("noteTitle");
-
-
-    let content =
-        document.getElementById("noteContent");
-
-
-    if (title) {
-
-        title.disabled = false;
-
-        title.value = note.title;
-
+    .main {
+        padding: 15px;
     }
 
 
-    if (content) {
+    .card {
+        padding: 18px;
 
-        content.disabled = false;
-
-        content.value = note.content;
-
+        border-radius: 20px;
     }
 
 
-    let pinButton =
-        document.getElementById("pinNoteButton");
-
-
-    if (pinButton) {
-
-        pinButton.disabled = false;
-
-        pinButton.textContent =
-            note.pinned === true
-                ? "📌"
-                : "📍";
-
-        pinButton.title =
-            note.pinned === true
-                ? "Unpin note"
-                : "Pin note";
-
+    .nav-btn,
+    .theme-btn {
+        padding: 12px;
     }
 
 
-    renderNotesList();
-
-    showSavedStatus();
-
-}
-
-
-// =========================
-// TITLE
-// =========================
-
-function updateNoteTitle(value) {
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    note.title =
-        value || "Untitled";
-
-
-    showUnsavedStatus();
-
-
-    clearTimeout(saveTimer);
-
-
-    saveTimer =
-        setTimeout(
-            saveCurrentNote,
-            700
-        );
-
-}
-
-
-// =========================
-// CONTENT
-// =========================
-
-function updateNoteContent(value) {
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    note.content = value;
-
-
-    showUnsavedStatus();
-
-
-    clearTimeout(saveTimer);
-
-
-    saveTimer =
-        setTimeout(
-            saveCurrentNote,
-            700
-        );
-
-}
-
-
-// =========================
-// SAVE CURRENT
-// =========================
-
-function saveCurrentNote() {
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    note.updated =
-        new Date().toISOString();
-
-
-    showSavingStatus();
-
-
-    saveNotes();
-
-    renderNotesList();
-
-
-    setTimeout(
-        showSavedStatus,
-        250
-    );
-
-}
-
-
-// =========================
-// PIN
-// =========================
-
-function toggleCurrentPin() {
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    note.pinned =
-        note.pinned === true
-            ? false
-            : true;
-
-
-    note.updated =
-        new Date().toISOString();
-
-
-    saveNotes();
-
-
-    updatePinButton();
-
-    renderNotesList();
-
-    showSavedStatus();
-
-}
-
-
-// =========================
-// PIN BUTTON
-// =========================
-
-function updatePinButton() {
-
-    let button =
-        document.getElementById(
-            "pinNoteButton"
-        );
-
-
-    if (!button) return;
-
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    button.disabled = false;
-
-
-    if (note.pinned === true) {
-
-        button.textContent = "📌";
-
-        button.title =
-            "Unpin note";
-
-    } else {
-
-        button.textContent = "📍";
-
-        button.title =
-            "Pin note";
-
+    button {
+        padding: 12px 16px;
     }
 
 }
-
-
-// =========================
-// DELETE
-// =========================
-
-function deleteNote() {
-
-    if (currentNoteId === null) {
-
-        return;
-
-    }
-
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    if (
-        !confirm(
-            `Delete "${note.title}"?`
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    notes =
-        notes.filter(
-            n => n.id !== currentNoteId
-        );
-
-
-    saveNotes();
-
-
-    currentNoteId = null;
-
-
-    renderNotesList();
-
-
-    if (notes.length > 0) {
-
-        openNote(notes[0].id);
-
-    } else {
-
-        showEmptyNote();
-
-    }
-
-}
-
-
-// =========================
-// SEARCH
-// =========================
-
-function searchNotes(value) {
-
-    let search =
-        value
-            .toLowerCase()
-            .trim();
-
-
-    document
-        .querySelectorAll(
-            ".note-list-item"
-        )
-        .forEach(item => {
-
-            let id =
-                Number(
-                    item.dataset.noteId
-                );
-
-
-            let note =
-                notes.find(
-                    n => n.id === id
-                );
-
-
-            if (!note) return;
-
-
-            let text =
-                (
-                    note.title +
-                    " " +
-                    note.content
-                )
-                .toLowerCase();
-
-
-            item.style.display =
-                text.includes(search)
-                    ? "flex"
-                    : "none";
-
-        });
-
-}
-
-
-// =========================
-// RENDER
-// =========================
-
-function renderNotesList() {
-
-    let container =
-        document.getElementById(
-            "notesList"
-        );
-
-
-    if (!container) return;
-
-
-    if (notes.length === 0) {
-
-        container.innerHTML =
-            "<p>No notes yet.</p>";
-
-        return;
-
-    }
-
-
-    let sorted =
-        [...notes].sort(
-            (a, b) => {
-
-                if (
-                    a.pinned === true &&
-                    b.pinned !== true
-                ) {
-
-                    return -1;
-
-                }
-
-
-                if (
-                    a.pinned !== true &&
-                    b.pinned === true
-                ) {
-
-                    return 1;
-
-                }
-
-
-                return (
-                    new Date(b.updated) -
-                    new Date(a.updated)
-                );
-
-            }
-        );
-
-
-    container.innerHTML =
-
-        sorted.map(note => {
-
-            let isActive =
-                note.id === currentNoteId;
-
-
-            let pin =
-                note.pinned === true
-                    ? "📌 "
-                    : "";
-
-
-            return `
-
-                <div
-                    class="note-list-item"
-                    data-note-id="${note.id}"
-                    onclick="openNote(${note.id})"
-                    style="
-                        display:flex;
-                        padding:12px;
-                        margin-bottom:6px;
-                        border-radius:12px;
-                        cursor:pointer;
-                        background:${
-                            isActive
-                                ? "rgba(139,92,246,.35)"
-                                : "rgba(255,255,255,.05)"
-                        };
-                    "
-                >
-
-                    <div
-                        style="
-                            width:100%;
-                            min-width:0;
-                        "
-                    >
-
-                        <div
-                            style="
-                                font-weight:600;
-                                overflow:hidden;
-                                text-overflow:ellipsis;
-                                white-space:nowrap;
-                            "
-                        >
-
-                            ${pin}${escapeHTML(note.title)}
-
-                        </div>
-
-
-                        <small
-                            style="
-                                opacity:.45;
-                            "
-                        >
-
-                            ${formatDate(note.updated)}
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-// =========================
-// EMPTY
-// =========================
-
-function showEmptyNote() {
-
-    let title =
-        document.getElementById(
-            "noteTitle"
-        );
-
-
-    let content =
-        document.getElementById(
-            "noteContent"
-        );
-
-
-    let pinButton =
-        document.getElementById(
-            "pinNoteButton"
-        );
-
-
-    if (title) {
-
-        title.value = "";
-
-        title.disabled = true;
-
-    }
-
-
-    if (content) {
-
-        content.value = "";
-
-        content.disabled = true;
-
-    }
-
-
-    if (pinButton) {
-
-        pinButton.disabled = true;
-
-        pinButton.textContent = "📍";
-
-    }
-
-
-    let status =
-        document.getElementById(
-            "noteSaveStatus"
-        );
-
-
-    if (status) {
-
-        status.textContent =
-            "Create a note to get started.";
-
-    }
-
-}
-
-
-// =========================
-// STATUS
-// =========================
-
-function showUnsavedStatus() {
-
-    let status =
-        document.getElementById(
-            "noteSaveStatus"
-        );
-
-
-    if (!status) return;
-
-
-    status.textContent =
-        "Saving changes...";
-
-}
-
-
-function showSavingStatus() {
-
-    let status =
-        document.getElementById(
-            "noteSaveStatus"
-        );
-
-
-    if (!status) return;
-
-
-    status.textContent =
-        "Saving...";
-
-}
-
-
-function showSavedStatus() {
-
-    let status =
-        document.getElementById(
-            "noteSaveStatus"
-        );
-
-
-    if (!status) return;
-
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    let time =
-        new Date(note.updated)
-            .toLocaleTimeString(
-                [],
-                {
-                    hour: "numeric",
-                    minute: "2-digit"
-                }
-            );
-
-
-    status.textContent =
-        "✓ Saved " + time;
-
-}
-
-
-// =========================
-// DATE
-// =========================
-
-function formatDate(date) {
-
-    return new Date(date)
-        .toLocaleDateString(
-            [],
-            {
-                day: "numeric",
-                month: "short"
-            }
-        );
-
-}
-
-
-// =========================
-// ESCAPE HTML
-// =========================
-
-function escapeHTML(text) {
-
-    return String(text)
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-}
+```
