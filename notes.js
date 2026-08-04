@@ -1,3 +1,4 @@
+```javascript
 // =========================
 // STUDY HUB 4.4
 // NOTES
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // =========================
-// LOAD NOTES
+// LOAD
 // =========================
 
 function loadNotes() {
@@ -33,9 +34,28 @@ function loadNotes() {
 
     notes.forEach(note => {
 
-        if (typeof note.pinned !== "boolean") {
+        if (note.pinned !== true) {
 
             note.pinned = false;
+
+        }
+
+        if (!note.title) {
+
+            note.title = "Untitled";
+
+        }
+
+        if (!note.content) {
+
+            note.content = "";
+
+        }
+
+        if (!note.updated) {
+
+            note.updated =
+                new Date().toISOString();
 
         }
 
@@ -43,7 +63,6 @@ function loadNotes() {
 
 
     saveNotes();
-
 
     renderNotesList();
 
@@ -62,7 +81,7 @@ function loadNotes() {
 
 
 // =========================
-// SAVE NOTES
+// SAVE
 // =========================
 
 function saveNotes() {
@@ -81,18 +100,33 @@ function saveNotes() {
 
 function createNote() {
 
+    let name =
+        prompt(
+            "What do you want to name this note?"
+        );
+
+
+    if (!name) return;
+
+
+    name = name.trim();
+
+
+    if (!name) return;
+
+
     let note = {
 
         id: Date.now(),
 
-        title: "Untitled Note",
+        title: name,
 
         content: "",
 
-        updated:
-            new Date().toISOString(),
+        pinned: false,
 
-        pinned: false
+        updated:
+            new Date().toISOString()
 
     };
 
@@ -103,8 +137,11 @@ function createNote() {
     saveNotes();
 
 
-    renderNotesList();
+    currentNoteId =
+        note.id;
 
+
+    renderNotesList();
 
     openNote(note.id);
 
@@ -161,8 +198,9 @@ function openNote(id) {
     }
 
 
-    renderNotesList();
+    updatePinButton();
 
+    renderNotesList();
 
     showSavedStatus();
 
@@ -170,52 +208,16 @@ function openNote(id) {
 
 
 // =========================
-// PIN / UNPIN NOTE
-// =========================
-
-function togglePin(id) {
-
-    let note =
-        notes.find(
-            n => n.id === id
-        );
-
-
-    if (!note) return;
-
-
-    note.pinned =
-        !note.pinned;
-
-
-    note.updated =
-        new Date().toISOString();
-
-
-    saveNotes();
-
-
-    renderNotesList();
-
-
-    if (currentNoteId === id) {
-
-        showSavedStatus();
-
-    }
-
-}
-
-
-// =========================
-// UPDATE TITLE
+// TITLE
 // =========================
 
 function updateNoteTitle(value) {
 
     let note =
         notes.find(
-            n => n.id === currentNoteId
+            n =>
+                n.id ===
+                currentNoteId
         );
 
 
@@ -223,32 +225,37 @@ function updateNoteTitle(value) {
 
 
     note.title =
-        value || "Untitled Note";
+        value || "Untitled";
 
 
     showUnsavedStatus();
 
 
-    clearTimeout(saveTimer);
-
-
-    saveTimer = setTimeout(
-        saveCurrentNote,
-        800
+    clearTimeout(
+        saveTimer
     );
+
+
+    saveTimer =
+        setTimeout(
+            saveCurrentNote,
+            700
+        );
 
 }
 
 
 // =========================
-// UPDATE CONTENT
+// CONTENT
 // =========================
 
 function updateNoteContent(value) {
 
     let note =
         notes.find(
-            n => n.id === currentNoteId
+            n =>
+                n.id ===
+                currentNoteId
         );
 
 
@@ -262,33 +269,79 @@ function updateNoteContent(value) {
     showUnsavedStatus();
 
 
-    clearTimeout(saveTimer);
-
-
-    saveTimer = setTimeout(
-        saveCurrentNote,
-        800
+    clearTimeout(
+        saveTimer
     );
+
+
+    saveTimer =
+        setTimeout(
+            saveCurrentNote,
+            700
+        );
 
 }
 
 
 // =========================
-// SAVE CURRENT NOTE
+// SAVE CURRENT
 // =========================
 
 function saveCurrentNote() {
 
     let note =
         notes.find(
-            n => n.id === currentNoteId
+            n =>
+                n.id ===
+                currentNoteId
         );
 
 
     if (!note) return;
 
 
+    note.updated =
+        new Date().toISOString();
+
+
     showSavingStatus();
+
+
+    saveNotes();
+
+
+    renderNotesList();
+
+
+    setTimeout(
+        showSavedStatus,
+        250
+    );
+
+}
+
+
+// =========================
+// PIN
+// =========================
+
+function toggleCurrentPin() {
+
+    let note =
+        notes.find(
+            n =>
+                n.id ===
+                currentNoteId
+        );
+
+
+    if (!note) return;
+
+
+    note.pinned =
+        note.pinned === true
+            ? false
+            : true;
 
 
     note.updated =
@@ -298,178 +351,86 @@ function saveCurrentNote() {
     saveNotes();
 
 
+    updatePinButton();
+
     renderNotesList();
 
-
-    setTimeout(() => {
-
-        showSavedStatus();
-
-    }, 300);
+    showSavedStatus();
 
 }
 
 
 // =========================
-// STATUS ELEMENT
+// PIN BUTTON
 // =========================
 
-function getStatusElement() {
+function updatePinButton() {
 
-    let status =
+    let button =
         document.getElementById(
-            "noteSaveStatus"
+            "pinNoteButton"
         );
 
 
-    if (!status) {
-
-        let date =
-            document.getElementById(
-                "noteDate"
-            );
-
-
-        if (!date) return null;
-
-
-        status =
-            document.createElement(
-                "span"
-            );
-
-
-        status.id =
-            "noteSaveStatus";
-
-
-        status.style.fontSize =
-            "12px";
-
-
-        status.style.opacity =
-            "0.45";
-
-
-        status.style.marginLeft =
-            "10px";
-
-
-        date.parentNode.insertBefore(
-            status,
-            date.nextSibling
-        );
-
-    }
-
-
-    return status;
-
-}
-
-
-// =========================
-// UNSAVED
-// =========================
-
-function showUnsavedStatus() {
-
-    let status =
-        getStatusElement();
-
-
-    if (!status) return;
-
-
-    status.textContent =
-        "Saving changes...";
-
-
-    status.style.opacity =
-        "0.45";
-
-}
-
-
-// =========================
-// SAVING
-// =========================
-
-function showSavingStatus() {
-
-    let status =
-        getStatusElement();
-
-
-    if (!status) return;
-
-
-    status.textContent =
-        "Saving...";
-
-
-    status.style.opacity =
-        "0.45";
-
-}
-
-
-// =========================
-// SAVED
-// =========================
-
-function showSavedStatus() {
-
-    let status =
-        getStatusElement();
-
-
-    if (!status) return;
+    if (!button) return;
 
 
     let note =
         notes.find(
-            n => n.id === currentNoteId
+            n =>
+                n.id ===
+                currentNoteId
         );
 
 
     if (!note) return;
 
 
-    let time =
-        new Date(
-            note.updated
-        ).toLocaleTimeString(
-            [],
-            {
-                hour:"numeric",
-                minute:"2-digit"
-            }
-        );
+    button.disabled = false;
 
 
-    status.textContent =
-        "✓ Saved " + time;
+    if (note.pinned === true) {
 
+        button.textContent =
+            "📌";
 
-    status.style.opacity =
-        "0.4";
+        button.title =
+            "Unpin note";
+
+    } else {
+
+        button.textContent =
+            "📍";
+
+        button.title =
+            "Pin note";
+
+    }
 
 }
 
 
 // =========================
-// DELETE NOTE
+// DELETE
 // =========================
 
 function deleteNote() {
 
-    if (currentNoteId === null) return;
+    if (
+        currentNoteId ===
+        null
+    ) {
+
+        return;
+
+    }
 
 
     let note =
         notes.find(
-            n => n.id === currentNoteId
+            n =>
+                n.id ===
+                currentNoteId
         );
 
 
@@ -478,7 +439,7 @@ function deleteNote() {
 
     if (
         !confirm(
-            "Are you sure you want to delete this note?"
+            `Delete "${note.title}"?`
         )
     ) {
 
@@ -490,14 +451,16 @@ function deleteNote() {
     notes =
         notes.filter(
             n =>
-                n.id !== currentNoteId
+                n.id !==
+                currentNoteId
         );
 
 
     saveNotes();
 
 
-    currentNoteId = null;
+    currentNoteId =
+        null;
 
 
     renderNotesList();
@@ -519,7 +482,7 @@ function deleteNote() {
 
 
 // =========================
-// SEARCH NOTES
+// SEARCH
 // =========================
 
 function searchNotes(value) {
@@ -530,54 +493,49 @@ function searchNotes(value) {
             .trim();
 
 
-    let items =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".note-list-item"
-        );
+        )
+        .forEach(item => {
+
+            let id =
+                Number(
+                    item.dataset.noteId
+                );
 
 
-    items.forEach(item => {
-
-        let id =
-            Number(
-                item.dataset.noteId
-            );
-
-
-        let note =
-            notes.find(
-                n => n.id === id
-            );
+            let note =
+                notes.find(
+                    n =>
+                        n.id === id
+                );
 
 
-        if (!note) return;
+            if (!note) return;
 
 
-        let searchableText =
+            let searchable =
+                (
+                    note.title +
+                    " " +
+                    note.content
+                )
+                .toLowerCase();
 
-            (
-                note.title +
-                " " +
-                note.content
-            )
-            .toLowerCase();
 
+            item.style.display =
+                searchable.includes(search)
+                    ? "flex"
+                    : "none";
 
-        item.style.display =
-
-            searchableText.includes(search)
-
-                ? "block"
-
-                : "none";
-
-    });
+        });
 
 }
 
 
 // =========================
-// RENDER NOTE LIST
+// RENDER NOTE SELECTOR
 // =========================
 
 function renderNotesList() {
@@ -595,9 +553,30 @@ function renderNotesList() {
 
         container.innerHTML = `
 
-            <div class="note-empty-list">
+            <div
+                style="
+                    text-align:center;
+                    padding:30px 10px;
+                    opacity:.5;
+                "
+            >
 
-                <p>No notes yet.</p>
+                <div
+                    style="
+                        font-size:30px;
+                        margin-bottom:10px;
+                    "
+                >
+                    📝
+                </div>
+
+                <div>
+                    No notes yet
+                </div>
+
+                <small>
+                    Click + New to create one
+                </small>
 
             </div>
 
@@ -608,30 +587,34 @@ function renderNotesList() {
     }
 
 
-    let sortedNotes =
+    let sorted =
         [...notes].sort(
-            (a,b) => {
+            (a, b) => {
 
                 if (
-                    a.pinned &&
-                    !b.pinned
+                    a.pinned === true &&
+                    b.pinned !== true
                 ) {
 
                     return -1;
 
                 }
 
+
                 if (
-                    !a.pinned &&
-                    b.pinned
+                    a.pinned !== true &&
+                    b.pinned === true
                 ) {
 
                     return 1;
 
                 }
 
-                return new Date(b.updated)
-                    - new Date(a.updated);
+
+                return (
+                    new Date(b.updated) -
+                    new Date(a.updated)
+                );
 
             }
         );
@@ -639,83 +622,214 @@ function renderNotesList() {
 
     container.innerHTML =
 
-        sortedNotes.map(note => `
+        sorted.map(note => {
 
-            <div
+            let active =
+                note.id ===
+                currentNoteId;
 
-                class="note-list-item
-                ${note.id === currentNoteId
-                    ? "active"
-                    : ""}"
 
-                data-note-id="${note.id}"
+            let preview =
+                note.content
+                    ? note.content
+                        .replace(/\s+/g, " ")
+                        .trim()
+                    : "No content yet";
 
-            >
 
-                <button
+            if (
+                preview.length > 55
+            ) {
 
-                    onclick="
-                        event.stopPropagation();
-                        togglePin(${note.id});
-                    "
+                preview =
+                    preview.substring(
+                        0,
+                        55
+                    ) + "...";
 
+            }
+
+
+            return `
+
+                <div
+                    class="note-list-item"
+                    data-note-id="${note.id}"
+                    onclick="openNote(${note.id})"
                     style="
-                        background:none;
-                        box-shadow:none;
-                        padding:2px 6px;
-                        margin-right:6px;
-                        font-size:14px;
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                        padding:13px 14px;
+                        margin-bottom:8px;
+                        border-radius:15px;
+                        cursor:pointer;
+
+                        background:
+                            ${
+                                active
+                                    ? "rgba(139,92,246,.25)"
+                                    : "rgba(255,255,255,.045)"
+                            };
+
+                        border:
+                            1px solid
+                            ${
+                                active
+                                    ? "rgba(139,92,246,.5)"
+                                    : "rgba(255,255,255,.06)"
+                            };
+
+                        transition:
+                            background .2s,
+                            border .2s,
+                            transform .2s;
                     "
 
-                    title="${
-                        note.pinned
-                            ? "Unpin note"
-                            : "Pin note"
-                    }"
+                    onmouseover="
+                        this.style.transform='translateX(3px)';
+                        ${
+                            active
+                                ? ""
+                                : "this.style.background='rgba(255,255,255,.09)';"
+                        }
+                    "
 
+                    onmouseout="
+                        this.style.transform='translateX(0)';
+                        ${
+                            active
+                                ? ""
+                                : "this.style.background='rgba(255,255,255,.045)';"
+                        }
+                    "
                 >
+
+                    <div
+                        style="
+                            width:38px;
+                            height:38px;
+                            min-width:38px;
+                            border-radius:11px;
+
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+
+                            background:
+                                ${
+                                    active
+                                        ? "rgba(139,92,246,.4)"
+                                        : "rgba(255,255,255,.08)"
+                                };
+
+                            font-size:18px;
+                        "
+                    >
+
+                        ${
+                            note.pinned === true
+                                ? "📌"
+                                : "📝"
+                        }
+
+                    </div>
+
+
+                    <div
+                        style="
+                            min-width:0;
+                            flex:1;
+                        "
+                    >
+
+                        <div
+                            style="
+                                display:flex;
+                                align-items:center;
+                                gap:5px;
+                                font-weight:650;
+                                margin-bottom:3px;
+                            "
+                        >
+
+                            <span
+                                style="
+                                    overflow:hidden;
+                                    text-overflow:ellipsis;
+                                    white-space:nowrap;
+                                "
+                            >
+
+                                ${escapeHTML(
+                                    note.title
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            style="
+                                font-size:12px;
+                                opacity:.42;
+                                overflow:hidden;
+                                text-overflow:ellipsis;
+                                white-space:nowrap;
+                                margin-bottom:3px;
+                            "
+                        >
+
+                            ${escapeHTML(
+                                preview
+                            )}
+
+                        </div>
+
+
+                        <div
+                            style="
+                                font-size:10px;
+                                opacity:.3;
+                            "
+                        >
+
+                            ${formatDate(
+                                note.updated
+                            )}
+
+                        </div>
+
+                    </div>
+
 
                     ${
-                        note.pinned
-                            ? "📌"
-                            : "📍"
+                        active
+                            ? `
+                                <div
+                                    style="
+                                        width:5px;
+                                        height:28px;
+                                        border-radius:5px;
+                                        background:var(--accent);
+                                    "
+                                ></div>
+                            `
+                            : ""
                     }
 
-                </button>
+                </div>
 
+            `;
 
-                <span
-                    onclick="openNote(${note.id})"
-                >
-
-                    <strong>
-
-                        ${escapeHTML(
-                            note.title
-                        )}
-
-                    </strong>
-
-
-                    <small>
-
-                        ${formatNoteDate(
-                            note.updated
-                        )}
-
-                    </small>
-
-                </span>
-
-            </div>
-
-        `).join("");
+        }).join("");
 
 }
 
 
 // =========================
-// EMPTY NOTE
+// EMPTY EDITOR
 // =========================
 
 function showEmptyNote() {
@@ -729,6 +843,12 @@ function showEmptyNote() {
     let content =
         document.getElementById(
             "noteContent"
+        );
+
+
+    let pinButton =
+        document.getElementById(
+            "pinNoteButton"
         );
 
 
@@ -750,16 +870,12 @@ function showEmptyNote() {
     }
 
 
-    let date =
-        document.getElementById(
-            "noteDate"
-        );
+    if (pinButton) {
 
+        pinButton.disabled = true;
 
-    if (date) {
-
-        date.textContent =
-            "Create a note to get started.";
+        pinButton.textContent =
+            "📍";
 
     }
 
@@ -772,7 +888,8 @@ function showEmptyNote() {
 
     if (status) {
 
-        status.textContent = "";
+        status.textContent =
+            "Create a note to get started.";
 
     }
 
@@ -780,16 +897,108 @@ function showEmptyNote() {
 
 
 // =========================
-// FORMAT DATE
+// SAVE STATUS
 // =========================
 
-function formatNoteDate(date) {
+function showUnsavedStatus() {
 
-    if (!date) return "";
+    let status =
+        document.getElementById(
+            "noteSaveStatus"
+        );
 
+
+    if (!status) return;
+
+
+    status.textContent =
+        "Saving changes...";
+
+}
+
+
+function showSavingStatus() {
+
+    let status =
+        document.getElementById(
+            "noteSaveStatus"
+        );
+
+
+    if (!status) return;
+
+
+    status.textContent =
+        "Saving...";
+
+}
+
+
+function showSavedStatus() {
+
+    let status =
+        document.getElementById(
+            "noteSaveStatus"
+        );
+
+
+    if (!status) return;
+
+
+    let note =
+        notes.find(
+            n =>
+                n.id ===
+                currentNoteId
+        );
+
+
+    if (!note) return;
+
+
+    let time =
+        new Date(
+            note.updated
+        )
+        .toLocaleTimeString(
+            [],
+            {
+                hour:
+                    "numeric",
+
+                minute:
+                    "2-digit"
+            }
+        );
+
+
+    status.textContent =
+        "✓ Saved " + time;
+
+
+    status.style.opacity =
+        ".4";
+
+}
+
+
+// =========================
+// DATE
+// =========================
+
+function formatDate(date) {
 
     return new Date(date)
-        .toLocaleString();
+        .toLocaleDateString(
+            [],
+            {
+                day:
+                    "numeric",
+
+                month:
+                    "short"
+            }
+        );
 
 }
 
@@ -828,3 +1037,4 @@ function escapeHTML(text) {
         );
 
 }
+```
