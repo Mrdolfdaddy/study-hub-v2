@@ -4,291 +4,18 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Study Hub 4.3</title>
 
-<link rel="stylesheet" href="main.css">
-
-<style>
-
-/* =========================
-   NOTES
-========================= */
-
-.notes-layout {
-
-    display:grid;
-
-    grid-template-columns:
-        260px 1fr;
-
-    gap:20px;
-
-}
-
-
-.notes-sidebar {
-
-    background:var(--card);
-
-    backdrop-filter:blur(20px);
-
-    border-radius:25px;
-
-    padding:20px;
-
-    border:1px solid rgba(255,255,255,.1);
-
-}
-
-
-.notes-sidebar-header {
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin-bottom:15px;
-
-}
-
-
-.notes-sidebar-header h2 {
-
-    margin:0;
-
-    font-size:20px;
-
-}
-
-
-.notes-sidebar-header button {
-
-    padding:10px 14px;
-
-}
-
-
-.notes-search {
-
-    width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,.08);
-
-    color:white;
-
-    outline:none;
-
-    margin-bottom:15px;
-
-}
-
-
-.note-list {
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
-
-}
-
-
-.note-list-item {
-
-    padding:12px;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,.05);
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-
-.note-list-item:hover {
-
-    background:rgba(255,255,255,.1);
-
-}
-
-
-.note-list-item.active {
-
-    background:var(--accent);
-
-}
-
-
-.note-list-item strong {
-
-    display:block;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-}
-
-
-.note-list-item small {
-
-    display:block;
-
-    margin-top:5px;
-
-    opacity:.65;
-
-    font-size:11px;
-
-}
-
-
-.notes-editor {
-
-    background:var(--card);
-
-    backdrop-filter:blur(20px);
-
-    border-radius:25px;
-
-    padding:25px;
-
-    border:1px solid rgba(255,255,255,.1);
-
-}
-
-
-.notes-editor-top {
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-bottom:10px;
-
-}
-
-
-.note-title {
-
-    flex:1;
-
-    background:transparent;
-
-    border:none;
-
-    outline:none;
-
-    color:white;
-
-    font-size:30px;
-
-    font-weight:700;
-
-}
-
-
-.note-date {
-
-    opacity:.55;
-
-    font-size:13px;
-
-    margin-bottom:15px;
-
-}
-
-
-.note-content {
-
-    width:100%;
-
-    min-height:450px;
-
-    resize:vertical;
-
-    background:#0b1220;
-
-    color:white;
-
-    border:none;
-
-    border-radius:15px;
-
-    padding:20px;
-
-    font-size:16px;
-
-    line-height:1.6;
-
-    outline:none;
-
-}
-
-
-.delete-note {
-
-    margin-top:15px;
-
-    background:linear-gradient(
-        135deg,
-        #ef4444,
-        #dc2626
-    );
-
-}
-
-
-.note-empty {
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:500px;
-
-    text-align:center;
-
-    opacity:.6;
-
-}
-
-
-@media(max-width:800px) {
-
-    .notes-layout {
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-</style>
+<link
+    rel="stylesheet"
+    href="main.css"
+>
 
 </head>
 
@@ -298,8 +25,6 @@
 
 <div class="app">
 
-
-<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -313,45 +38,76 @@
 </div>
 
 
-
 <nav>
 
 
-<button class="nav-btn active" onclick="showPage('dashboard', this)">
+<button
+    class="nav-btn active"
+    onclick="showPage('dashboard', this)"
+>
+
 🏠 Dashboard
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('planner', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('planner', this)"
+>
+
 📖 Learning Planner
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('projects', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('projects', this)"
+>
+
 🚀 Projects
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('notes', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('notes', this)"
+>
+
 📝 Notes
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('tools', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('tools', this)"
+>
+
 🛠 Tools
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('settings', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('settings', this)"
+>
+
 ⚙️ Settings
+
 </button>
 
 
 </nav>
 
 
-
-<button class="theme-btn" onclick="toggleTheme()">
+<button
+    class="theme-btn"
+    onclick="toggleTheme()"
+>
 
 🌙 Toggle Theme
 
@@ -362,23 +118,26 @@
 
 
 
-
-
 <main class="main">
 
 
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
-<section id="dashboard" class="page active">
+<section
+    id="dashboard"
+    class="page active"
+>
 
 
-<h1>Welcome back 👋</h1>
-
+<h1>
+Welcome back 👋
+</h1>
 
 
 <div class="dashboard-grid">
-
 
 
 <div class="card">
@@ -393,23 +152,27 @@
 
 
 
-
 <div class="card">
 
 <h2>📈 Progress</h2>
 
-<div class="progress-box" id="dashboardProgress">
+<div
+    class="progress-box"
+    id="dashboardProgress"
+>
 
 0%
 
 </div>
 
+
 <p id="progressText">
+
 No tasks completed yet.
+
 </p>
 
 </div>
-
 
 
 
@@ -423,35 +186,51 @@ No tasks completed yet.
 
 </h3>
 
-<p>Your active projects.</p>
+<p>
+
+Your active projects.
+
+</p>
 
 </div>
 
 
 </div>
-
-
-
 
 
 
 <div class="card">
 
-<h2>⚡ Quick Actions</h2>
+
+<h2>
+⚡ Quick Actions
+</h2>
 
 
-<button onclick="createProject()">
+<button
+    onclick="createProject()"
+>
+
 ➕ New Project
+
 </button>
 
 
-<button onclick="showPage('planner', this)">
+<button
+    onclick="showPage('planner', this)"
+>
+
 📖 Open Planner
+
 </button>
 
 
-<button onclick="exportBackup()">
+<button
+    onclick="exportBackup()"
+>
+
 💾 Backup Now
+
 </button>
 
 
@@ -459,17 +238,19 @@ No tasks completed yet.
 
 
 
-
-
-
 <div class="card">
 
-<h2>✅ Today's Tasks</h2>
+
+<h2>
+✅ Today's Tasks
+</h2>
 
 
 <div id="todayTasks">
 
-<p>No tasks loaded.</p>
+<p>
+No tasks loaded.
+</p>
 
 </div>
 
@@ -481,11 +262,14 @@ No tasks completed yet.
 
 
 
+<!-- =========================
+     PLANNER
+========================= -->
 
-
-<!-- PLANNER -->
-
-<section id="planner" class="page">
+<section
+    id="planner"
+    class="page"
+>
 
 
 <h1>
@@ -493,19 +277,22 @@ No tasks completed yet.
 </h1>
 
 
-
 <div class="planner-controls">
 
 
-<button onclick="createPlan()">
+<button
+    onclick="createPlan()"
+>
 
 ➕ New Week
 
 </button>
 
 
-
-<select id="planSelector" onchange="changePlan(this.value)">
+<select
+    id="planSelector"
+    onchange="changePlan(this.value)"
+>
 
 </select>
 
@@ -533,11 +320,14 @@ Loading Planner...
 
 
 
+<!-- =========================
+     PROJECTS
+========================= -->
 
-
-<!-- PROJECTS -->
-
-<section id="projects" class="page">
+<section
+    id="projects"
+    class="page"
+>
 
 
 <h1>
@@ -545,11 +335,12 @@ Loading Planner...
 </h1>
 
 
-
 <div class="planner-actions">
 
 
-<button onclick="createProject()">
+<button
+    onclick="createProject()"
+>
 
 ➕ New Project
 
@@ -579,11 +370,14 @@ Loading Projects...
 
 
 
+<!-- =========================
+     NOTES
+========================= -->
 
-
-<!-- NOTES -->
-
-<section id="notes" class="page">
+<section
+    id="notes"
+    class="page"
+>
 
 
 <h1>
@@ -592,127 +386,190 @@ Loading Projects...
 
 
 
-<div class="notes-layout">
+<div
+    style="
+        display:grid;
+        grid-template-columns:
+        minmax(220px, 300px)
+        1fr;
+        gap:20px;
+        align-items:start;
+    "
+>
 
 
 <!-- NOTES LIST -->
 
-<div class="notes-sidebar">
+<div class="card">
 
 
-<div class="notes-sidebar-header">
+<div
+    style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+        margin-bottom:15px;
+    "
+>
 
-<h2>
+
+<h2
+    style="
+        margin:0;
+    "
+>
+
 My Notes
+
 </h2>
 
 
-<button onclick="createNote()">
-➕
+<button
+    onclick="createNote()"
+>
+
+➕ New
+
 </button>
 
 
 </div>
 
 
+<input
+    type="text"
+    id="notesSearch"
+    placeholder="🔍 Search notes..."
+    oninput="searchNotes(this.value)"
+    style="
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:12px;
+        background:rgba(255,255,255,.1);
+        color:white;
+        margin-bottom:15px;
+        outline:none;
+    "
+>
+
+
+<div id="notesList">
+
+
+<p>
+No notes yet.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- NOTE EDITOR -->
+
+<div class="card">
+
+
+<div
+    style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:15px;
+        margin-bottom:8px;
+    "
+>
+
 
 <input
-
-class="notes-search"
-
-type="text"
-
-placeholder="🔍 Search notes..."
-
-oninput="searchNotes(this.value)"
-
+    type="text"
+    id="noteTitle"
+    placeholder="Note title..."
+    oninput="updateNoteTitle(this.value)"
+    style="
+        flex:1;
+        background:transparent;
+        border:none;
+        outline:none;
+        color:white;
+        font-size:28px;
+        font-weight:700;
+    "
 >
-
 
 
 <div
-    id="notesList"
-    class="note-list"
+    style="
+        display:flex;
+        gap:8px;
+    "
 >
-
-</div>
-
-
-</div>
-
-
-
-<!-- EDITOR -->
-
-<div class="notes-editor">
-
-
-<div
-    id="noteEditor"
->
-
-
-<div class="notes-editor-top">
-
-
-<input
-
-id="noteTitle"
-
-class="note-title"
-
-type="text"
-
-placeholder="Note title"
-
-oninput="updateNoteTitle(this.value)"
-
->
-
-
-
-</div>
-
-
-
-<div
-    id="noteDate"
-    class="note-date"
->
-
-</div>
-
-
-
-<textarea
-
-id="noteContent"
-
-class="note-content"
-
-placeholder="Start writing your note..."
-
-oninput="updateNoteContent(this.value)"
-
-></textarea>
-
 
 
 <button
-
-class="delete-note"
-
-onclick="deleteNote()"
-
+    onclick="toggleCurrentPin()"
+    id="pinNoteButton"
+    title="Pin note"
 >
 
-🗑 Delete Note
+📍
+
+</button>
+
+
+<button
+    onclick="deleteNote()"
+    title="Delete note"
+>
+
+🗑
 
 </button>
 
 
 </div>
 
+
+</div>
+
+
+
+<div
+    id="noteSaveStatus"
+    style="
+        font-size:12px;
+        opacity:.4;
+        margin-bottom:15px;
+        min-height:18px;
+    "
+>
+
+</div>
+
+
+<textarea
+    id="noteContent"
+    placeholder="Start writing..."
+    oninput="updateNoteContent(this.value)"
+    style="
+        width:100%;
+        min-height:400px;
+        resize:vertical;
+        background:rgba(0,0,0,.2);
+        color:white;
+        border:none;
+        border-radius:15px;
+        padding:18px;
+        outline:none;
+        font-size:16px;
+        line-height:1.6;
+    "
+></textarea>
 
 
 </div>
@@ -725,17 +582,19 @@ onclick="deleteNote()"
 
 
 
+<!-- =========================
+     TOOLS
+========================= -->
 
-
-<!-- TOOLS -->
-
-<section id="tools" class="page">
+<section
+    id="tools"
+    class="page"
+>
 
 
 <h1>
 🛠 Tools
 </h1>
-
 
 
 <div class="card">
@@ -760,17 +619,19 @@ AI tools, timers, calculators, games and resources will go here.
 
 
 
+<!-- =========================
+     SETTINGS
+========================= -->
 
-
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
+<section
+    id="settings"
+    class="page"
+>
 
 
 <h1>
 ⚙️ Settings
 </h1>
-
 
 
 <div class="card">
@@ -782,12 +643,13 @@ Study Hub 4.3
 
 
 <p>
+
 Your personal learning dashboard.
+
 </p>
 
 
 <hr>
-
 
 
 <h3>
@@ -795,34 +657,31 @@ Your personal learning dashboard.
 </h3>
 
 
-
-<button onclick="exportBackup()">
+<button
+    onclick="exportBackup()"
+>
 
 💾 Export Backup
 
 </button>
 
 
-
-<br><br>
-
+<br>
+<br>
 
 
 <label>
 
 📂 Import Backup
 
-<br><br>
+<br>
+<br>
 
 
 <input
-
-type="file"
-
-accept=".json"
-
-onchange="importBackup(event)"
-
+    type="file"
+    accept=".json"
+    onchange="importBackup(event)"
 >
 
 
@@ -835,13 +694,17 @@ onchange="importBackup(event)"
 </section>
 
 
+
 </main>
+
 
 </div>
 
 
 
-
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script src="storage.js"></script>
 
