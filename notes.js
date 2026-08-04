@@ -31,6 +31,20 @@ function loadNotes() {
         ) || [];
 
 
+    notes.forEach(note => {
+
+        if (typeof note.pinned !== "boolean") {
+
+            note.pinned = false;
+
+        }
+
+    });
+
+
+    saveNotes();
+
+
     renderNotesList();
 
 
@@ -76,7 +90,9 @@ function createNote() {
         content: "",
 
         updated:
-            new Date().toISOString()
+            new Date().toISOString(),
+
+        pinned: false
 
     };
 
@@ -149,6 +165,44 @@ function openNote(id) {
 
 
     showSavedStatus();
+
+}
+
+
+// =========================
+// PIN / UNPIN NOTE
+// =========================
+
+function togglePin(id) {
+
+    let note =
+        notes.find(
+            n => n.id === id
+        );
+
+
+    if (!note) return;
+
+
+    note.pinned =
+        !note.pinned;
+
+
+    note.updated =
+        new Date().toISOString();
+
+
+    saveNotes();
+
+
+    renderNotesList();
+
+
+    if (currentNoteId === id) {
+
+        showSavedStatus();
+
+    }
 
 }
 
@@ -554,9 +608,38 @@ function renderNotesList() {
     }
 
 
+    let sortedNotes =
+        [...notes].sort(
+            (a,b) => {
+
+                if (
+                    a.pinned &&
+                    !b.pinned
+                ) {
+
+                    return -1;
+
+                }
+
+                if (
+                    !a.pinned &&
+                    b.pinned
+                ) {
+
+                    return 1;
+
+                }
+
+                return new Date(b.updated)
+                    - new Date(a.updated);
+
+            }
+        );
+
+
     container.innerHTML =
 
-        notes.map(note => `
+        sortedNotes.map(note => `
 
             <div
 
@@ -567,26 +650,62 @@ function renderNotesList() {
 
                 data-note-id="${note.id}"
 
-                onclick="openNote(${note.id})"
-
             >
 
-                <strong>
+                <button
 
-                    ${escapeHTML(
-                        note.title
-                    )}
+                    onclick="
+                        event.stopPropagation();
+                        togglePin(${note.id});
+                    "
 
-                </strong>
+                    style="
+                        background:none;
+                        box-shadow:none;
+                        padding:2px 6px;
+                        margin-right:6px;
+                        font-size:14px;
+                    "
+
+                    title="${
+                        note.pinned
+                            ? "Unpin note"
+                            : "Pin note"
+                    }"
+
+                >
+
+                    ${
+                        note.pinned
+                            ? "📌"
+                            : "📍"
+                    }
+
+                </button>
 
 
-                <small>
+                <span
+                    onclick="openNote(${note.id})"
+                >
 
-                    ${formatNoteDate(
-                        note.updated
-                    )}
+                    <strong>
 
-                </small>
+                        ${escapeHTML(
+                            note.title
+                        )}
+
+                    </strong>
+
+
+                    <small>
+
+                        ${formatNoteDate(
+                            note.updated
+                        )}
+
+                    </small>
+
+                </span>
 
             </div>
 
