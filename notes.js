@@ -40,25 +40,6 @@ function loadNotes() {
 
         }
 
-        if (!note.title) {
-
-            note.title = "Untitled";
-
-        }
-
-        if (!note.content) {
-
-            note.content = "";
-
-        }
-
-        if (!note.updated) {
-
-            note.updated =
-                new Date().toISOString();
-
-        }
-
     });
 
 
@@ -95,7 +76,7 @@ function saveNotes() {
 
 
 // =========================
-// CREATE NOTE
+// CREATE
 // =========================
 
 function createNote() {
@@ -137,8 +118,7 @@ function createNote() {
     saveNotes();
 
 
-    currentNoteId =
-        note.id;
+    currentNoteId = note.id;
 
 
     renderNotesList();
@@ -149,7 +129,7 @@ function createNote() {
 
 
 // =========================
-// OPEN NOTE
+// OPEN
 // =========================
 
 function openNote(id) {
@@ -182,8 +162,7 @@ function openNote(id) {
 
         title.disabled = false;
 
-        title.value =
-            note.title;
+        title.value = note.title;
 
     }
 
@@ -192,8 +171,7 @@ function openNote(id) {
 
         content.disabled = false;
 
-        content.value =
-            note.content;
+        content.value = note.content;
 
     }
 
@@ -215,9 +193,7 @@ function updateNoteTitle(value) {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -231,9 +207,7 @@ function updateNoteTitle(value) {
     showUnsavedStatus();
 
 
-    clearTimeout(
-        saveTimer
-    );
+    clearTimeout(saveTimer);
 
 
     saveTimer =
@@ -253,25 +227,20 @@ function updateNoteContent(value) {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
     if (!note) return;
 
 
-    note.content =
-        value;
+    note.content = value;
 
 
     showUnsavedStatus();
 
 
-    clearTimeout(
-        saveTimer
-    );
+    clearTimeout(saveTimer);
 
 
     saveTimer =
@@ -291,9 +260,7 @@ function saveCurrentNote() {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -308,7 +275,6 @@ function saveCurrentNote() {
 
 
     saveNotes();
-
 
     renderNotesList();
 
@@ -329,9 +295,7 @@ function toggleCurrentPin() {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -377,9 +341,7 @@ function updatePinButton() {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -391,16 +353,14 @@ function updatePinButton() {
 
     if (note.pinned === true) {
 
-        button.textContent =
-            "📌";
+        button.textContent = "📌";
 
         button.title =
             "Unpin note";
 
     } else {
 
-        button.textContent =
-            "📍";
+        button.textContent = "📍";
 
         button.title =
             "Pin note";
@@ -416,10 +376,7 @@ function updatePinButton() {
 
 function deleteNote() {
 
-    if (
-        currentNoteId ===
-        null
-    ) {
+    if (currentNoteId === null) {
 
         return;
 
@@ -428,9 +385,7 @@ function deleteNote() {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -450,17 +405,14 @@ function deleteNote() {
 
     notes =
         notes.filter(
-            n =>
-                n.id !==
-                currentNoteId
+            n => n.id !== currentNoteId
         );
 
 
     saveNotes();
 
 
-    currentNoteId =
-        null;
+    currentNoteId = null;
 
 
     renderNotesList();
@@ -468,9 +420,7 @@ function deleteNote() {
 
     if (notes.length > 0) {
 
-        openNote(
-            notes[0].id
-        );
+        openNote(notes[0].id);
 
     } else {
 
@@ -507,15 +457,14 @@ function searchNotes(value) {
 
             let note =
                 notes.find(
-                    n =>
-                        n.id === id
+                    n => n.id === id
                 );
 
 
             if (!note) return;
 
 
-            let searchable =
+            let text =
                 (
                     note.title +
                     " " +
@@ -525,7 +474,7 @@ function searchNotes(value) {
 
 
             item.style.display =
-                searchable.includes(search)
+                text.includes(search)
                     ? "flex"
                     : "none";
 
@@ -535,7 +484,7 @@ function searchNotes(value) {
 
 
 // =========================
-// RENDER NOTE SELECTOR
+// RENDER
 // =========================
 
 function renderNotesList() {
@@ -551,36 +500,8 @@ function renderNotesList() {
 
     if (notes.length === 0) {
 
-        container.innerHTML = `
-
-            <div
-                style="
-                    text-align:center;
-                    padding:30px 10px;
-                    opacity:.5;
-                "
-            >
-
-                <div
-                    style="
-                        font-size:30px;
-                        margin-bottom:10px;
-                    "
-                >
-                    📝
-                </div>
-
-                <div>
-                    No notes yet
-                </div>
-
-                <small>
-                    Click + New to create one
-                </small>
-
-            </div>
-
-        `;
+        container.innerHTML =
+            "<p>No notes yet.</p>";
 
         return;
 
@@ -625,29 +546,7 @@ function renderNotesList() {
         sorted.map(note => {
 
             let active =
-                note.id ===
-                currentNoteId;
-
-
-            let preview =
-                note.content
-                    ? note.content
-                        .replace(/\s+/g, " ")
-                        .trim()
-                    : "No content yet";
-
-
-            if (
-                preview.length > 55
-            ) {
-
-                preview =
-                    preview.substring(
-                        0,
-                        55
-                    ) + "...";
-
-            }
+                note.id === currentNoteId;
 
 
             return `
@@ -658,166 +557,31 @@ function renderNotesList() {
                     onclick="openNote(${note.id})"
                     style="
                         display:flex;
-                        align-items:center;
-                        gap:12px;
-                        padding:13px 14px;
-                        margin-bottom:8px;
-                        border-radius:15px;
+                        padding:12px;
+                        margin-bottom:6px;
+                        border-radius:12px;
                         cursor:pointer;
-
-                        background:
-                            ${
-                                active
-                                    ? "rgba(139,92,246,.25)"
-                                    : "rgba(255,255,255,.045)"
-                            };
-
-                        border:
-                            1px solid
-                            ${
-                                active
-                                    ? "rgba(139,92,246,.5)"
-                                    : "rgba(255,255,255,.06)"
-                            };
-
-                        transition:
-                            background .2s,
-                            border .2s,
-                            transform .2s;
-                    "
-
-                    onmouseover="
-                        this.style.transform='translateX(3px)';
-                        ${
+                        background:${
                             active
-                                ? ""
-                                : "this.style.background='rgba(255,255,255,.09)';"
-                        }
-                    "
-
-                    onmouseout="
-                        this.style.transform='translateX(0)';
-                        ${
-                            active
-                                ? ""
-                                : "this.style.background='rgba(255,255,255,.045)';"
-                        }
+                                ? "rgba(139,92,246,.35)"
+                                : "rgba(255,255,255,.05)"
+                        };
                     "
                 >
 
-                    <div
-                        style="
-                            width:38px;
-                            height:38px;
-                            min-width:38px;
-                            border-radius:11px;
-
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-
-                            background:
-                                ${
-                                    active
-                                        ? "rgba(139,92,246,.4)"
-                                        : "rgba(255,255,255,.08)"
-                                };
-
-                            font-size:18px;
-                        "
-                    >
+                    <div>
 
                         ${
                             note.pinned === true
-                                ? "📌"
-                                : "📝"
+                                ? "📌 "
+                                : ""
                         }
 
-                    </div>
-
-
-                    <div
-                        style="
-                            min-width:0;
-                            flex:1;
-                        "
-                    >
-
-                        <div
-                            style="
-                                display:flex;
-                                align-items:center;
-                                gap:5px;
-                                font-weight:650;
-                                margin-bottom:3px;
-                            "
-                        >
-
-                            <span
-                                style="
-                                    overflow:hidden;
-                                    text-overflow:ellipsis;
-                                    white-space:nowrap;
-                                "
-                            >
-
-                                ${escapeHTML(
-                                    note.title
-                                )}
-
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            style="
-                                font-size:12px;
-                                opacity:.42;
-                                overflow:hidden;
-                                text-overflow:ellipsis;
-                                white-space:nowrap;
-                                margin-bottom:3px;
-                            "
-                        >
-
-                            ${escapeHTML(
-                                preview
-                            )}
-
-                        </div>
-
-
-                        <div
-                            style="
-                                font-size:10px;
-                                opacity:.3;
-                            "
-                        >
-
-                            ${formatDate(
-                                note.updated
-                            )}
-
-                        </div>
+                        ${escapeHTML(
+                            note.title
+                        )}
 
                     </div>
-
-
-                    ${
-                        active
-                            ? `
-                                <div
-                                    style="
-                                        width:5px;
-                                        height:28px;
-                                        border-radius:5px;
-                                        background:var(--accent);
-                                    "
-                                ></div>
-                            `
-                            : ""
-                    }
 
                 </div>
 
@@ -829,7 +593,7 @@ function renderNotesList() {
 
 
 // =========================
-// EMPTY EDITOR
+// EMPTY
 // =========================
 
 function showEmptyNote() {
@@ -874,8 +638,7 @@ function showEmptyNote() {
 
         pinButton.disabled = true;
 
-        pinButton.textContent =
-            "📍";
+        pinButton.textContent = "📍";
 
     }
 
@@ -897,7 +660,7 @@ function showEmptyNote() {
 
 
 // =========================
-// SAVE STATUS
+// STATUS
 // =========================
 
 function showUnsavedStatus() {
@@ -947,9 +710,7 @@ function showSavedStatus() {
 
     let note =
         notes.find(
-            n =>
-                n.id ===
-                currentNoteId
+            n => n.id === currentNoteId
         );
 
 
@@ -957,27 +718,18 @@ function showSavedStatus() {
 
 
     let time =
-        new Date(
-            note.updated
-        )
-        .toLocaleTimeString(
-            [],
-            {
-                hour:
-                    "numeric",
-
-                minute:
-                    "2-digit"
-            }
-        );
+        new Date(note.updated)
+            .toLocaleTimeString(
+                [],
+                {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            );
 
 
     status.textContent =
         "✓ Saved " + time;
-
-
-    status.style.opacity =
-        ".4";
 
 }
 
@@ -992,11 +744,8 @@ function formatDate(date) {
         .toLocaleDateString(
             [],
             {
-                day:
-                    "numeric",
-
-                month:
-                    "short"
+                day: "numeric",
+                month: "short"
             }
         );
 
@@ -1004,37 +753,22 @@ function formatDate(date) {
 
 
 // =========================
-// ESCAPE HTML
+// ESCAPE
 // =========================
 
 function escapeHTML(text) {
 
     return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 
 }
 ```
