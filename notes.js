@@ -1,27 +1,10 @@
-// =========================
-// STUDY HUB 4.4
-// NOTES
-// =========================
-
 let notes = [];
-
 let currentNoteId = null;
-
-
-// =========================
-// START
-// =========================
+let saveTimer = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-
     loadNotes();
-
 });
-
-
-// =========================
-// LOAD NOTES
-// =========================
 
 function loadNotes() {
 
@@ -30,26 +13,15 @@ function loadNotes() {
             localStorage.getItem("studyHubNotes")
         ) || [];
 
-
     renderNotesList();
 
-
     if (notes.length > 0) {
-
         openNote(notes[0].id);
-
     } else {
-
         showEmptyNote();
-
     }
-
 }
 
-
-// =========================
-// SAVE NOTES
-// =========================
 
 function saveNotes() {
 
@@ -61,10 +33,6 @@ function saveNotes() {
 }
 
 
-// =========================
-// CREATE NOTE
-// =========================
-
 function createNote() {
 
     let note = {
@@ -75,29 +43,20 @@ function createNote() {
 
         content: "",
 
-        updated:
-            new Date().toISOString()
+        updated: new Date().toISOString()
 
     };
 
-
     notes.unshift(note);
-
 
     saveNotes();
 
-
     renderNotesList();
-
 
     openNote(note.id);
 
 }
 
-
-// =========================
-// OPEN NOTE
-// =========================
 
 function openNote(id) {
 
@@ -106,57 +65,42 @@ function openNote(id) {
             n => n.id === id
         );
 
-
     if (!note) return;
 
-
     currentNoteId = id;
-
 
     let title =
         document.getElementById(
             "noteTitle"
         );
 
-
     let content =
         document.getElementById(
             "noteContent"
         );
 
-
     if (title) {
 
         title.disabled = false;
 
-        title.value =
-            note.title;
+        title.value = note.title;
 
     }
-
 
     if (content) {
 
         content.disabled = false;
 
-        content.value =
-            note.content;
+        content.value = note.content;
 
     }
 
-
-    updateNoteDate();
-
-    updateSaveStatus("Saved");
-
     renderNotesList();
+
+    showSavedStatus();
 
 }
 
-
-// =========================
-// UPDATE TITLE
-// =========================
 
 function updateNoteTitle(value) {
 
@@ -165,33 +109,23 @@ function updateNoteTitle(value) {
             n => n.id === currentNoteId
         );
 
-
     if (!note) return;
-
 
     note.title =
         value || "Untitled Note";
 
+    showUnsavedStatus();
 
-    note.updated =
-        new Date().toISOString();
+    clearTimeout(saveTimer);
 
+    saveTimer = setTimeout(() => {
 
-    saveNotes();
+        saveCurrentNote();
 
-
-    renderNotesList();
-
-    updateNoteDate();
-
-    updateSaveStatus("Saved");
+    }, 600);
 
 }
 
-
-// =========================
-// UPDATE CONTENT
-// =========================
 
 function updateNoteContent(value) {
 
@@ -200,55 +134,115 @@ function updateNoteContent(value) {
             n => n.id === currentNoteId
         );
 
-
     if (!note) return;
 
+    note.content = value;
 
-    updateSaveStatus("Saving...");
+    showUnsavedStatus();
 
+    clearTimeout(saveTimer);
 
-    note.content =
-        value;
+    saveTimer = setTimeout(() => {
 
+        saveCurrentNote();
 
-    note.updated =
-        new Date().toISOString();
-
-
-    saveNotes();
-
-
-    updateNoteDate();
-
-    renderNotesList();
-
-
-    setTimeout(() => {
-
-        updateSaveStatus("Saved");
-
-    }, 300);
+    }, 600);
 
 }
 
 
-// =========================
-// DELETE NOTE
-// =========================
-
-function deleteNote() {
-
-    if (currentNoteId === null) return;
-
+function saveCurrentNote() {
 
     let note =
         notes.find(
             n => n.id === currentNoteId
         );
 
-
     if (!note) return;
 
+    showSavingStatus();
+
+    note.updated =
+        new Date().toISOString();
+
+    saveNotes();
+
+    renderNotesList();
+
+    setTimeout(() => {
+
+        showSavedStatus();
+
+    }, 300);
+
+}
+
+
+function showUnsavedStatus() {
+
+    let date =
+        document.getElementById(
+            "noteDate"
+        );
+
+    if (!date) return;
+
+    date.textContent =
+        "✏️ Unsaved changes...";
+
+}
+
+
+function showSavingStatus() {
+
+    let date =
+        document.getElementById(
+            "noteDate"
+        );
+
+    if (!date) return;
+
+    date.textContent =
+        "💾 Saving...";
+
+}
+
+
+function showSavedStatus() {
+
+    let note =
+        notes.find(
+            n => n.id === currentNoteId
+        );
+
+    let date =
+        document.getElementById(
+            "noteDate"
+        );
+
+    if (!date || !note) return;
+
+    let time =
+        new Date(
+            note.updated
+        ).toLocaleTimeString();
+
+    date.textContent =
+        "✅ Saved at " + time;
+
+}
+
+
+function deleteNote() {
+
+    if (currentNoteId === null) return;
+
+    let note =
+        notes.find(
+            n => n.id === currentNoteId
+        );
+
+    if (!note) return;
 
     if (
         !confirm(
@@ -260,22 +254,17 @@ function deleteNote() {
 
     }
 
-
     notes =
         notes.filter(
             n =>
                 n.id !== currentNoteId
         );
 
-
     saveNotes();
-
 
     currentNoteId = null;
 
-
     renderNotesList();
-
 
     if (notes.length > 0) {
 
@@ -290,10 +279,6 @@ function deleteNote() {
 }
 
 
-// =========================
-// SEARCH NOTES
-// =========================
-
 function searchNotes(value) {
 
     let search =
@@ -301,12 +286,10 @@ function searchNotes(value) {
             .toLowerCase()
             .trim();
 
-
     let items =
         document.querySelectorAll(
             ".note-list-item"
         );
-
 
     items.forEach(item => {
 
@@ -315,25 +298,19 @@ function searchNotes(value) {
                 item.dataset.noteId
             );
 
-
         let note =
             notes.find(
                 n => n.id === id
             );
 
-
         if (!note) return;
 
-
         let searchableText =
-
             (
                 note.title +
                 " " +
                 note.content
-            )
-            .toLowerCase();
-
+            ).toLowerCase();
 
         if (
             searchableText.includes(search)
@@ -354,10 +331,6 @@ function searchNotes(value) {
 }
 
 
-// =========================
-// RENDER NOTE LIST
-// =========================
-
 function renderNotesList() {
 
     let container =
@@ -365,9 +338,7 @@ function renderNotesList() {
             "notesList"
         );
 
-
     if (!container) return;
-
 
     if (notes.length === 0) {
 
@@ -385,9 +356,7 @@ function renderNotesList() {
 
     }
 
-
     container.innerHTML =
-
         notes.map(note => `
 
             <div
@@ -411,7 +380,6 @@ function renderNotesList() {
 
                 </strong>
 
-
                 <small>
 
                     ${formatNoteDate(
@@ -427,10 +395,6 @@ function renderNotesList() {
 }
 
 
-// =========================
-// EMPTY NOTE
-// =========================
-
 function showEmptyNote() {
 
     let title =
@@ -438,12 +402,10 @@ function showEmptyNote() {
             "noteTitle"
         );
 
-
     let content =
         document.getElementById(
             "noteContent"
         );
-
 
     if (title) {
 
@@ -453,7 +415,6 @@ function showEmptyNote() {
 
     }
 
-
     if (content) {
 
         content.value = "";
@@ -462,12 +423,10 @@ function showEmptyNote() {
 
     }
 
-
     let date =
         document.getElementById(
             "noteDate"
         );
-
 
     if (date) {
 
@@ -476,87 +435,12 @@ function showEmptyNote() {
 
     }
 
-
-    updateSaveStatus("");
-
 }
 
-
-// =========================
-// SAVE STATUS
-// =========================
-
-function updateSaveStatus(status) {
-
-    let date =
-        document.getElementById(
-            "noteDate"
-        );
-
-
-    if (!date) return;
-
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    if (!note) return;
-
-
-    date.textContent =
-
-        status +
-        " • Last edited " +
-        formatNoteDate(
-            note.updated
-        );
-
-}
-
-
-// =========================
-// NOTE DATE
-// =========================
-
-function updateNoteDate() {
-
-    let note =
-        notes.find(
-            n => n.id === currentNoteId
-        );
-
-
-    let date =
-        document.getElementById(
-            "noteDate"
-        );
-
-
-    if (!date || !note) return;
-
-
-    date.textContent =
-
-        "Saved • Last edited " +
-
-        formatNoteDate(
-            note.updated
-        );
-
-}
-
-
-// =========================
-// FORMAT DATE
-// =========================
 
 function formatNoteDate(date) {
 
     if (!date) return "";
-
 
     return new Date(date)
         .toLocaleString();
@@ -564,37 +448,18 @@ function formatNoteDate(date) {
 }
 
 
-// =========================
-// ESCAPE HTML
-// =========================
-
 function escapeHTML(text) {
 
     return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 
 }
