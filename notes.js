@@ -1,11 +1,27 @@
+// =========================
+// STUDY HUB 4.4
+// NOTES
+// =========================
+
 let notes = [];
 let currentNoteId = null;
 let saveTimer = null;
 
+
+// =========================
+// START
+// =========================
+
 document.addEventListener("DOMContentLoaded", () => {
+
     loadNotes();
+
 });
 
+
+// =========================
+// LOAD NOTES
+// =========================
 
 function loadNotes() {
 
@@ -14,7 +30,9 @@ function loadNotes() {
             localStorage.getItem("studyHubNotes")
         ) || [];
 
+
     renderNotesList();
+
 
     if (notes.length > 0) {
 
@@ -25,8 +43,13 @@ function loadNotes() {
         showEmptyNote();
 
     }
+
 }
 
+
+// =========================
+// SAVE NOTES
+// =========================
 
 function saveNotes() {
 
@@ -38,6 +61,10 @@ function saveNotes() {
 }
 
 
+// =========================
+// CREATE NOTE
+// =========================
+
 function createNote() {
 
     let note = {
@@ -48,20 +75,29 @@ function createNote() {
 
         content: "",
 
-        updated: new Date().toISOString()
+        updated:
+            new Date().toISOString()
 
     };
 
+
     notes.unshift(note);
+
 
     saveNotes();
 
+
     renderNotesList();
+
 
     openNote(note.id);
 
 }
 
+
+// =========================
+// OPEN NOTE
+// =========================
 
 function openNote(id) {
 
@@ -70,19 +106,24 @@ function openNote(id) {
             n => n.id === id
         );
 
+
     if (!note) return;
 
+
     currentNoteId = id;
+
 
     let title =
         document.getElementById(
             "noteTitle"
         );
 
+
     let content =
         document.getElementById(
             "noteContent"
         );
+
 
     if (title) {
 
@@ -93,6 +134,7 @@ function openNote(id) {
 
     }
 
+
     if (content) {
 
         content.disabled = false;
@@ -102,12 +144,18 @@ function openNote(id) {
 
     }
 
+
     renderNotesList();
+
 
     showSavedStatus();
 
 }
 
+
+// =========================
+// UPDATE TITLE
+// =========================
 
 function updateNoteTitle(value) {
 
@@ -116,14 +164,19 @@ function updateNoteTitle(value) {
             n => n.id === currentNoteId
         );
 
+
     if (!note) return;
+
 
     note.title =
         value || "Untitled Note";
 
+
     showUnsavedStatus();
 
+
     clearTimeout(saveTimer);
+
 
     saveTimer = setTimeout(
         saveCurrentNote,
@@ -132,6 +185,10 @@ function updateNoteTitle(value) {
 
 }
 
+
+// =========================
+// UPDATE CONTENT
+// =========================
 
 function updateNoteContent(value) {
 
@@ -140,14 +197,19 @@ function updateNoteContent(value) {
             n => n.id === currentNoteId
         );
 
+
     if (!note) return;
+
 
     note.content =
         value;
 
+
     showUnsavedStatus();
 
+
     clearTimeout(saveTimer);
+
 
     saveTimer = setTimeout(
         saveCurrentNote,
@@ -157,6 +219,10 @@ function updateNoteContent(value) {
 }
 
 
+// =========================
+// SAVE CURRENT NOTE
+// =========================
+
 function saveCurrentNote() {
 
     let note =
@@ -164,16 +230,22 @@ function saveCurrentNote() {
             n => n.id === currentNoteId
         );
 
+
     if (!note) return;
 
+
     showSavingStatus();
+
 
     note.updated =
         new Date().toISOString();
 
+
     saveNotes();
 
+
     renderNotesList();
+
 
     setTimeout(() => {
 
@@ -184,12 +256,17 @@ function saveCurrentNote() {
 }
 
 
+// =========================
+// STATUS ELEMENT
+// =========================
+
 function getStatusElement() {
 
     let status =
         document.getElementById(
             "noteSaveStatus"
         );
+
 
     if (!status) {
 
@@ -198,95 +275,152 @@ function getStatusElement() {
                 "noteDate"
             );
 
+
         if (!date) return null;
+
 
         status =
             document.createElement(
-                "div"
+                "span"
             );
+
 
         status.id =
             "noteSaveStatus";
 
-        status.style.marginBottom =
-            "15px";
 
-        status.style.fontWeight =
-            "600";
+        status.style.fontSize =
+            "12px";
+
+
+        status.style.opacity =
+            "0.45";
+
+
+        status.style.marginLeft =
+            "10px";
+
 
         date.parentNode.insertBefore(
             status,
-            date
+            date.nextSibling
         );
 
     }
+
 
     return status;
 
 }
 
 
+// =========================
+// UNSAVED
+// =========================
+
 function showUnsavedStatus() {
 
     let status =
         getStatusElement();
 
+
     if (!status) return;
 
+
     status.textContent =
-        "🟡 UNSAVED CHANGES";
+        "Saving changes...";
+
+
+    status.style.opacity =
+        "0.45";
 
 }
 
+
+// =========================
+// SAVING
+// =========================
 
 function showSavingStatus() {
 
     let status =
         getStatusElement();
 
+
     if (!status) return;
 
+
     status.textContent =
-        "🔵 SAVING...";
+        "Saving...";
+
+
+    status.style.opacity =
+        "0.45";
 
 }
 
+
+// =========================
+// SAVED
+// =========================
 
 function showSavedStatus() {
 
     let status =
         getStatusElement();
 
+
     if (!status) return;
+
 
     let note =
         notes.find(
             n => n.id === currentNoteId
         );
 
+
     if (!note) return;
+
 
     let time =
         new Date(
             note.updated
-        ).toLocaleTimeString();
+        ).toLocaleTimeString(
+            [],
+            {
+                hour:"numeric",
+                minute:"2-digit"
+            }
+        );
+
 
     status.textContent =
-        "🟢 SAVED • " + time;
+        "✓ Saved " + time;
+
+
+    status.style.opacity =
+        "0.4";
 
 }
 
+
+// =========================
+// DELETE NOTE
+// =========================
 
 function deleteNote() {
 
     if (currentNoteId === null) return;
 
+
     let note =
         notes.find(
             n => n.id === currentNoteId
         );
 
+
     if (!note) return;
+
 
     if (
         !confirm(
@@ -298,17 +432,22 @@ function deleteNote() {
 
     }
 
+
     notes =
         notes.filter(
             n =>
                 n.id !== currentNoteId
         );
 
+
     saveNotes();
+
 
     currentNoteId = null;
 
+
     renderNotesList();
+
 
     if (notes.length > 0) {
 
@@ -325,6 +464,10 @@ function deleteNote() {
 }
 
 
+// =========================
+// SEARCH NOTES
+// =========================
+
 function searchNotes(value) {
 
     let search =
@@ -332,10 +475,12 @@ function searchNotes(value) {
             .toLowerCase()
             .trim();
 
+
     let items =
         document.querySelectorAll(
             ".note-list-item"
         );
+
 
     items.forEach(item => {
 
@@ -344,14 +489,18 @@ function searchNotes(value) {
                 item.dataset.noteId
             );
 
+
         let note =
             notes.find(
                 n => n.id === id
             );
 
+
         if (!note) return;
 
+
         let searchableText =
+
             (
                 note.title +
                 " " +
@@ -359,17 +508,23 @@ function searchNotes(value) {
             )
             .toLowerCase();
 
+
         item.style.display =
-            searchableText.includes(
-                search
-            )
-            ? "block"
-            : "none";
+
+            searchableText.includes(search)
+
+                ? "block"
+
+                : "none";
 
     });
 
 }
 
+
+// =========================
+// RENDER NOTE LIST
+// =========================
 
 function renderNotesList() {
 
@@ -378,7 +533,9 @@ function renderNotesList() {
             "notesList"
         );
 
+
     if (!container) return;
+
 
     if (notes.length === 0) {
 
@@ -396,7 +553,9 @@ function renderNotesList() {
 
     }
 
+
     container.innerHTML =
+
         notes.map(note => `
 
             <div
@@ -420,6 +579,7 @@ function renderNotesList() {
 
                 </strong>
 
+
                 <small>
 
                     ${formatNoteDate(
@@ -435,6 +595,10 @@ function renderNotesList() {
 }
 
 
+// =========================
+// EMPTY NOTE
+// =========================
+
 function showEmptyNote() {
 
     let title =
@@ -442,10 +606,12 @@ function showEmptyNote() {
             "noteTitle"
         );
 
+
     let content =
         document.getElementById(
             "noteContent"
         );
+
 
     if (title) {
 
@@ -455,6 +621,7 @@ function showEmptyNote() {
 
     }
 
+
     if (content) {
 
         content.value = "";
@@ -463,24 +630,44 @@ function showEmptyNote() {
 
     }
 
+
+    let date =
+        document.getElementById(
+            "noteDate"
+        );
+
+
+    if (date) {
+
+        date.textContent =
+            "Create a note to get started.";
+
+    }
+
+
     let status =
         document.getElementById(
             "noteSaveStatus"
         );
 
+
     if (status) {
 
-        status.textContent =
-            "";
+        status.textContent = "";
 
     }
 
 }
 
 
+// =========================
+// FORMAT DATE
+// =========================
+
 function formatNoteDate(date) {
 
     if (!date) return "";
+
 
     return new Date(date)
         .toLocaleString();
@@ -488,18 +675,37 @@ function formatNoteDate(date) {
 }
 
 
+// =========================
+// ESCAPE HTML
+// =========================
+
 function escapeHTML(text) {
 
     return String(text)
 
-        .replace(/&/g, "&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g, "&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g, "&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g, "&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g, "&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
