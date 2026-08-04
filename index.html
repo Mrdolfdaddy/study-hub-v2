@@ -4,11 +4,18 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Study Hub 4.3</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<link rel="stylesheet" href="main.css">
+<title>Study Hub 4.4</title>
+
+<link
+    rel="stylesheet"
+    href="main.css"
+>
 
 </head>
 
@@ -19,6 +26,10 @@
 <div class="app">
 
 
+<!-- =========================
+     SIDEBAR
+========================= -->
+
 <aside class="sidebar">
 
 
@@ -26,7 +37,7 @@
 
 📚 Study Hub
 
-<span>4.3</span>
+<span>4.4</span>
 
 </div>
 
@@ -35,33 +46,63 @@
 <nav>
 
 
-<button class="nav-btn active" onclick="showPage('dashboard', this)">
+<button
+    class="nav-btn active"
+    onclick="showPage('dashboard', this)"
+>
+
 🏠 Dashboard
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('planner', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('planner', this)"
+>
+
 📖 Learning Planner
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('projects', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('projects', this)"
+>
+
 🚀 Projects
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('notes', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('notes', this)"
+>
+
 📝 Notes
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('tools', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('tools', this)"
+>
+
 🛠 Tools
+
 </button>
 
 
-<button class="nav-btn" onclick="showPage('settings', this)">
+<button
+    class="nav-btn"
+    onclick="showPage('settings', this)"
+>
+
 ⚙️ Settings
+
 </button>
 
 
@@ -69,7 +110,10 @@
 
 
 
-<button class="theme-btn" onclick="toggleTheme()">
+<button
+    class="theme-btn"
+    onclick="toggleTheme()"
+>
 
 🌙 Toggle Theme
 
@@ -82,45 +126,90 @@
 
 
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main class="main">
 
 
 
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<section
+    id="dashboard"
+    class="page active"
+>
 
 
-<section id="dashboard" class="page active">
+<div class="dashboard-header">
+
+<div>
+
+<h1>
+Welcome back 👋
+</h1>
+
+<p class="dashboard-subtitle">
+Here's what's happening with your Study Hub.
+</p>
+
+</div>
 
 
-<h1>Welcome back 👋</h1>
+<div class="dashboard-date">
 
+📅
 
+<span id="date"></span>
 
-<div class="dashboard-grid">
+<br>
 
+🕐
 
+<span id="clock"></span>
 
-<div class="card">
-
-<h2>📅 Today</h2>
-
-<p id="date"></p>
-
-<p id="clock"></p>
+</div>
 
 </div>
 
 
 
+<!-- =========================
+     DASHBOARD STATS
+========================= -->
 
-<div class="card">
+<div class="dashboard-stats">
 
-<h2>📈 Progress</h2>
 
-<div class="progress-box" id="dashboardProgress">
+<!-- PROGRESS -->
+
+<div class="card dashboard-stat-card progress-card">
+
+
+<div class="stat-icon">
+📈
+</div>
+
+
+<div class="stat-content">
+
+<h3>
+Overall Progress
+</h3>
+
+
+<div
+    class="dashboard-progress-circle"
+    id="dashboardProgress"
+>
 
 0%
 
 </div>
+
 
 <p id="progressText">
 No tasks completed yet.
@@ -129,68 +218,114 @@ No tasks completed yet.
 </div>
 
 
+</div>
 
 
 
-<div class="card">
+<!-- PROJECTS -->
 
-<h2>🚀 Projects</h2>
+<div class="card dashboard-stat-card">
 
-<h3 id="projectCount">
 
-0 Projects
+<div class="stat-icon">
+🚀
+</div>
 
+
+<div class="stat-content">
+
+<h3>
+Projects
 </h3>
 
-<p>Your active projects.</p>
+
+<h2 id="projectCount">
+0 Projects
+</h2>
+
+
+<p>
+Your active projects.
+</p>
 
 </div>
-
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>⚡ Quick Actions</h2>
-
-
-<button onclick="createProject()">
-➕ New Project
-</button>
-
-
-<button onclick="showPage('planner', this)">
-📖 Open Planner
-</button>
-
-
-<button onclick="exportBackup()">
-💾 Backup Now
-</button>
 
 
 </div>
 
 
 
+<!-- REMAINING -->
+
+<div class="card dashboard-stat-card">
+
+
+<div class="stat-icon">
+🎯
+</div>
+
+
+<div class="stat-content">
+
+<h3>
+Tasks Remaining
+</h3>
+
+
+<h2 id="remainingTasks">
+0
+</h2>
+
+
+<p>
+Tasks still to complete.
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
 
 
 
-<div class="card">
+<!-- =========================
+     MAIN DASHBOARD GRID
+========================= -->
+
+<div class="dashboard-main-grid">
 
 
-<h2>✅ Today's Tasks</h2>
+
+<!-- TODAY'S TASKS -->
+
+<div class="card dashboard-tasks-card">
+
+
+<div class="dashboard-section-header">
+
+<div>
+
+<h2>
+✅ Today's Tasks
+</h2>
+
+<p>
+Stay on top of your work.
+</p>
+
+</div>
+
+</div>
 
 
 <div id="todayTasks">
 
-<p>No tasks loaded.</p>
+<p>
+No tasks loaded.
+</p>
 
 </div>
 
@@ -198,6 +333,92 @@ No tasks completed yet.
 </div>
 
 
+
+<!-- QUICK ACTIONS -->
+
+<div class="card quick-actions-card">
+
+
+<h2>
+⚡ Quick Actions
+</h2>
+
+
+<p>
+Jump straight into what you need.
+</p>
+
+
+
+<div class="quick-actions">
+
+
+<button
+    onclick="createProject()"
+>
+
+➕ New Project
+
+</button>
+
+
+<button
+    onclick="showPage('planner', this)"
+>
+
+📖 Open Planner
+
+</button>
+
+
+<button
+    onclick="showPage('notes', this)"
+>
+
+📝 Open Notes
+
+</button>
+
+
+<button
+    onclick="exportBackup()"
+>
+
+💾 Backup Now
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================
+     DASHBOARD BOTTOM
+========================= -->
+
+<div class="card dashboard-tip">
+
+
+<h2>
+💡 Study Tip
+</h2>
+
+
+<p>
+Break large tasks into smaller steps.
+Completing one small task at a time makes
+big projects much easier to manage.
+</p>
+
+
+</div>
 
 
 
@@ -207,12 +428,14 @@ No tasks completed yet.
 
 
 
+<!-- =========================
+     LEARNING PLANNER
+========================= -->
 
-
-
-
-
-<section id="planner" class="page">
+<section
+    id="planner"
+    class="page"
+>
 
 
 <h1>
@@ -224,7 +447,9 @@ No tasks completed yet.
 <div class="planner-controls">
 
 
-<button onclick="createPlan()">
+<button
+    onclick="createPlan()"
+>
 
 ➕ New Week
 
@@ -232,15 +457,15 @@ No tasks completed yet.
 
 
 
-<select id="planSelector" onchange="changePlan(this.value)">
+<select
+    id="planSelector"
+    onchange="changePlan(this.value)"
+>
 
 </select>
 
 
-
 </div>
-
-
 
 
 
@@ -250,9 +475,7 @@ No tasks completed yet.
 <div class="card">
 
 <h2>
-
 Loading Planner...
-
 </h2>
 
 </div>
@@ -261,18 +484,20 @@ Loading Planner...
 </div>
 
 
-
 </section>
 
 
 
 
 
+<!-- =========================
+     PROJECTS
+========================= -->
 
-
-
-
-<section id="projects" class="page">
+<section
+    id="projects"
+    class="page"
+>
 
 
 <h1>
@@ -281,11 +506,12 @@ Loading Planner...
 
 
 
-
 <div class="planner-actions">
 
 
-<button onclick="createProject()">
+<button
+    onclick="createProject()"
+>
 
 ➕ New Project
 
@@ -296,17 +522,13 @@ Loading Planner...
 
 
 
-
-
 <div id="projectsContainer">
 
 
 <div class="card">
 
 <h2>
-
 Loading Projects...
-
 </h2>
 
 </div>
@@ -315,19 +537,20 @@ Loading Projects...
 </div>
 
 
-
-
 </section>
 
 
 
 
 
+<!-- =========================
+     NOTES
+========================= -->
 
-
-
-
-<section id="notes" class="page">
+<section
+    id="notes"
+    class="page"
+>
 
 
 <h1>
@@ -339,11 +562,12 @@ Loading Projects...
 <div class="card">
 
 
-<textarea placeholder="Write notes here..."></textarea>
+<textarea
+    placeholder="Write notes here..."
+></textarea>
 
 
 </div>
-
 
 
 </section>
@@ -352,11 +576,14 @@ Loading Projects...
 
 
 
+<!-- =========================
+     TOOLS
+========================= -->
 
-
-
-
-<section id="tools" class="page">
+<section
+    id="tools"
+    class="page"
+>
 
 
 <h1>
@@ -375,13 +602,13 @@ Coming Soon
 
 <p>
 
-AI tools, timers, calculators, games and resources will go here.
+AI tools, timers, calculators,
+games and resources will go here.
 
 </p>
 
 
 </div>
-
 
 
 </section>
@@ -390,11 +617,14 @@ AI tools, timers, calculators, games and resources will go here.
 
 
 
+<!-- =========================
+     SETTINGS
+========================= -->
 
-
-
-
-<section id="settings" class="page">
+<section
+    id="settings"
+    class="page"
+>
 
 
 <h1>
@@ -403,14 +633,12 @@ AI tools, timers, calculators, games and resources will go here.
 
 
 
-
 <div class="card">
 
 
 <h2>
-Study Hub 4.3
+Study Hub 4.4
 </h2>
-
 
 
 <p>
@@ -430,8 +658,9 @@ Your personal learning dashboard.
 </h3>
 
 
-
-<button onclick="exportBackup()">
+<button
+    onclick="exportBackup()"
+>
 
 💾 Export Backup
 
@@ -439,9 +668,8 @@ Your personal learning dashboard.
 
 
 
-
-<br><br>
-
+<br>
+<br>
 
 
 
@@ -449,16 +677,17 @@ Your personal learning dashboard.
 
 📂 Import Backup
 
-<br><br>
+<br>
+<br>
 
 
-<input 
+<input
 
-type="file"
+    type="file"
 
-accept=".json"
+    accept=".json"
 
-onchange="importBackup(event)"
+    onchange="importBackup(event)"
 
 >
 
@@ -466,22 +695,15 @@ onchange="importBackup(event)"
 </label>
 
 
-
 </div>
-
-
 
 
 </section>
 
 
 
-
-
-
-
-
 </main>
+
 
 </div>
 
@@ -489,8 +711,9 @@ onchange="importBackup(event)"
 
 
 
-
-
+<!-- =========================
+     SCRIPTS
+========================= -->
 
 <script src="storage.js"></script>
 
@@ -501,7 +724,6 @@ onchange="importBackup(event)"
 <script src="backup.js"></script>
 
 <script src="app.js"></script>
-
 
 
 </body>
