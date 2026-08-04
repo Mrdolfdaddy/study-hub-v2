@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadNotes();
 });
 
+
 function loadNotes() {
 
     notes =
@@ -16,9 +17,13 @@ function loadNotes() {
     renderNotesList();
 
     if (notes.length > 0) {
+
         openNote(notes[0].id);
+
     } else {
+
         showEmptyNote();
+
     }
 }
 
@@ -83,7 +88,8 @@ function openNote(id) {
 
         title.disabled = false;
 
-        title.value = note.title;
+        title.value =
+            note.title;
 
     }
 
@@ -91,7 +97,8 @@ function openNote(id) {
 
         content.disabled = false;
 
-        content.value = note.content;
+        content.value =
+            note.content;
 
     }
 
@@ -118,11 +125,10 @@ function updateNoteTitle(value) {
 
     clearTimeout(saveTimer);
 
-    saveTimer = setTimeout(() => {
-
-        saveCurrentNote();
-
-    }, 600);
+    saveTimer = setTimeout(
+        saveCurrentNote,
+        800
+    );
 
 }
 
@@ -136,17 +142,17 @@ function updateNoteContent(value) {
 
     if (!note) return;
 
-    note.content = value;
+    note.content =
+        value;
 
     showUnsavedStatus();
 
     clearTimeout(saveTimer);
 
-    saveTimer = setTimeout(() => {
-
-        saveCurrentNote();
-
-    }, 600);
+    saveTimer = setTimeout(
+        saveCurrentNote,
+        800
+    );
 
 }
 
@@ -178,57 +184,95 @@ function saveCurrentNote() {
 }
 
 
-function showUnsavedStatus() {
+function getStatusElement() {
 
-    let date =
+    let status =
         document.getElementById(
-            "noteDate"
+            "noteSaveStatus"
         );
 
-    if (!date) return;
+    if (!status) {
 
-    date.textContent =
-        "✏️ Unsaved changes...";
+        let date =
+            document.getElementById(
+                "noteDate"
+            );
+
+        if (!date) return null;
+
+        status =
+            document.createElement(
+                "div"
+            );
+
+        status.id =
+            "noteSaveStatus";
+
+        status.style.marginBottom =
+            "15px";
+
+        status.style.fontWeight =
+            "600";
+
+        date.parentNode.insertBefore(
+            status,
+            date
+        );
+
+    }
+
+    return status;
+
+}
+
+
+function showUnsavedStatus() {
+
+    let status =
+        getStatusElement();
+
+    if (!status) return;
+
+    status.textContent =
+        "🟡 UNSAVED CHANGES";
 
 }
 
 
 function showSavingStatus() {
 
-    let date =
-        document.getElementById(
-            "noteDate"
-        );
+    let status =
+        getStatusElement();
 
-    if (!date) return;
+    if (!status) return;
 
-    date.textContent =
-        "💾 Saving...";
+    status.textContent =
+        "🔵 SAVING...";
 
 }
 
 
 function showSavedStatus() {
 
+    let status =
+        getStatusElement();
+
+    if (!status) return;
+
     let note =
         notes.find(
             n => n.id === currentNoteId
         );
 
-    let date =
-        document.getElementById(
-            "noteDate"
-        );
-
-    if (!date || !note) return;
+    if (!note) return;
 
     let time =
         new Date(
             note.updated
         ).toLocaleTimeString();
 
-    date.textContent =
-        "✅ Saved at " + time;
+    status.textContent =
+        "🟢 SAVED • " + time;
 
 }
 
@@ -268,7 +312,9 @@ function deleteNote() {
 
     if (notes.length > 0) {
 
-        openNote(notes[0].id);
+        openNote(
+            notes[0].id
+        );
 
     } else {
 
@@ -310,21 +356,15 @@ function searchNotes(value) {
                 note.title +
                 " " +
                 note.content
-            ).toLowerCase();
+            )
+            .toLowerCase();
 
-        if (
-            searchableText.includes(search)
-        ) {
-
-            item.style.display =
-                "block";
-
-        } else {
-
-            item.style.display =
-                "none";
-
-        }
+        item.style.display =
+            searchableText.includes(
+                search
+            )
+            ? "block"
+            : "none";
 
     });
 
@@ -423,15 +463,15 @@ function showEmptyNote() {
 
     }
 
-    let date =
+    let status =
         document.getElementById(
-            "noteDate"
+            "noteSaveStatus"
         );
 
-    if (date) {
+    if (status) {
 
-        date.textContent =
-            "Create a note to get started.";
+        status.textContent =
+            "";
 
     }
 
