@@ -1,215 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<section id="dashboard" class="page active">
 
-<head>
+<h1>Welcome back 👋</h1>
 
-<meta charset="UTF-8">
+<div class="dashboard-grid">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<div class="card">
 
-<title>Study Hub 4.4</title>
+<h2>📅 Today</h2>
 
-<link
-    rel="stylesheet"
-    href="main.css"
->
+<p id="date"></p>
 
-</head>
-
-
-<body>
-
-
-<div class="app">
-
-
-<!-- =========================
-     SIDEBAR
-========================= -->
-
-<aside class="sidebar">
-
-
-<div class="logo">
-
-📚 Study Hub
-
-<span>4.4</span>
+<p id="clock"></p>
 
 </div>
 
 
+<div class="card">
 
-<nav>
+<h2>📈 Progress</h2>
 
-
-<button
-    class="nav-btn active"
-    onclick="showPage('dashboard', this)"
->
-
-🏠 Dashboard
-
-</button>
-
-
-<button
-    class="nav-btn"
-    onclick="showPage('planner', this)"
->
-
-📖 Learning Planner
-
-</button>
-
-
-<button
-    class="nav-btn"
-    onclick="showPage('projects', this)"
->
-
-🚀 Projects
-
-</button>
-
-
-<button
-    class="nav-btn"
-    onclick="showPage('notes', this)"
->
-
-📝 Notes
-
-</button>
-
-
-<button
-    class="nav-btn"
-    onclick="showPage('tools', this)"
->
-
-🛠 Tools
-
-</button>
-
-
-<button
-    class="nav-btn"
-    onclick="showPage('settings', this)"
->
-
-⚙️ Settings
-
-</button>
-
-
-</nav>
-
-
-
-<button
-    class="theme-btn"
-    onclick="toggleTheme()"
->
-
-🌙 Toggle Theme
-
-</button>
-
-
-</aside>
-
-
-
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
-<main class="main">
-
-
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<section
-    id="dashboard"
-    class="page active"
->
-
-
-<div class="dashboard-header">
-
-<div>
-
-<h1>
-Welcome back 👋
-</h1>
-
-<p class="dashboard-subtitle">
-Here's what's happening with your Study Hub.
-</p>
-
-</div>
-
-
-<div class="dashboard-date">
-
-📅
-
-<span id="date"></span>
-
-<br>
-
-🕐
-
-<span id="clock"></span>
-
-</div>
-
-</div>
-
-
-
-<!-- =========================
-     DASHBOARD STATS
-========================= -->
-
-<div class="dashboard-stats">
-
-
-<!-- PROGRESS -->
-
-<div class="card dashboard-stat-card progress-card">
-
-
-<div class="stat-icon">
-📈
-</div>
-
-
-<div class="stat-content">
-
-<h3>
-Overall Progress
-</h3>
-
-
-<div
-    class="dashboard-progress-circle"
-    id="dashboardProgress"
->
+<div class="progress-box" id="dashboardProgress">
 
 0%
 
 </div>
-
 
 <p id="progressText">
 No tasks completed yet.
@@ -218,514 +32,50 @@ No tasks completed yet.
 </div>
 
 
-</div>
+<div class="card">
 
+<h2>🚀 Projects</h2>
 
-
-<!-- PROJECTS -->
-
-<div class="card dashboard-stat-card">
-
-
-<div class="stat-icon">
-🚀
-</div>
-
-
-<div class="stat-content">
-
-<h3>
-Projects
-</h3>
-
-
-<h2 id="projectCount">
+<h3 id="projectCount">
 0 Projects
-</h2>
-
-
-<p>
-Your active projects.
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<!-- REMAINING -->
-
-<div class="card dashboard-stat-card">
-
-
-<div class="stat-icon">
-🎯
-</div>
-
-
-<div class="stat-content">
-
-<h3>
-Tasks Remaining
 </h3>
 
-
-<h2 id="remainingTasks">
-0
-</h2>
-
-
-<p>
-Tasks still to complete.
-</p>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<!-- =========================
-     MAIN DASHBOARD GRID
-========================= -->
-
-<div class="dashboard-main-grid">
-
-
-
-<!-- TODAY'S TASKS -->
-
-<div class="card dashboard-tasks-card">
-
-
-<div class="dashboard-section-header">
-
-<div>
-
-<h2>
-✅ Today's Tasks
-</h2>
-
-<p>
-Stay on top of your work.
-</p>
+<p>Your active projects.</p>
 
 </div>
 
 </div>
 
+
+<div class="card">
+
+<h2>⚡ Quick Actions</h2>
+
+<button onclick="createProject()">
+➕ New Project
+</button>
+
+<button onclick="showPage('planner', this)">
+📖 Open Planner
+</button>
+
+<button onclick="exportBackup()">
+💾 Backup Now
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>✅ Today's Tasks</h2>
 
 <div id="todayTasks">
 
-<p>
-No tasks loaded.
-</p>
+<p>No tasks loaded.</p>
 
 </div>
 
-
 </div>
-
-
-
-<!-- QUICK ACTIONS -->
-
-<div class="card quick-actions-card">
-
-
-<h2>
-⚡ Quick Actions
-</h2>
-
-
-<p>
-Jump straight into what you need.
-</p>
-
-
-
-<div class="quick-actions">
-
-
-<button
-    onclick="createProject()"
->
-
-➕ New Project
-
-</button>
-
-
-<button
-    onclick="showPage('planner', this)"
->
-
-📖 Open Planner
-
-</button>
-
-
-<button
-    onclick="showPage('notes', this)"
->
-
-📝 Open Notes
-
-</button>
-
-
-<button
-    onclick="exportBackup()"
->
-
-💾 Backup Now
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<!-- =========================
-     DASHBOARD BOTTOM
-========================= -->
-
-<div class="card dashboard-tip">
-
-
-<h2>
-💡 Study Tip
-</h2>
-
-
-<p>
-Break large tasks into smaller steps.
-Completing one small task at a time makes
-big projects much easier to manage.
-</p>
-
-
-</div>
-
-
 
 </section>
-
-
-
-
-
-<!-- =========================
-     LEARNING PLANNER
-========================= -->
-
-<section
-    id="planner"
-    class="page"
->
-
-
-<h1>
-📖 Learning Planner
-</h1>
-
-
-
-<div class="planner-controls">
-
-
-<button
-    onclick="createPlan()"
->
-
-➕ New Week
-
-</button>
-
-
-
-<select
-    id="planSelector"
-    onchange="changePlan(this.value)"
->
-
-</select>
-
-
-</div>
-
-
-
-<div id="plannerContainer">
-
-
-<div class="card">
-
-<h2>
-Loading Planner...
-</h2>
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- =========================
-     PROJECTS
-========================= -->
-
-<section
-    id="projects"
-    class="page"
->
-
-
-<h1>
-🚀 Projects
-</h1>
-
-
-
-<div class="planner-actions">
-
-
-<button
-    onclick="createProject()"
->
-
-➕ New Project
-
-</button>
-
-
-</div>
-
-
-
-<div id="projectsContainer">
-
-
-<div class="card">
-
-<h2>
-Loading Projects...
-</h2>
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- =========================
-     NOTES
-========================= -->
-
-<section
-    id="notes"
-    class="page"
->
-
-
-<h1>
-📝 Notes
-</h1>
-
-
-
-<div class="card">
-
-
-<textarea
-    placeholder="Write notes here..."
-></textarea>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- =========================
-     TOOLS
-========================= -->
-
-<section
-    id="tools"
-    class="page"
->
-
-
-<h1>
-🛠 Tools
-</h1>
-
-
-
-<div class="card">
-
-
-<h2>
-Coming Soon
-</h2>
-
-
-<p>
-
-AI tools, timers, calculators,
-games and resources will go here.
-
-</p>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<section
-    id="settings"
-    class="page"
->
-
-
-<h1>
-⚙️ Settings
-</h1>
-
-
-
-<div class="card">
-
-
-<h2>
-Study Hub 4.4
-</h2>
-
-
-<p>
-
-Your personal learning dashboard.
-
-</p>
-
-
-
-<hr>
-
-
-
-<h3>
-💾 Backup
-</h3>
-
-
-<button
-    onclick="exportBackup()"
->
-
-💾 Export Backup
-
-</button>
-
-
-
-<br>
-<br>
-
-
-
-<label>
-
-📂 Import Backup
-
-<br>
-<br>
-
-
-<input
-
-    type="file"
-
-    accept=".json"
-
-    onchange="importBackup(event)"
-
->
-
-
-</label>
-
-
-</div>
-
-
-</section>
-
-
-
-</main>
-
-
-</div>
-
-
-
-
-
-<!-- =========================
-     SCRIPTS
-========================= -->
-
-<script src="storage.js"></script>
-
-<script src="planner.js"></script>
-
-<script src="projects.js"></script>
-
-<script src="backup.js"></script>
-
-<script src="app.js"></script>
-
-
-</body>
-
-</html>
