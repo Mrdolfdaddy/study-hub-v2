@@ -1,5 +1,5 @@
 /* =========================
-   STUDY HUB 4.4
+   STUDY HUB 4.3
    MAIN CSS
 ========================= */
 
@@ -7,7 +7,6 @@
     box-sizing: border-box;
     font-family: "Segoe UI", Arial, sans-serif;
 }
-
 
 :root {
     --accent: #8b5cf6;
@@ -29,7 +28,6 @@ body {
             rgba(5,8,22,.75),
             rgba(5,8,22,.9)
         ),
-
         url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3");
 
     background-size: cover;
@@ -79,9 +77,7 @@ body {
 
 .logo {
     font-size: 30px;
-
     font-weight: 800;
-
     margin-bottom: 40px;
 }
 
@@ -93,9 +89,7 @@ body {
 
 nav {
     display: flex;
-
     flex-direction: column;
-
     gap: 12px;
 }
 
@@ -136,7 +130,6 @@ nav {
 
 .theme-btn {
     width: 100%;
-
     margin-top: 30px;
 }
 
@@ -150,7 +143,7 @@ nav {
 
     margin-left: 270px;
 
-    padding: 30px;
+    padding: 40px;
 
     height: 100vh;
 
@@ -169,11 +162,8 @@ nav {
 
 
 h1 {
-    font-size: 38px;
-
+    font-size: 42px;
     margin-top: 0;
-
-    margin-bottom: 20px;
 }
 
 
@@ -187,353 +177,60 @@ h1 {
 
     backdrop-filter: blur(20px);
 
-    border-radius: 20px;
+    border-radius: 25px;
 
-    padding: 20px;
+    padding: 25px;
 
     border:
         1px solid rgba(255,255,255,.1);
 
-    margin-bottom: 18px;
+    margin-bottom: 25px;
 
     transition: .25s;
 }
 
 
 .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
 }
 
 
 /* =========================
-   DASHBOARD HEADER
+   DASHBOARD
 ========================= */
 
-.dashboard-header {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 18px;
-}
-
-
-.dashboard-header h1 {
-    margin-bottom: 5px;
-}
-
-
-.dashboard-subtitle {
-    margin: 0;
-
-    opacity: .65;
-}
-
-
-.dashboard-date {
-    text-align: right;
-
-    line-height: 1.8;
-
-    opacity: .8;
-
-    font-size: 14px;
-}
-
-
-/* =========================
-   DASHBOARD STATS
-========================= */
-
-.dashboard-stats {
-
+.dashboard-grid {
     display: grid;
 
     grid-template-columns:
-        1.5fr
-        1fr
-        1fr;
+        repeat(
+            auto-fit,
+            minmax(250px,1fr)
+        );
 
-    gap: 15px;
-
-    margin-bottom: 15px;
+    gap: 25px;
 }
 
 
-.dashboard-stat-card {
-
-    min-height: 145px;
-
-    margin-bottom: 0;
+.progress-box {
+    height: 120px;
 
     display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-}
-
-
-.stat-icon {
-
-    width: 50px;
-
-    height: 50px;
-
-    border-radius: 15px;
-
-    display: flex;
-
-    align-items: center;
 
     justify-content: center;
 
-    background:
-        rgba(139,92,246,.2);
-
-    font-size: 24px;
-
-    flex-shrink: 0;
-}
-
-
-.stat-content {
-    min-width: 0;
-}
-
-
-.stat-content h3 {
-    margin: 0 0 5px;
-
-    font-size: 15px;
-
-    opacity: .7;
-}
-
-
-.stat-content h2 {
-    margin: 0;
-
-    font-size: 28px;
-}
-
-
-.stat-content p {
-    margin: 5px 0 0;
-
-    opacity: .6;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-.dashboard-progress-circle {
-
-    width: 72px;
-
-    height: 72px;
-
-    border-radius: 50%;
-
-    display: flex;
-
     align-items: center;
 
-    justify-content: center;
-
-    font-size: 21px;
+    font-size: 42px;
 
     font-weight: 800;
 
     color: #c4b5fd;
-
-    background:
-        rgba(139,92,246,.15);
-
-    border:
-        4px solid var(--accent);
-
-    transition:
-        transform .3s,
-        box-shadow .3s;
 }
 
 
-.dashboard-progress-circle:hover {
-
-    transform: scale(1.05);
-
-    box-shadow:
-        0 0 25px rgba(139,92,246,.35);
-}
-
-
-/* =========================
-   DASHBOARD MAIN
-========================= */
-
-.dashboard-main-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        1.7fr
-        1fr;
-
-    gap: 15px;
-
-    align-items: start;
-}
-
-
-.dashboard-tasks-card,
-.quick-actions-card {
-
-    margin-bottom: 0;
-}
-
-
-.dashboard-section-header h2 {
-
-    margin: 0;
-
-    font-size: 20px;
-}
-
-
-.dashboard-section-header p {
-
-    margin: 4px 0 15px;
-
-    opacity: .55;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   DASHBOARD TASKS
-========================= */
-
-#todayTasks {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
-}
-
-
-.dashboard-task {
-
-    background:
-        rgba(255,255,255,.06);
-
-    padding: 10px 12px;
-
-    border-radius: 12px;
-
-    transition: .2s;
-}
-
-
-.dashboard-task:hover {
-
-    background:
-        rgba(255,255,255,.1);
-}
-
-
-.dashboard-task input {
-
-    width: 20px;
-
-    height: 20px;
-}
-
-
-/* =========================
-   QUICK ACTIONS
-========================= */
-
-.quick-actions-card h2 {
-
-    margin-top: 0;
-
-    margin-bottom: 4px;
-}
-
-
-.quick-actions-card > p {
-
-    margin-top: 0;
-
-    opacity: .55;
-
-    font-size: 13px;
-}
-
-
-.quick-actions {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 9px;
-
-    margin-top: 15px;
-}
-
-
-.quick-actions button {
-
-    padding: 11px 10px;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   DASHBOARD TIP
-========================= */
-
-.dashboard-tip {
-
-    margin-top: 15px;
-
-    margin-bottom: 0;
-
-    padding: 16px 20px;
-}
-
-
-.dashboard-tip h2 {
-
-    margin:
-        0 0 5px;
-
-    font-size: 17px;
-}
-
-
-.dashboard-tip p {
-
-    margin: 0;
-
-    opacity: .65;
-
-    font-size: 13px;
-
-    line-height: 1.5;
+#progressText {
+    opacity: .8;
 }
 
 
@@ -542,12 +239,11 @@ h1 {
 ========================= */
 
 button {
-
     border: none;
 
-    padding: 12px 18px;
+    padding: 14px 22px;
 
-    border-radius: 14px;
+    border-radius: 16px;
 
     background:
         linear-gradient(
@@ -558,7 +254,7 @@ button {
 
     color: white;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 600;
 
@@ -567,20 +263,18 @@ button {
     transition: .25s;
 
     box-shadow:
-        0 6px 16px rgba(0,0,0,.25);
+        0 8px 20px rgba(0,0,0,.25);
 }
 
 
 button:hover {
-
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 
     filter: brightness(1.15);
 }
 
 
 button:active {
-
     transform: scale(.96);
 }
 
@@ -590,20 +284,17 @@ button:active {
 ========================= */
 
 .planner-actions {
-
     display: flex;
-
-    gap: 12px;
+    gap: 15px;
 }
 
 
 select {
-
     border: none;
 
-    padding: 12px 16px;
+    padding: 14px 18px;
 
-    border-radius: 14px;
+    border-radius: 16px;
 
     background:
         rgba(255,255,255,.12);
@@ -617,34 +308,30 @@ select {
 ========================= */
 
 .learning-table {
-
     width: 100%;
 
-    border-collapse:
-        separate;
+    border-collapse: separate;
 
-    border-spacing: 10px;
+    border-spacing: 12px;
 }
 
 
 .learning-table th {
-
     background: #312e81;
 
-    padding: 13px;
+    padding: 15px;
 
-    border-radius: 12px;
+    border-radius: 15px;
 }
 
 
 .learning-table td {
-
     background:
         rgba(30,41,59,.85);
 
-    border-radius: 16px;
+    border-radius: 20px;
 
-    padding: 17px;
+    padding: 20px;
 
     vertical-align: top;
 }
@@ -655,21 +342,19 @@ select {
 ========================= */
 
 textarea {
-
     width: 100%;
 
     min-height: 90px;
 
-    background:
-        #0b1220;
+    background: #0b1220;
 
     color: white;
 
     border: none;
 
-    border-radius: 13px;
+    border-radius: 15px;
 
-    padding: 13px;
+    padding: 15px;
 
     resize: vertical;
 }
@@ -680,7 +365,6 @@ textarea {
 ========================= */
 
 .big-check {
-
     display: flex;
 
     justify-content: center;
@@ -690,14 +374,13 @@ textarea {
 
 
 .big-check input {
+    width: 35px;
 
-    width: 32px;
-
-    height: 32px;
+    height: 35px;
 
     appearance: none;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
     border:
         3px solid var(--accent);
@@ -707,9 +390,7 @@ textarea {
 
 
 .big-check input:checked {
-
-    background:
-        var(--accent);
+    background: var(--accent);
 }
 
 
@@ -718,14 +399,12 @@ textarea {
 ========================= */
 
 .project-card {
-
-    margin-bottom: 18px;
+    margin-bottom: 25px;
 }
 
 
 .project-progress {
-
-    height: 16px;
+    height: 18px;
 
     width: 100%;
 
@@ -736,13 +415,14 @@ textarea {
 
     overflow: hidden;
 
-    margin: 12px 0;
+    margin: 15px 0;
 }
 
 
 .progress-fill {
-
     height: 100%;
+
+    width: 0%;
 
     background:
         linear-gradient(
@@ -759,14 +439,11 @@ textarea {
 
 
 .project-check {
-
     display: flex;
 
-    gap: 10px;
+    gap: 12px;
 
-    margin: 10px 0;
-
-    align-items: center;
+    margin: 12px 0;
 }
 
 
@@ -775,7 +452,6 @@ textarea {
 ========================= */
 
 .settings-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -784,7 +460,7 @@ textarea {
             minmax(280px,1fr)
         );
 
-    gap: 20px;
+    gap: 25px;
 }
 
 
@@ -795,99 +471,23 @@ textarea {
 @media(max-width: 900px) {
 
     .app {
-
         flex-direction: column;
-
     }
 
 
     .sidebar {
-
         position: relative;
 
         width: 100%;
 
         height: auto;
-
     }
 
 
     .main {
-
         margin-left: 0;
 
-        padding: 18px;
-
-    }
-
-
-    .dashboard-header {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 10px;
-
-    }
-
-
-    .dashboard-date {
-
-        text-align: left;
-
-    }
-
-
-    .dashboard-stats {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .dashboard-main-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-}
-
-
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media(max-width: 600px) {
-
-    h1 {
-
-        font-size: 30px;
-
-    }
-
-
-    .dashboard-stats {
-
-        gap: 10px;
-
-    }
-
-
-    .dashboard-stat-card {
-
-        min-height: 120px;
-
-        padding: 16px;
-
-    }
-
-
-    .quick-actions {
-
-        grid-template-columns: 1fr;
-
+        padding: 20px;
     }
 
 }
