@@ -127,6 +127,8 @@ function openNote(id) {
 
     if (title) {
 
+        title.disabled = false;
+
         title.value =
             note.title;
 
@@ -134,6 +136,8 @@ function openNote(id) {
 
 
     if (content) {
+
+        content.disabled = false;
 
         content.value =
             note.content;
@@ -143,6 +147,7 @@ function openNote(id) {
 
     updateNoteDate();
 
+    updateSaveStatus("Saved");
 
     renderNotesList();
 
@@ -177,8 +182,9 @@ function updateNoteTitle(value) {
 
     renderNotesList();
 
-
     updateNoteDate();
+
+    updateSaveStatus("Saved");
 
 }
 
@@ -198,6 +204,9 @@ function updateNoteContent(value) {
     if (!note) return;
 
 
+    updateSaveStatus("Saving...");
+
+
     note.content =
         value;
 
@@ -210,6 +219,15 @@ function updateNoteContent(value) {
 
 
     updateNoteDate();
+
+    renderNotesList();
+
+
+    setTimeout(() => {
+
+        updateSaveStatus("Saved");
+
+    }, 300);
 
 }
 
@@ -234,7 +252,7 @@ function deleteNote() {
 
     if (
         !confirm(
-            "Delete this note?"
+            "Are you sure you want to delete this note?"
         )
     ) {
 
@@ -292,13 +310,33 @@ function searchNotes(value) {
 
     items.forEach(item => {
 
-        let text =
-            item.textContent
-                .toLowerCase();
+        let id =
+            Number(
+                item.dataset.noteId
+            );
+
+
+        let note =
+            notes.find(
+                n => n.id === id
+            );
+
+
+        if (!note) return;
+
+
+        let searchableText =
+
+            (
+                note.title +
+                " " +
+                note.content
+            )
+            .toLowerCase();
 
 
         if (
-            text.includes(search)
+            searchableText.includes(search)
         ) {
 
             item.style.display =
@@ -349,6 +387,7 @@ function renderNotesList() {
 
 
     container.innerHTML =
+
         notes.map(note => `
 
             <div
@@ -358,13 +397,20 @@ function renderNotesList() {
                     ? "active"
                     : ""}"
 
+                data-note-id="${note.id}"
+
                 onclick="openNote(${note.id})"
 
             >
 
                 <strong>
-                    ${escapeHTML(note.title)}
+
+                    ${escapeHTML(
+                        note.title
+                    )}
+
                 </strong>
+
 
                 <small>
 
@@ -430,6 +476,44 @@ function showEmptyNote() {
 
     }
 
+
+    updateSaveStatus("");
+
+}
+
+
+// =========================
+// SAVE STATUS
+// =========================
+
+function updateSaveStatus(status) {
+
+    let date =
+        document.getElementById(
+            "noteDate"
+        );
+
+
+    if (!date) return;
+
+
+    let note =
+        notes.find(
+            n => n.id === currentNoteId
+        );
+
+
+    if (!note) return;
+
+
+    date.textContent =
+
+        status +
+        " • Last edited " +
+        formatNoteDate(
+            note.updated
+        );
+
 }
 
 
@@ -455,7 +539,9 @@ function updateNoteDate() {
 
 
     date.textContent =
-        "Last edited " +
+
+        "Saved • Last edited " +
+
         formatNoteDate(
             note.updated
         );
