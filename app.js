@@ -1,5 +1,5 @@
 // =========================
-// STUDY HUB 4.3
+// STUDY HUB 4.5
 // APP CONTROLS + DASHBOARD
 // =========================
 
@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function showPage(page, button) {
 
     document.querySelectorAll(".page")
-        .forEach(section => {
+    .forEach(section => {
 
-            section.classList.remove("active");
+        section.classList.remove("active");
 
-        });
+    });
 
 
     const selected =
@@ -45,35 +45,17 @@ function showPage(page, button) {
 
 
     document.querySelectorAll(".nav-btn")
-        .forEach(btn => {
+    .forEach(btn => {
 
-            btn.classList.remove("active");
+        btn.classList.remove("active");
 
-        });
+    });
 
 
-    if (button) {
+    if (button &&
+        button.classList.contains("nav-btn")) {
 
         button.classList.add("active");
-
-    }
-
-
-    // Refresh dashboard whenever it is opened
-    if (page === "dashboard") {
-
-        updateDashboard();
-
-    }
-
-
-    // Refresh projects whenever they are opened
-    if (
-        page === "projects" &&
-        typeof loadProjects === "function"
-    ) {
-
-        loadProjects();
 
     }
 
@@ -86,13 +68,13 @@ function showPage(page, button) {
 
 function updateDate() {
 
-    const date =
+    const element =
         document.getElementById("date");
 
 
-    if (date) {
+    if (element) {
 
-        date.textContent =
+        element.textContent =
             new Date().toDateString();
 
     }
@@ -126,20 +108,22 @@ function updateClock() {
 
 function updateDashboard() {
 
-    updateProjectCount();
+    updateProjectStats();
 
-    updateProgress();
+    updatePlannerStats();
 
-    updateTasks();
+    updateOverallProgress();
+
+    updateDashboardTasks();
 
 }
 
 
 // =========================
-// PROJECT COUNT
+// PROJECT STATS
 // =========================
 
-function updateProjectCount() {
+function updateProjectStats() {
 
     const projects =
         JSON.parse(
@@ -149,15 +133,21 @@ function updateProjectCount() {
         ) || [];
 
 
-    const element =
+    const count =
         document.getElementById(
             "projectCount"
         );
 
 
-    if (element) {
+    const text =
+        document.getElementById(
+            "projectProgressText"
+        );
 
-        element.textContent =
+
+    if (count) {
+
+        count.textContent =
             projects.length +
             (
                 projects.length === 1
@@ -167,19 +157,84 @@ function updateProjectCount() {
 
     }
 
+
+    if (!text) return;
+
+
+    if (projects.length === 0) {
+
+        text.textContent =
+            "Create your first project.";
+
+        return;
+
+    }
+
+
+    let totalTasks = 0;
+
+    let completedTasks = 0;
+
+
+    projects.forEach(project => {
+
+        if (!project.tasks) return;
+
+
+        totalTasks +=
+            project.tasks.length;
+
+
+        project.tasks.forEach(task => {
+
+            if (task.done) {
+
+                completedTasks++;
+
+            }
+
+        });
+
+    });
+
+
+    if (totalTasks === 0) {
+
+        text.textContent =
+            "No project tasks yet.";
+
+        return;
+
+    }
+
+
+    const percent =
+        Math.round(
+            (completedTasks / totalTasks) * 100
+        );
+
+
+    text.textContent =
+        percent +
+        "% complete • " +
+        completedTasks +
+        " / " +
+        totalTasks +
+        " tasks";
+
 }
 
 
 // =========================
-// DASHBOARD PROGRESS
+// PLANNER STATS
 // =========================
 
-function updateProgress() {
+function getPlannerStats() {
 
-    const projects =
+    const plans =
         JSON.parse(
             localStorage.getItem(
-                "studyHubProjects"
+                "studyHubPlans"
             )
         ) || [];
 
@@ -189,21 +244,152 @@ function updateProgress() {
     let completed = 0;
 
 
+    plans.forEach(plan => {
+
+        if (!plan.subjects) return;
+
+
+        plan.subjects.forEach(subject => {
+
+            if (!subject.days) return;
+
+
+            Object.values(
+                subject.days
+            ).forEach(done => {
+
+                total++;
+
+
+                if (done) {
+
+                    completed++;
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+    return {
+
+        total: total,
+
+        completed: completed,
+
+        remaining:
+            total - completed
+
+    };
+
+}
+
+
+// =========================
+// PLANNER DISPLAY
+// =========================
+
+function updatePlannerStats() {
+
+    const stats =
+        getPlannerStats();
+
+
+    const completed =
+        document.getElementById(
+            "plannerCompleted"
+        );
+
+
+    const remaining =
+        document.getElementById(
+            "plannerRemaining"
+        );
+
+
+    const progress =
+        document.getElementById(
+            "plannerProgress"
+        );
+
+
+    if (completed) {
+
+        completed.textContent =
+            stats.completed;
+
+    }
+
+
+    if (remaining) {
+
+        remaining.textContent =
+            stats.remaining;
+
+    }
+
+
+    if (progress) {
+
+        const percent =
+            stats.total > 0
+                ? Math.round(
+                    (
+                        stats.completed /
+                        stats.total
+                    ) * 100
+                )
+                : 0;
+
+
+        progress.textContent =
+            percent + "%";
+
+    }
+
+}
+
+
+// =========================
+// OVERALL PROGRESS
+// =========================
+
+function updateOverallProgress() {
+
+    const projects =
+        JSON.parse(
+            localStorage.getItem(
+                "studyHubProjects"
+            )
+        ) || [];
+
+
+    const planner =
+        getPlannerStats();
+
+
+    let projectTotal = 0;
+
+    let projectCompleted = 0;
+
+
     projects.forEach(project => {
 
-        if (!Array.isArray(project.tasks)) {
-            return;
-        }
+        if (!project.tasks) return;
 
 
-        total += project.tasks.length;
+        projectTotal +=
+            project.tasks.length;
 
 
         project.tasks.forEach(task => {
 
-            if (task.done === true) {
+            if (task.done) {
 
-                completed++;
+                projectCompleted++;
 
             }
 
@@ -212,25 +398,33 @@ function updateProgress() {
     });
 
 
-    let percent = 0;
+    const total =
+        projectTotal +
+        planner.total;
 
 
-    if (total > 0) {
+    const completed =
+        projectCompleted +
+        planner.completed;
 
-        percent =
-            Math.round(
-                (
-                    completed /
-                    total
-                ) * 100
-            );
 
-    }
+    const percent =
+        total > 0
+            ? Math.round(
+                (completed / total) * 100
+            )
+            : 0;
 
 
     const progress =
         document.getElementById(
             "dashboardProgress"
+        );
+
+
+    const fill =
+        document.getElementById(
+            "dashboardProgressFill"
         );
 
 
@@ -243,6 +437,14 @@ function updateProgress() {
     if (progress) {
 
         progress.textContent =
+            percent + "%";
+
+    }
+
+
+    if (fill) {
+
+        fill.style.width =
             percent + "%";
 
     }
@@ -262,10 +464,10 @@ function updateProgress() {
 
 
 // =========================
-// TODAY'S TASKS
+// DASHBOARD TASKS
 // =========================
 
-function updateTasks() {
+function updateDashboardTasks() {
 
     const container =
         document.getElementById(
@@ -289,38 +491,51 @@ function updateTasks() {
 
     projects.forEach(project => {
 
-        if (!Array.isArray(project.tasks)) {
-            return;
-        }
+        if (!project.tasks) return;
 
 
-        project.tasks.forEach(
-            (task, index) => {
+        project.tasks.forEach(task => {
 
-                if (!task.done) {
+            if (!task.done) {
 
-                    tasks.push({
+                tasks.push({
 
-                        projectId: project.id,
+                    text: task.text,
 
-                        taskIndex: index,
+                    project: project.name
 
-                        text: task.text
-
-                    });
-
-                }
+                });
 
             }
-        );
+
+        });
 
     });
 
 
     if (tasks.length === 0) {
 
-        container.innerHTML =
-            "<p>🎉 No unfinished tasks!</p>";
+        container.innerHTML = `
+
+            <div class="dashboard-empty">
+
+                🎉
+
+                <div>
+
+                    <strong>
+                        You're all caught up!
+                    </strong>
+
+                    <p>
+                        No unfinished project tasks.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
 
         return;
 
@@ -329,141 +544,65 @@ function updateTasks() {
 
     container.innerHTML =
         tasks
-            .slice(0, 10)
-            .map(task => `
+        .slice(0, 8)
+        .map(task => `
 
-                <label
-                    style="
-                        display:flex;
-                        align-items:center;
-                        gap:12px;
-                        margin:12px 0;
-                        cursor:pointer;
-                    "
-                >
+            <div class="dashboard-task">
 
-                    <input
+                <div class="dashboard-task-icon">
+                    ☐
+                </div>
 
-                        type="checkbox"
+                <div>
 
-                        style="
-                            width:22px;
-                            height:22px;
-                            cursor:pointer;
-                        "
+                    <strong>
+                        ${escapeDashboardText(task.text)}
+                    </strong>
 
-                        onchange="
-                            completeDashboardTask(
-                                ${task.projectId},
-                                ${task.taskIndex}
-                            )
-                        "
+                    <small>
+                        🚀 ${escapeDashboardText(task.project)}
+                    </small>
 
-                    >
+                </div>
 
-                    <span>
+            </div>
 
-                        ${escapeDashboardHTML(
-                            task.text
-                        )}
+        `)
+        .join("");
 
-                    </span>
 
-                </label>
+    if (tasks.length > 8) {
 
-            `)
-            .join("");
+        container.innerHTML += `
+
+            <p class="dashboard-more">
+
+                + ${tasks.length - 8}
+                more tasks
+
+            </p>
+
+        `;
+
+    }
 
 }
 
 
 // =========================
-// COMPLETE DASHBOARD TASK
+// SAFE DASHBOARD TEXT
 // =========================
 
-function completeDashboardTask(
-    projectId,
-    taskIndex
-) {
+function escapeDashboardText(text) {
 
-    const projects =
-        JSON.parse(
-            localStorage.getItem(
-                "studyHubProjects"
-            )
-        ) || [];
+    if (!text) return "";
 
-
-    const project =
-        projects.find(
-            project =>
-                project.id === projectId
-        );
-
-
-    if (!project) return;
-
-
-    if (!Array.isArray(project.tasks)) {
-        return;
-    }
-
-
-    const task =
-        project.tasks[taskIndex];
-
-
-    if (!task) return;
-
-
-    // Mark task complete
-    task.done = true;
-
-
-    // Recalculate project progress
-    if (project.tasks.length === 0) {
-
-        project.progress = 0;
-
-    } else {
-
-        const completed =
-            project.tasks.filter(
-                task => task.done === true
-            ).length;
-
-
-        project.progress =
-            Math.round(
-                (
-                    completed /
-                    project.tasks.length
-                ) * 100
-            );
-
-    }
-
-
-    // Save everything
-    localStorage.setItem(
-        "studyHubProjects",
-        JSON.stringify(projects)
-    );
-
-
-    // Update Dashboard immediately
-    updateDashboard();
-
-
-    // Update Projects immediately
-    if (
-        typeof loadProjects ===
-        "function"
-    ) {
-
-        loadProjects();
-
-    }
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -474,10 +613,7 @@ function completeDashboardTask(
 
 function toggleTheme() {
 
-    document.body.classList.toggle(
-        "dark"
-    );
-
+    document.body.classList.toggle("dark");
 
     saveSettings();
 
@@ -543,7 +679,7 @@ function saveSettings() {
 
 
 // =========================
-// SETTINGS LOAD
+// LOAD SETTINGS
 // =========================
 
 function loadSettings() {
@@ -613,51 +749,5 @@ function clearData() {
         location.reload();
 
     }
-
-}
-
-
-// =========================
-// ESCAPE HTML
-// =========================
-
-function escapeDashboardHTML(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
 
 }
