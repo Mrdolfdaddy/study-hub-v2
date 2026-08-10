@@ -4,18 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<title>Study Hub 4.5</title>
 
-<title>Study Hub 4.3</title>
-
-<link
-    rel="stylesheet"
-    href="main.css"
->
+<link rel="stylesheet" href="main.css">
 
 </head>
 
@@ -33,68 +26,62 @@
 
 📚 Study Hub
 
-<span>4.3</span>
+<span>4.5</span>
 
 </div>
+
 
 
 <nav>
 
 
-<button
-    class="nav-btn active"
-    onclick="showPage('dashboard', this)"
->
+<button class="nav-btn active"
+onclick="showPage('dashboard', this)">
 
 🏠 Dashboard
 
 </button>
 
 
-<button
-    class="nav-btn"
-    onclick="showPage('planner', this)"
->
+
+<button class="nav-btn"
+onclick="showPage('planner', this)">
 
 📖 Learning Planner
 
 </button>
 
 
-<button
-    class="nav-btn"
-    onclick="showPage('projects', this)"
->
+
+<button class="nav-btn"
+onclick="showPage('projects', this)">
 
 🚀 Projects
 
 </button>
 
 
-<button
-    class="nav-btn"
-    onclick="showPage('notes', this)"
->
+
+<button class="nav-btn"
+onclick="showPage('notes', this)">
 
 📝 Notes
 
 </button>
 
 
-<button
-    class="nav-btn"
-    onclick="showPage('tools', this)"
->
+
+<button class="nav-btn"
+onclick="showPage('tools', this)">
 
 🛠 Tools
 
 </button>
 
 
-<button
-    class="nav-btn"
-    onclick="showPage('settings', this)"
->
+
+<button class="nav-btn"
+onclick="showPage('settings', this)">
 
 ⚙️ Settings
 
@@ -104,10 +91,9 @@
 </nav>
 
 
-<button
-    class="theme-btn"
-    onclick="toggleTheme()"
->
+
+<button class="theme-btn"
+onclick="toggleTheme()">
 
 🌙 Toggle Theme
 
@@ -118,7 +104,11 @@
 
 
 
+
+
 <main class="main">
+
+
 
 
 
@@ -126,10 +116,7 @@
      DASHBOARD
 ========================= -->
 
-<section
-    id="dashboard"
-    class="page active"
->
+<section id="dashboard" class="page active">
 
 
 <h1>
@@ -137,38 +124,55 @@ Welcome back 👋
 </h1>
 
 
+
+<!-- TOP CARDS -->
+
 <div class="dashboard-grid">
 
 
-<div class="card">
+
+<div class="card dashboard-card">
 
 <h2>📅 Today</h2>
 
 <p id="date"></p>
 
-<p id="clock"></p>
+<div id="clock"
+class="dashboard-clock">
+</div>
 
 </div>
 
 
 
-<div class="card">
 
-<h2>📈 Progress</h2>
+
+<div class="card dashboard-card">
+
+<h2>📊 Overall Progress</h2>
 
 <div
-    class="progress-box"
-    id="dashboardProgress"
->
+id="dashboardProgress"
+class="progress-box">
 
 0%
 
 </div>
 
+<div class="dashboard-progress-bar">
+
+<div
+id="dashboardProgressFill"
+class="dashboard-progress-fill"
+style="width:0%">
+
+</div>
+
+</div>
 
 <p id="progressText">
 
-No tasks completed yet.
+0 / 0 tasks completed
 
 </p>
 
@@ -176,19 +180,23 @@ No tasks completed yet.
 
 
 
-<div class="card">
+
+
+<div class="card dashboard-card">
 
 <h2>🚀 Projects</h2>
 
-<h3 id="projectCount">
+<div
+id="projectCount"
+class="dashboard-number">
 
 0 Projects
 
-</h3>
+</div>
 
-<p>
+<p id="projectProgressText">
 
-Your active projects.
+No projects yet.
 
 </p>
 
@@ -199,35 +207,176 @@ Your active projects.
 
 
 
+
+
+<!-- TODAY -->
+
 <div class="card">
 
 
-<h2>
-⚡ Quick Actions
-</h2>
+<div class="dashboard-section-header">
+
+<div>
+
+<h2>✅ Tasks</h2>
+
+<p>
+Your unfinished work
+</p>
+
+</div>
 
 
 <button
-    onclick="createProject()"
->
+onclick="showPage('projects', this)">
+
+View Projects
+
+</button>
+
+</div>
+
+
+
+<div id="todayTasks"
+class="dashboard-task-list">
+
+<p>
+No unfinished tasks.
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- PLANNER -->
+
+<div class="card">
+
+
+<div class="dashboard-section-header">
+
+<div>
+
+<h2>📖 Learning Planner</h2>
+
+<p>
+Your current study progress
+</p>
+
+</div>
+
+
+<button
+onclick="showPage('planner', this)">
+
+Open Planner
+
+</button>
+
+</div>
+
+
+
+<div class="dashboard-planner-stats">
+
+
+<div>
+
+<span id="plannerCompleted">
+0
+</span>
+
+<small>
+Completed
+</small>
+
+</div>
+
+
+
+<div>
+
+<span id="plannerRemaining">
+0
+</span>
+
+<small>
+Remaining
+</small>
+
+</div>
+
+
+
+<div>
+
+<span id="plannerProgress">
+0%
+</span>
+
+<small>
+Progress
+</small>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="card">
+
+
+<h2>⚡ Quick Actions</h2>
+
+
+
+<div class="quick-actions">
+
+
+<button
+onclick="createProject()">
 
 ➕ New Project
 
 </button>
 
 
+
 <button
-    onclick="showPage('planner', this)"
->
+onclick="showPage('planner', this)">
 
 📖 Open Planner
 
 </button>
 
 
+
 <button
-    onclick="exportBackup()"
->
+onclick="showPage('notes', this)">
+
+📝 Open Notes
+
+</button>
+
+
+
+<button
+onclick="exportBackup()">
 
 💾 Backup Now
 
@@ -237,28 +386,17 @@ Your active projects.
 </div>
 
 
-
-<div class="card">
-
-
-<h2>
-✅ Today's Tasks
-</h2>
-
-
-<div id="todayTasks">
-
-<p>
-No tasks loaded.
-</p>
-
 </div>
 
-
-</div>
 
 
 </section>
+
+
+
+
+
+
 
 
 
@@ -266,10 +404,7 @@ No tasks loaded.
      PLANNER
 ========================= -->
 
-<section
-    id="planner"
-    class="page"
->
+<section id="planner" class="page">
 
 
 <h1>
@@ -277,22 +412,21 @@ No tasks loaded.
 </h1>
 
 
+
 <div class="planner-controls">
 
 
-<button
-    onclick="createPlan()"
->
+<button onclick="createPlan()">
 
 ➕ New Week
 
 </button>
 
 
+
 <select
-    id="planSelector"
-    onchange="changePlan(this.value)"
->
+id="planSelector"
+onchange="changePlan(this.value)">
 
 </select>
 
@@ -303,7 +437,6 @@ No tasks loaded.
 
 <div id="plannerContainer">
 
-
 <div class="card">
 
 <h2>
@@ -312,7 +445,6 @@ Loading Planner...
 
 </div>
 
-
 </div>
 
 
@@ -320,14 +452,17 @@ Loading Planner...
 
 
 
+
+
+
+
+
+
 <!-- =========================
      PROJECTS
 ========================= -->
 
-<section
-    id="projects"
-    class="page"
->
+<section id="projects" class="page">
 
 
 <h1>
@@ -335,12 +470,11 @@ Loading Planner...
 </h1>
 
 
+
 <div class="planner-actions">
 
 
-<button
-    onclick="createProject()"
->
+<button onclick="createProject()">
 
 ➕ New Project
 
@@ -353,7 +487,6 @@ Loading Planner...
 
 <div id="projectsContainer">
 
-
 <div class="card">
 
 <h2>
@@ -362,7 +495,6 @@ Loading Projects...
 
 </div>
 
-
 </div>
 
 
@@ -370,14 +502,17 @@ Loading Projects...
 
 
 
+
+
+
+
+
+
 <!-- =========================
      NOTES
 ========================= -->
 
-<section
-    id="notes"
-    class="page"
->
+<section id="notes" class="page">
 
 
 <h1>
@@ -386,193 +521,12 @@ Loading Projects...
 
 
 
-<div
-    style="
-        display:grid;
-        grid-template-columns:
-        minmax(220px, 300px)
-        1fr;
-        gap:20px;
-        align-items:start;
-    "
->
-
-
-<!-- NOTES LIST -->
-
 <div class="card">
-
-
-<div
-    style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:10px;
-        margin-bottom:15px;
-    "
->
-
-
-<h2
-    style="
-        margin:0;
-    "
->
-
-My Notes
-
-</h2>
-
-
-<button
-    onclick="createNote()"
->
-
-➕ New
-
-</button>
-
-
-</div>
-
-
-<input
-    type="text"
-    id="notesSearch"
-    placeholder="🔍 Search notes..."
-    oninput="searchNotes(this.value)"
-    style="
-        width:100%;
-        padding:12px;
-        border:none;
-        border-radius:12px;
-        background:rgba(255,255,255,.1);
-        color:white;
-        margin-bottom:15px;
-        outline:none;
-    "
->
-
-
-<div id="notesList">
-
-
-<p>
-No notes yet.
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-<!-- NOTE EDITOR -->
-
-<div class="card">
-
-
-<div
-    style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:15px;
-        margin-bottom:8px;
-    "
->
-
-
-<input
-    type="text"
-    id="noteTitle"
-    placeholder="Note title..."
-    oninput="updateNoteTitle(this.value)"
-    style="
-        flex:1;
-        background:transparent;
-        border:none;
-        outline:none;
-        color:white;
-        font-size:28px;
-        font-weight:700;
-    "
->
-
-
-<div
-    style="
-        display:flex;
-        gap:8px;
-    "
->
-
-
-<button
-    onclick="toggleCurrentPin()"
-    id="pinNoteButton"
-    title="Pin note"
->
-
-📍
-
-</button>
-
-
-<button
-    onclick="deleteNote()"
-    title="Delete note"
->
-
-🗑
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-<div
-    id="noteSaveStatus"
-    style="
-        font-size:12px;
-        opacity:.4;
-        margin-bottom:15px;
-        min-height:18px;
-    "
->
-
-</div>
 
 
 <textarea
-    id="noteContent"
-    placeholder="Start writing..."
-    oninput="updateNoteContent(this.value)"
-    style="
-        width:100%;
-        min-height:400px;
-        resize:vertical;
-        background:rgba(0,0,0,.2);
-        color:white;
-        border:none;
-        border-radius:15px;
-        padding:18px;
-        outline:none;
-        font-size:16px;
-        line-height:1.6;
-    "
-></textarea>
-
-
-</div>
+placeholder="Write notes here...">
+</textarea>
 
 
 </div>
@@ -582,19 +536,23 @@ No notes yet.
 
 
 
+
+
+
+
+
+
 <!-- =========================
      TOOLS
 ========================= -->
 
-<section
-    id="tools"
-    class="page"
->
+<section id="tools" class="page">
 
 
 <h1>
 🛠 Tools
 </h1>
+
 
 
 <div class="card">
@@ -607,7 +565,8 @@ Coming Soon
 
 <p>
 
-AI tools, timers, calculators, games and resources will go here.
+AI tools, timers, calculators, games
+and resources will go here.
 
 </p>
 
@@ -619,14 +578,17 @@ AI tools, timers, calculators, games and resources will go here.
 
 
 
+
+
+
+
+
+
 <!-- =========================
      SETTINGS
 ========================= -->
 
-<section
-    id="settings"
-    class="page"
->
+<section id="settings" class="page">
 
 
 <h1>
@@ -634,22 +596,22 @@ AI tools, timers, calculators, games and resources will go here.
 </h1>
 
 
+
 <div class="card">
 
 
 <h2>
-Study Hub 4.3
+Study Hub 4.5
 </h2>
 
 
 <p>
-
 Your personal learning dashboard.
-
 </p>
 
 
 <hr>
+
 
 
 <h3>
@@ -657,33 +619,30 @@ Your personal learning dashboard.
 </h3>
 
 
-<button
-    onclick="exportBackup()"
->
+
+<button onclick="exportBackup()">
 
 💾 Export Backup
 
 </button>
 
 
-<br>
-<br>
+
+<br><br>
+
 
 
 <label>
 
 📂 Import Backup
 
-<br>
-<br>
+<br><br>
 
 
 <input
-    type="file"
-    accept=".json"
-    onchange="importBackup(event)"
->
-
+type="file"
+accept=".json"
+onchange="importBackup(event)">
 
 </label>
 
@@ -697,22 +656,17 @@ Your personal learning dashboard.
 
 </main>
 
-
 </div>
 
 
 
-<!-- =========================
-     JAVASCRIPT
-========================= -->
+
 
 <script src="storage.js"></script>
 
 <script src="planner.js"></script>
 
 <script src="projects.js"></script>
-
-<script src="notes.js"></script>
 
 <script src="backup.js"></script>
 
