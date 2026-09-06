@@ -3,1019 +3,723 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<title>STREETFORGE</title>
 
-    <title>STREETFORGE</title>
-
-    <link
-        rel="stylesheet"
-        href="streetforge.css"
-    >
+<link rel="stylesheet" href="streetforge.css">
 
 </head>
 
-
 <body>
 
-<div class="streetforge">
+<div class="streetforge-app">
 
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
+<!-- =========================
+     HUD
+========================= -->
 
-    <header class="sf-header">
+<header class="sf-header">
 
-        <div class="sf-logo">
+    <div class="sf-logo">
+        <span>STREET</span><strong>FORGE</strong>
+    </div>
 
-            STREETFORGE
+    <div class="sf-hud">
 
-            <span>
-                STREET. SPEED. SURVIVE.
-            </span>
+        <div class="sf-hud-item">
+            <span>💰</span>
+            <strong id="sfMoney">$5,000</strong>
+        </div>
+
+        <div class="sf-hud-item">
+            <span>⭐</span>
+            <strong id="sfLevel">1</strong>
+        </div>
+
+        <div class="sf-hud-item">
+            <span>🏆</span>
+            <strong id="sfBestScore">0</strong>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN MENU
+========================= -->
+
+<section id="sfMenu" class="sf-panel sf-active">
+
+    <div class="sf-hero">
+
+        <div class="sf-hero-glow"></div>
+
+        <div class="sf-hero-content">
+
+            <div class="sf-eyebrow">
+                THE STREETS ARE WAITING
+            </div>
+
+            <h1>
+                STREET<span>FORGE</span>
+            </h1>
+
+            <p>
+                Build your ride. Tune your machine.
+                Conquer the streets.
+            </p>
+
+            <button
+                class="sf-primary-btn sf-big-btn"
+                onclick="sfOpenLevels()">
+
+                🏁 START RACING
+
+            </button>
 
         </div>
 
-
-        <div class="sf-hud">
-
-            <div class="sf-hud-item">
-
-                <span class="sf-hud-label">
-                    Cash
-                </span>
-
-                <span
-                    class="sf-hud-value"
-                    id="sfMoney"
-                >
-                    $5,000
-                </span>
-
-            </div>
+    </div>
 
 
-            <div class="sf-hud-item">
-
-                <span class="sf-hud-label">
-                    Level
-                </span>
-
-                <span
-                    class="sf-hud-value"
-                    id="sfLevel"
-                >
-                    1
-                </span>
-
-            </div>
-
-
-            <div class="sf-hud-item">
-
-                <span class="sf-hud-label">
-                    Best Score
-                </span>
-
-                <span
-                    class="sf-hud-value"
-                    id="sfHighScore"
-                >
-                    0
-                </span>
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         MAIN MENU
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfMenu"
-    >
-
-        <div class="sf-menu sf-card">
-
-            <div class="sf-menu-content">
-
-                <h1 class="sf-title">
-                    STREETFORGE
-                </h1>
-
-                <p class="sf-subtitle">
-                    Build it. Tune it. Drive it.
-                </p>
-
-
-                <div class="sf-menu-buttons">
-
-                    <button
-                        class="sf-button primary"
-                        onclick="sfOpenGarage()"
-                    >
-                        PLAY
-                    </button>
-
-
-                    <button
-                        class="sf-button"
-                        onclick="sfOpenGarage()"
-                    >
-                        GARAGE
-                    </button>
-
-
-                    <button
-                        class="sf-button"
-                        onclick="sfOpenLevels()"
-                    >
-                        LEVELS
-                    </button>
-
-
-                    <button
-                        class="sf-button"
-                        onclick="sfOpenHighScores()"
-                    >
-                        HIGH SCORES
-                    </button>
-
-
-                    <button
-                        class="sf-button"
-                        onclick="sfOpenSettings()"
-                    >
-                        SETTINGS
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         GARAGE
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfGarage"
-        style="display:none;"
-    >
+    <div class="sf-menu-grid">
 
         <button
-            class="sf-back"
-            onclick="sfBackToMenu()"
-        >
-            ← Back
+            class="sf-menu-card"
+            onclick="sfOpenGarage()">
+
+            <div class="sf-menu-icon">🏎️</div>
+
+            <div>
+                <h3>Garage</h3>
+                <p>Build your perfect machine</p>
+            </div>
+
+            <span>→</span>
+
         </button>
 
 
-        <div class="sf-garage">
-
-
-            <!-- GARAGE STAGE -->
-
-            <div class="sf-garage-stage">
-
-                <div class="sf-garage-light"></div>
-
-                <div class="sf-garage-floor"></div>
-
-
-                <div class="sf-vehicle-display">
-
-                    <div
-                        class="sf-vehicle-icon"
-                        id="sfVehicleIcon"
-                    >
-                        🏍️
-                    </div>
-
-
-                    <div
-                        class="sf-vehicle-name"
-                        id="sfVehicleName"
-                    >
-                        NIGHTFALL
-                    </div>
-
-
-                    <div
-                        class="sf-vehicle-type"
-                        id="sfVehicleType"
-                    >
-                        MOTORCYCLE
-                    </div>
-
-
-                    <div
-                        class="sf-stats"
-                        style="width: min(500px, 90%);"
-                    >
-
-                        <div class="sf-stat">
-
-                            <span>
-                                Speed
-                            </span>
-
-                            <div class="sf-stat-bar">
-
-                                <div
-                                    class="sf-stat-fill"
-                                    id="sfSpeedBar"
-                                ></div>
-
-                            </div>
-
-                            <span
-                                class="sf-stat-value"
-                                id="sfSpeedValue"
-                            >
-                                72
-                            </span>
-
-                        </div>
-
-
-                        <div class="sf-stat">
-
-                            <span>
-                                Accel
-                            </span>
-
-                            <div class="sf-stat-bar">
-
-                                <div
-                                    class="sf-stat-fill"
-                                    id="sfAccelerationBar"
-                                ></div>
-
-                            </div>
-
-                            <span
-                                class="sf-stat-value"
-                                id="sfAccelerationValue"
-                            >
-                                78
-                            </span>
-
-                        </div>
-
-
-                        <div class="sf-stat">
-
-                            <span>
-                                Handling
-                            </span>
-
-                            <div class="sf-stat-bar">
-
-                                <div
-                                    class="sf-stat-fill"
-                                    id="sfHandlingBar"
-                                ></div>
-
-                            </div>
-
-                            <span
-                                class="sf-stat-value"
-                                id="sfHandlingValue"
-                            >
-                                84
-                            </span>
-
-                        </div>
-
-
-                        <div class="sf-stat">
-
-                            <span>
-                                Brakes
-                            </span>
-
-                            <div class="sf-stat-bar">
-
-                                <div
-                                    class="sf-stat-fill"
-                                    id="sfBrakesBar"
-                                ></div>
-
-                            </div>
-
-                            <span
-                                class="sf-stat-value"
-                                id="sfBrakesValue"
-                            >
-                                70
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- GARAGE SIDEBAR -->
-
-            <div
-                class="sf-garage-sidebar sf-card"
-            >
-
-                <div class="sf-section-title">
-                    Your Vehicles
-                </div>
-
-
-                <div
-                    class="sf-vehicle-list"
-                    id="sfVehicleList"
-                ></div>
-
-
-                <div class="sf-section-title">
-                    Selected Vehicle
-                </div>
-
-
-                <div
-                    class="sf-card"
-                    style="padding:14px;"
-                >
-
-                    <div
-                        id="sfVehicleDescription"
-                        style="
-                            font-size:10px;
-                            line-height:1.5;
-                            color:#8991a5;
-                        "
-                    >
-                        A lightweight street bike.
-                    </div>
-
-                </div>
-
-
-                <div class="sf-section-title">
-                    Upgrades
-                </div>
-
-
-                <button
-                    class="sf-button"
-                    onclick="streetforgeUpgrade('engine')"
-                >
-                    ENGINE
-                </button>
-
-
-                <button
-                    class="sf-button"
-                    onclick="streetforgeUpgrade('acceleration')"
-                >
-                    ACCELERATION
-                </button>
-
-
-                <button
-                    class="sf-button"
-                    onclick="streetforgeUpgrade('handling')"
-                >
-                    HANDLING
-                </button>
-
-
-                <button
-                    class="sf-button"
-                    onclick="streetforgeUpgrade('brakes')"
-                >
-                    BRAKES
-                </button>
-
-
-                <button
-                    class="sf-button primary"
-                    onclick="sfOpenLevels()"
-                >
-                    CHOOSE LEVEL
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         LEVELS
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfLevels"
-        style="display:none;"
-    >
-
         <button
-            class="sf-back"
-            onclick="sfOpenGarage()"
-        >
-            ← Garage
+            class="sf-menu-card"
+            onclick="sfOpenLevels()">
+
+            <div class="sf-menu-icon">🏁</div>
+
+            <div>
+                <h3>Levels</h3>
+                <p>Take on the streets</p>
+            </div>
+
+            <span>→</span>
+
         </button>
 
 
-        <div class="sf-card" style="padding:25px;">
-
-            <div
-                style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:end;
-                    gap:20px;
-                    margin-bottom:25px;
-                "
-            >
-
-                <div>
-
-                    <div class="sf-section-title">
-                        Race Selection
-                    </div>
-
-                    <h2
-                        style="
-                            margin:6px 0 0;
-                            font-size:30px;
-                            font-style:italic;
-                        "
-                    >
-                        CHOOSE YOUR RUN
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- DIFFICULTY -->
-
-            <div class="sf-section-title">
-                Difficulty
-            </div>
-
-
-            <div class="sf-difficulty-grid">
-
-                <div
-                    class="sf-difficulty"
-                    id="sfDifficultyEasy"
-                    onclick="streetforgeSetDifficulty('easy')"
-                >
-
-                    <div class="sf-difficulty-name">
-                        EASY
-                    </div>
-
-                    <div class="sf-difficulty-desc">
-                        Forgiving
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="sf-difficulty"
-                    id="sfDifficultyNormal"
-                    onclick="streetforgeSetDifficulty('normal')"
-                >
-
-                    <div class="sf-difficulty-name">
-                        NORMAL
-                    </div>
-
-                    <div class="sf-difficulty-desc">
-                        Standard
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="sf-difficulty"
-                    id="sfDifficultyHard"
-                    onclick="streetforgeSetDifficulty('hard')"
-                >
-
-                    <div class="sf-difficulty-name">
-                        HARD
-                    </div>
-
-                    <div class="sf-difficulty-desc">
-                        Dangerous
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="sf-difficulty"
-                    id="sfDifficultyExtreme"
-                    onclick="streetforgeSetDifficulty('extreme')"
-                >
-
-                    <div class="sf-difficulty-name">
-                        EXTREME
-                    </div>
-
-                    <div class="sf-difficulty-desc">
-                        Insane
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="sf-section-title">
-                Levels
-            </div>
-
-
-            <div
-                class="sf-level-grid"
-                id="sfLevelGrid"
-            ></div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         SETTINGS
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfSettings"
-        style="display:none;"
-    >
-
         <button
-            class="sf-back"
-            onclick="sfBackToMenu()"
-        >
-            ← Back
+            class="sf-menu-card"
+            onclick="sfOpenHighScores()">
+
+            <div class="sf-menu-icon">🏆</div>
+
+            <div>
+                <h3>High Scores</h3>
+                <p>See your best runs</p>
+            </div>
+
+            <span>→</span>
+
         </button>
 
 
-        <div class="sf-settings sf-card">
+        <button
+            class="sf-menu-card"
+            onclick="sfOpenSettings()">
 
-            <div class="sf-section-title">
-                Game Settings
+            <div class="sf-menu-icon">⚙️</div>
+
+            <div>
+                <h3>Settings</h3>
+                <p>Customize your experience</p>
             </div>
 
+            <span>→</span>
 
-            <h2
-                style="
-                    margin:7px 0 25px;
-                    font-size:28px;
-                    font-style:italic;
-                "
-            >
-                SETTINGS
-            </h2>
+        </button>
+
+    </div>
+
+</section>
 
 
-            <!-- VOLUME -->
 
-            <div class="sf-setting">
+<!-- =========================
+     GARAGE
+========================= -->
 
-                <div>
+<section id="sfGarage" class="sf-panel">
 
-                    <div class="sf-setting-name">
-                        Master Volume
-                    </div>
+    <div class="sf-section-header">
 
-                    <div class="sf-setting-description">
-                        Controls overall game volume.
-                    </div>
+        <div>
 
-                </div>
-
-
-                <input
-                    class="sf-range"
-                    id="sfVolume"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="70"
-                    oninput="streetforgeSetVolume(this.value)"
-                >
-
+            <div class="sf-eyebrow">
+                YOUR COLLECTION
             </div>
 
+            <h1>GARAGE</h1>
 
-            <!-- MUTE -->
-
-            <div class="sf-setting">
-
-                <div>
-
-                    <div class="sf-setting-name">
-                        Mute
-                    </div>
-
-                    <div class="sf-setting-description">
-                        Silence all game audio.
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="sf-toggle"
-                    id="sfMuteToggle"
-                    onclick="streetforgeToggleMute()"
-                ></button>
-
-            </div>
-
-
-            <!-- MUSIC -->
-
-            <div class="sf-setting">
-
-                <div>
-
-                    <div class="sf-setting-name">
-                        Music
-                    </div>
-
-                    <div class="sf-setting-description">
-                        Enable background music.
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="sf-toggle"
-                    id="sfMusicToggle"
-                    onclick="streetforgeToggleMusic()"
-                ></button>
-
-            </div>
-
-
-            <!-- EFFECTS -->
-
-            <div class="sf-setting">
-
-                <div>
-
-                    <div class="sf-setting-name">
-                        Sound Effects
-                    </div>
-
-                    <div class="sf-setting-description">
-                        Enable vehicle and menu effects.
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="sf-toggle"
-                    id="sfEffectsToggle"
-                    onclick="streetforgeToggleEffects()"
-                ></button>
-
-            </div>
-
-
-            <!-- RESET -->
-
-            <div class="sf-setting">
-
-                <div>
-
-                    <div class="sf-setting-name">
-                        Reset Progress
-                    </div>
-
-                    <div class="sf-setting-description">
-                        Permanently delete all Streetforge progress.
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="sf-button"
-                    style="
-                        width:auto;
-                        padding:0 18px;
-                        border-color:rgba(239,68,68,.35);
-                    "
-                    onclick="streetforgeResetGame()"
-                >
-                    RESET
-                </button>
-
-            </div>
+            <p>
+                Choose your machine.
+                Every car has a different personality.
+            </p>
 
         </div>
 
-    </section>
+        <button
+            class="sf-back-btn"
+            onclick="sfBackToMenu()">
+
+            ← BACK
+
+        </button>
+
+    </div>
 
 
+    <!-- =========================
+         HORIZONTAL CAR SELECTOR
+    ========================= -->
 
-    <!-- =====================================================
-         HIGH SCORES
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfScores"
-        style="display:none;"
-    >
+    <div class="garage-selector">
 
         <button
-            class="sf-back"
-            onclick="sfBackToMenu()"
-        >
-            ← Back
+            class="garage-arrow garage-arrow-left"
+            onclick="sfGaragePrevious()"
+            aria-label="Previous vehicle">
+
+            ‹
+
         </button>
 
 
-        <div class="sf-scoreboard sf-card">
+        <div class="garage-stage">
 
-            <div class="sf-section-title">
-                Leaderboard
-            </div>
+            <div class="garage-grid-glow"></div>
 
-
-            <h2
-                style="
-                    margin:7px 0 20px;
-                    font-size:28px;
-                    font-style:italic;
-                "
-            >
-                HIGH SCORES
-            </h2>
-
-
-            <div class="sf-score-row">
-
-                <div class="sf-score-rank">
-                    #1
-                </div>
-
-                <div class="sf-score-name">
-                    YOU
-                </div>
-
-                <div
-                    class="sf-score-value"
-                    id="sfScoreboardScore"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="sf-score-row">
-
-                <div class="sf-score-rank">
-                    #2
-                </div>
-
-                <div class="sf-score-name">
-                    STREETFORGE
-                </div>
-
-                <div class="sf-score-value">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="sf-score-row">
-
-                <div class="sf-score-rank">
-                    #3
-                </div>
-
-                <div class="sf-score-name">
-                    ROOKIE
-                </div>
-
-                <div class="sf-score-value">
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         RESULT
-         ===================================================== -->
-
-    <section
-        class="sf-panel"
-        id="sfResult"
-        style="display:none;"
-    >
-
-        <div class="sf-result sf-card">
-
-            <div class="sf-result-title">
-                RUN COMPLETE
-            </div>
+            <div class="garage-light garage-light-left"></div>
+            <div class="garage-light garage-light-right"></div>
 
 
             <div
-                class="sf-result-score"
-                id="sfResultScore"
-            >
+                id="garageVehicleDisplay"
+                class="garage-vehicle-display">
+
+            </div>
+
+
+            <div class="garage-floor">
+
+                <div class="garage-floor-line"></div>
+
+            </div>
+
+
+            <div class="garage-car-shadow"></div>
+
+        </div>
+
+
+        <button
+            class="garage-arrow garage-arrow-right"
+            onclick="sfGarageNext()"
+            aria-label="Next vehicle">
+
+            ›
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         VEHICLE INFO
+    ========================= -->
+
+    <div
+        id="garageVehicleInfo"
+        class="garage-vehicle-info">
+
+    </div>
+
+
+    <!-- =========================
+         CAR SELECTOR RAIL
+    ========================= -->
+
+    <div class="garage-selector-wrapper">
+
+        <div
+            id="garageSelector"
+            class="garage-selector-rail">
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         VEHICLE STATS
+    ========================= -->
+
+    <div
+        id="garageStats"
+        class="garage-stats-panel">
+
+    </div>
+
+
+    <!-- =========================
+         UPGRADES
+    ========================= -->
+
+    <div class="garage-upgrades">
+
+        <div class="garage-subtitle">
+
+            <span>PERFORMANCE</span>
+
+            <small>
+                Tune your machine
+            </small>
+
+        </div>
+
+
+        <div
+            id="garageUpgrades"
+            class="upgrade-grid">
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="garageAction"
+        class="garage-action">
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     LEVELS
+========================= -->
+
+<section id="sfLevels" class="sf-panel">
+
+    <div class="sf-section-header">
+
+        <div>
+
+            <div class="sf-eyebrow">
+                THE STREETS
+            </div>
+
+            <h1>RACE SELECT</h1>
+
+            <p>
+                Choose your next challenge.
+            </p>
+
+        </div>
+
+        <button
+            class="sf-back-btn"
+            onclick="sfBackToMenu()">
+
+            ← BACK
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="levelsContainer"
+        class="levels-grid">
+
+    </div>
+
+
+    <div class="difficulty-container">
+
+        <div class="garage-subtitle">
+
+            <span>DIFFICULTY</span>
+
+            <small>
+                How hard do you want it?
+            </small>
+
+        </div>
+
+        <div
+            id="difficultyContainer"
+            class="difficulty-grid">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
+<section id="sfSettings" class="sf-panel">
+
+    <div class="sf-section-header">
+
+        <div>
+
+            <div class="sf-eyebrow">
+                CONFIGURATION
+            </div>
+
+            <h1>SETTINGS</h1>
+
+        </div>
+
+        <button
+            class="sf-back-btn"
+            onclick="sfBackToMenu()">
+
+            ← BACK
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="settingsContainer"
+        class="settings-grid">
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     HIGH SCORES
+========================= -->
+
+<section id="sfScores" class="sf-panel">
+
+    <div class="sf-section-header">
+
+        <div>
+
+            <div class="sf-eyebrow">
+                LEADERBOARD
+            </div>
+
+            <h1>HIGH SCORES</h1>
+
+        </div>
+
+        <button
+            class="sf-back-btn"
+            onclick="sfBackToMenu()">
+
+            ← BACK
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="scoresContainer"
+        class="scores-container">
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<section id="sfGame" class="sf-panel sf-game-panel">
+
+    <div class="game-topbar">
+
+        <button
+            class="game-small-btn"
+            onclick="sfPauseGame()">
+
+            ⏸ PAUSE
+
+        </button>
+
+
+        <div class="game-stat">
+
+            <small>SCORE</small>
+
+            <strong id="gameScore">
                 0
-            </div>
+            </strong>
+
+        </div>
 
 
-            <div class="sf-result-stats">
+        <div class="game-stat">
 
-                <div class="sf-result-stat">
+            <small>SPEED</small>
 
-                    <span class="sf-result-stat-label">
-                        Cash
-                    </span>
+            <strong>
+                <span id="gameSpeed">0</span>
+                KM/H
+            </strong>
 
-                    <span
-                        class="sf-result-stat-value"
-                        id="sfResultMoney"
-                    >
-                        +$0
-                    </span>
-
-                </div>
+        </div>
 
 
-                <div class="sf-result-stat">
+        <div class="game-stat">
 
-                    <span class="sf-result-stat-label">
-                        XP
-                    </span>
+            <small>DISTANCE</small>
 
-                    <span
-                        class="sf-result-stat-value"
-                        id="sfResultXP"
-                    >
-                        +0
-                    </span>
+            <strong>
+                <span id="gameDistance">0</span>M
+            </strong>
 
-                </div>
+        </div>
 
 
-                <div class="sf-result-stat">
+        <div class="game-nitro">
 
-                    <span class="sf-result-stat-label">
-                        Level
-                    </span>
+            <small>NITRO</small>
 
-                    <span
-                        class="sf-result-stat-value"
-                        id="sfResultLevel"
-                    >
-                        --
-                    </span>
+            <div class="nitro-bar">
+
+                <div
+                    id="gameNitroFill"
+                    class="nitro-fill">
 
                 </div>
 
             </div>
 
+        </div>
 
-            <div
-                style="
-                    display:flex;
-                    justify-content:center;
-                    gap:10px;
-                    flex-wrap:wrap;
-                "
-            >
+    </div>
+
+
+    <div class="game-wrapper">
+
+        <canvas
+            id="streetforgeCanvas">
+
+        </canvas>
+
+
+        <div
+            id="gameCountdown"
+            class="game-countdown">
+
+        </div>
+
+
+        <div
+            id="gameMessage"
+            class="game-message">
+
+        </div>
+
+
+        <div
+            id="gamePaused"
+            class="game-overlay">
+
+            <div class="game-overlay-card">
+
+                <div class="sf-eyebrow">
+                    RACE PAUSED
+                </div>
+
+                <h2>PAUSED</h2>
 
                 <button
-                    class="sf-button primary"
-                    onclick="sfOpenLevels()"
-                >
-                    NEXT RUN
+                    class="sf-primary-btn"
+                    onclick="sfResumeGame()">
+
+                    ▶ RESUME
+
                 </button>
 
-
                 <button
-                    class="sf-button"
-                    onclick="sfOpenGarage()"
-                >
-                    GARAGE
+                    class="sf-secondary-btn"
+                    onclick="sfRestartGame()">
+
+                    ↻ RESTART
+
                 </button>
 
-
                 <button
-                    class="sf-button"
-                    onclick="sfBackToMenu()"
-                >
-                    MENU
+                    class="sf-secondary-btn"
+                    onclick="sfExitGame()">
+
+                    EXIT
+
                 </button>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
 
+
+    <div class="game-controls">
+
+        <span>
+            ← A / D →
+        </span>
+
+        <span>
+            ↑ ACCELERATE
+        </span>
+
+        <span>
+            SPACE NITRO
+        </span>
+
+        <span>
+            ESC PAUSE
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<section id="sfResult" class="sf-panel">
+
+    <div class="result-card">
+
+        <div class="sf-eyebrow">
+            RACE COMPLETE
+        </div>
+
+        <h1 id="resultTitle">
+            FINISHED
+        </h1>
+
+        <div
+            id="resultStats"
+            class="result-stats">
+
+        </div>
+
+        <div class="result-actions">
+
+            <button
+                class="sf-primary-btn"
+                onclick="sfOpenLevels()">
+
+                🏁 RACE AGAIN
+
+            </button>
+
+            <button
+                class="sf-secondary-btn"
+                onclick="sfOpenGarage()">
+
+                🏎️ GARAGE
+
+            </button>
+
+            <button
+                class="sf-secondary-btn"
+                onclick="sfBackToMenu()">
+
+                HOME
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     NOTIFICATION
+========================= -->
+
+<div
+    id="sfNotification"
+    class="sf-notification">
+
+</div>
 
 </div>
 
 
-
-<!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
+<!-- =========================
+     CORE STREETFORGE
+========================= -->
 
 <script src="streetforge.js"></script>
 
 
+<!-- =========================
+     GARAGE + GAME UI
+========================= -->
+
 <script>
 
-/* ============================================================
-   STREETFORGE UI
-   ============================================================ */
+let sfGarageIndex = 0;
+let sfGarageVehicles = [];
+let sfGarageAnimating = false;
 
 
-/* ------------------------------------------------------------
-   PANEL CONTROL
-   ------------------------------------------------------------ */
+/* =========================================
+   PANEL SYSTEM
+========================================= */
 
 function sfHideAllPanels() {
 
-    const panels = [
+    document
+        .querySelectorAll(".sf-panel")
+        .forEach(panel => {
 
-        "sfMenu",
-        "sfGarage",
-        "sfLevels",
-        "sfSettings",
-        "sfScores",
-        "sfResult"
+            panel.classList.remove("sf-active");
 
-    ];
+        });
 
-    panels.forEach(id => {
-
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-
-            element.style.display =
-                "none";
-
-        }
-
-    });
 }
 
 
@@ -1023,28 +727,30 @@ function sfShowPanel(id) {
 
     sfHideAllPanels();
 
-    const element =
+    const panel =
         document.getElementById(id);
 
-    if (element) {
+    if (!panel) return;
 
-        element.style.display =
-            "block";
+    panel.classList.add("sf-active");
 
-    }
-
-    streetforgeRefreshUI();
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
 
 
-/* ------------------------------------------------------------
-   NAVIGATION
-   ------------------------------------------------------------ */
+/* =========================================
+   MENU
+========================================= */
 
 function sfBackToMenu() {
 
     sfShowPanel("sfMenu");
+
+    sfRefreshHUD();
 
 }
 
@@ -1063,6 +769,8 @@ function sfOpenLevels() {
     sfShowPanel("sfLevels");
 
     sfRenderLevels();
+
+    sfRenderDifficulty();
 
 }
 
@@ -1085,593 +793,1481 @@ function sfOpenHighScores() {
 }
 
 
-/* ------------------------------------------------------------
-   GARAGE
-   ------------------------------------------------------------ */
+/* =========================================
+   HUD
+========================================= */
+
+function sfRefreshHUD() {
+
+    if (typeof streetforgeGetGameData !== "function")
+        return;
+
+    const data =
+        streetforgeGetGameData();
+
+    const money =
+        document.getElementById("sfMoney");
+
+    const level =
+        document.getElementById("sfLevel");
+
+    const best =
+        document.getElementById("sfBestScore");
+
+
+    if (money)
+        money.textContent =
+            "$" + Number(data.money || 0).toLocaleString();
+
+
+    if (level)
+        level.textContent =
+            data.level || 1;
+
+
+    if (best)
+        best.textContent =
+            Number(data.highScore || 0).toLocaleString();
+
+}
+
+
+/* =========================================
+   GARAGE VEHICLES
+========================================= */
+
+function sfGetGarageVehicles() {
+
+    if (typeof streetforgeGetGameData !== "function")
+        return [];
+
+    const data =
+        streetforgeGetGameData();
+
+    return Object.values(
+        data.vehicles || {}
+    );
+
+}
+
 
 function sfRenderGarage() {
 
-    const game =
-        streetforgeGetGameData();
+    sfGarageVehicles =
+        sfGetGarageVehicles();
 
-    const vehicle =
-        streetforgeGetSelectedVehicle();
-
-    if (!vehicle) return;
+    if (!sfGarageVehicles.length)
+        return;
 
 
-    const stats =
-        streetforgeGetVehicleStats(
-            vehicle.id
+    const selected =
+        typeof streetforgeGetSelectedVehicle === "function"
+            ? streetforgeGetSelectedVehicle()
+            : null;
+
+
+    let selectedIndex =
+        sfGarageVehicles.findIndex(
+            vehicle =>
+                vehicle.id === selected?.id
         );
 
 
-    document.getElementById(
-        "sfVehicleIcon"
-    ).textContent =
-        vehicle.icon;
+    if (selectedIndex < 0)
+        selectedIndex = 0;
 
 
-    document.getElementById(
-        "sfVehicleName"
-    ).textContent =
-        vehicle.name;
+    sfGarageIndex =
+        selectedIndex;
 
 
-    document.getElementById(
-        "sfVehicleType"
-    ).textContent =
-        vehicle.type;
+    sfRenderGarageSelector();
 
-
-    document.getElementById(
-        "sfVehicleDescription"
-    ).textContent =
-        vehicle.description;
-
-
-    sfSetStat(
-        "Speed",
-        stats.speed,
-        "sfSpeedBar",
-        "sfSpeedValue"
-    );
-
-
-    sfSetStat(
-        "Acceleration",
-        stats.acceleration,
-        "sfAccelerationBar",
-        "sfAccelerationValue"
-    );
-
-
-    sfSetStat(
-        "Handling",
-        stats.handling,
-        "sfHandlingBar",
-        "sfHandlingValue"
-    );
-
-
-    sfSetStat(
-        "Braking",
-        stats.braking,
-        "sfBrakesBar",
-        "sfBrakesValue"
-    );
-
-
-    sfRenderVehicleList();
+    sfRenderSelectedVehicle(false);
 
 }
 
 
-function sfSetStat(
-    name,
-    value,
-    barId,
-    valueId
+function sfGarageNext() {
+
+    if (sfGarageAnimating)
+        return;
+
+    if (!sfGarageVehicles.length)
+        return;
+
+
+    sfGarageAnimating = true;
+
+
+    sfGarageIndex =
+        (sfGarageIndex + 1) %
+        sfGarageVehicles.length;
+
+
+    sfRenderSelectedVehicle(true, "next");
+
+}
+
+
+function sfGaragePrevious() {
+
+    if (sfGarageAnimating)
+        return;
+
+    if (!sfGarageVehicles.length)
+        return;
+
+
+    sfGarageAnimating = true;
+
+
+    sfGarageIndex =
+        (sfGarageIndex - 1 +
+            sfGarageVehicles.length) %
+        sfGarageVehicles.length;
+
+
+    sfRenderSelectedVehicle(true, "previous");
+
+}
+
+
+/* =========================================
+   SELECTOR RAIL
+========================================= */
+
+function sfRenderGarageSelector() {
+
+    const rail =
+        document.getElementById(
+            "garageSelector"
+        );
+
+    if (!rail) return;
+
+
+    rail.innerHTML =
+        sfGarageVehicles.map(
+            (vehicle, index) => {
+
+                const active =
+                    index === sfGarageIndex;
+
+
+                const owned =
+                    typeof streetforgeOwnsVehicle === "function"
+                        ? streetforgeOwnsVehicle(vehicle.id)
+                        : false;
+
+
+                const level =
+                    typeof streetforgeVehicleLevelRequirement === "function"
+                        ? streetforgeVehicleLevelRequirement(vehicle.id)
+                        : vehicle.level || 1;
+
+
+                return `
+
+                <button
+                    class="
+                        garage-selector-card
+                        ${active ? "selected" : ""}
+                        ${owned ? "owned" : "locked"}
+                    "
+                    onclick="sfSelectGarageVehicle(${index})">
+
+                    <div class="selector-number">
+                        ${String(index + 1).padStart(2, "0")}
+                    </div>
+
+                    <div class="selector-car">
+
+                        <div class="mini-car
+                            rarity-${String(vehicle.rarity || "common").toLowerCase()}">
+
+                            <span></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="selector-name">
+                        ${vehicle.name || "Vehicle"}
+                    </div>
+
+                    ${
+                        owned
+                            ? `<div class="selector-status">OWNED</div>`
+                            : `<div class="selector-status">LVL ${level}</div>`
+                    }
+
+                </button>
+
+                `;
+
+            }
+        ).join("");
+
+
+    const activeCard =
+        rail.querySelector(
+            ".garage-selector-card.selected"
+        );
+
+
+    if (activeCard) {
+
+        activeCard.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+        });
+
+    }
+
+}
+
+
+function sfSelectGarageVehicle(index) {
+
+    if (sfGarageAnimating)
+        return;
+
+
+    if (
+        index < 0 ||
+        index >= sfGarageVehicles.length
+    )
+        return;
+
+
+    if (index === sfGarageIndex)
+        return;
+
+
+    const direction =
+        index > sfGarageIndex
+            ? "next"
+            : "previous";
+
+
+    sfGarageIndex =
+        index;
+
+
+    sfRenderSelectedVehicle(
+        true,
+        direction
+    );
+
+}
+
+
+/* =========================================
+   SELECTED VEHICLE
+========================================= */
+
+function sfRenderSelectedVehicle(
+    animate = false,
+    direction = "next"
 ) {
 
-    const bar =
+    const vehicle =
+        sfGarageVehicles[sfGarageIndex];
+
+
+    if (!vehicle)
+        return;
+
+
+    const display =
         document.getElementById(
-            barId
+            "garageVehicleDisplay"
         );
 
-    const number =
+
+    const info =
         document.getElementById(
-            valueId
+            "garageVehicleInfo"
         );
 
 
-    if (bar) {
+    if (!display || !info)
+        return;
 
-        bar.style.width =
-            `${value}%`;
+
+    if (animate) {
+
+        display.classList.remove(
+            "garage-slide-next",
+            "garage-slide-previous"
+        );
+
+
+        void display.offsetWidth;
+
+
+        display.classList.add(
+            direction === "next"
+                ? "garage-slide-next"
+                : "garage-slide-previous"
+        );
 
     }
 
 
-    if (number) {
-
-        number.textContent =
-            value;
-
-    }
-
-}
+    const rarity =
+        String(
+            vehicle.rarity || "Common"
+        ).toLowerCase();
 
 
-function sfRenderVehicleList() {
-
-    const container =
-        document.getElementById(
-            "sfVehicleList"
-        );
-
-    if (!container) return;
+    const owned =
+        typeof streetforgeOwnsVehicle === "function"
+            ? streetforgeOwnsVehicle(vehicle.id)
+            : false;
 
 
-    const game =
-        streetforgeGetGameData();
+    const selected =
+        typeof streetforgeGetSelectedVehicle === "function"
+            ? streetforgeGetSelectedVehicle()
+            : null;
 
 
-    container.innerHTML = "";
+    const isSelected =
+        selected &&
+        selected.id === vehicle.id;
 
 
-    Object.values(
-        STREETFORGE_VEHICLES
-    ).forEach(vehicle => {
-
-        const owned =
-            streetforgeOwnsVehicle(
-                vehicle.id
-            );
+    const level =
+        typeof streetforgeVehicleLevelRequirement === "function"
+            ? streetforgeVehicleLevelRequirement(vehicle.id)
+            : vehicle.level || 1;
 
 
-        const selected =
-            game.selectedVehicle ===
-            vehicle.id;
+    display.innerHTML = `
 
+        <div class="
+            garage-big-car
+            rarity-${rarity}
+            ${owned ? "" : "locked-car"}
+        ">
 
-        const requirement =
-            streetforgeVehicleLevelRequirement(
-                vehicle.id
-            );
+            <div class="car-glow"></div>
 
+            <div class="car-body">
 
-        const unlocked =
-            game.level >= requirement;
+                <div class="car-roof"></div>
 
+                <div class="car-window car-window-left"></div>
+                <div class="car-window car-window-right"></div>
 
-        const card =
-            document.createElement(
-                "div"
-            );
+                <div class="car-hood"></div>
 
+                <div class="car-front-light left"></div>
+                <div class="car-front-light right"></div>
 
-        card.className =
-            "sf-vehicle-card" +
-            (selected ? " selected" : "") +
-            (!owned ? " locked" : "");
+                <div class="car-wheel wheel-left"></div>
+                <div class="car-wheel wheel-right"></div>
 
-
-        let priceText;
-
-
-        if (owned) {
-
-            priceText =
-                selected
-                    ? "SELECTED"
-                    : "OWNED";
-
-        } else if (!unlocked) {
-
-            priceText =
-                `LVL ${requirement}`;
-
-        } else {
-
-            priceText =
-                `$${vehicle.price.toLocaleString()}`;
-
-        }
-
-
-        card.innerHTML = `
-
-            <div class="sf-vehicle-card-top">
-
-                <span class="sf-vehicle-small-icon">
-                    ${vehicle.icon}
-                </span>
-
-                <span class="sf-vehicle-card-name">
-                    ${vehicle.name}
-                </span>
-
-                <span class="sf-vehicle-price">
-                    ${priceText}
-                </span>
+                <div class="car-side-line"></div>
 
             </div>
 
-            <span class="sf-rarity ${vehicle.rarity.toLowerCase()}">
-                ${vehicle.rarity}
-            </span>
+        </div>
 
-        `;
+    `;
 
 
-        card.onclick =
-            () => {
+    info.innerHTML = `
 
-                if (owned) {
+        <div class="garage-title-row">
 
-                    streetforgeSelectVehicle(
-                        vehicle.id
-                    );
+            <div>
 
-                } else {
+                <div class="garage-rarity rarity-${rarity}">
+                    ${(vehicle.rarity || "COMMON").toUpperCase()}
+                </div>
 
-                    streetforgeBuyVehicle(
-                        vehicle.id
-                    );
+                <h2>
+                    ${vehicle.name || "UNKNOWN"}
+                </h2>
 
-                }
+                <p>
+                    ${
+                        vehicle.description ||
+                        "Built for the streets."
+                    }
+                </p>
 
-                sfRenderGarage();
-
-            };
+            </div>
 
 
-        container.appendChild(
-            card
+            <div class="garage-number">
+
+                ${String(sfGarageIndex + 1).padStart(2, "0")}
+                <span>/</span>
+                ${String(sfGarageVehicles.length).padStart(2, "0")}
+
+            </div>
+
+        </div>
+
+
+        <div class="garage-status">
+
+            ${
+                isSelected
+                    ? `
+                        <span class="status-dot"></span>
+                        CURRENT RIDE
+                    `
+                    : owned
+                        ? `
+                            <span class="status-dot"></span>
+                            OWNED
+                        `
+                        : `
+                            🔒 LEVEL ${level}
+                        `
+            }
+
+        </div>
+
+    `;
+
+
+    sfRenderGarageStats(vehicle);
+
+    sfRenderGarageUpgrades(vehicle);
+
+    sfRenderGarageAction(vehicle);
+
+    sfRenderGarageSelector();
+
+
+    setTimeout(() => {
+
+        display.classList.remove(
+            "garage-slide-next",
+            "garage-slide-previous"
         );
 
-    });
+        sfGarageAnimating = false;
+
+    }, 450);
 
 }
 
 
-/* ------------------------------------------------------------
+/* =========================================
+   STATS
+========================================= */
+
+function sfRenderGarageStats(vehicle) {
+
+    const container =
+        document.getElementById(
+            "garageStats"
+        );
+
+    if (!container)
+        return;
+
+
+    let stats =
+        typeof streetforgeGetVehicleStats === "function"
+            ? streetforgeGetVehicleStats(vehicle.id)
+            : vehicle.stats || vehicle;
+
+
+    const values = [
+
+        {
+            name: "TOP SPEED",
+            key: "speed",
+            icon: "⚡"
+        },
+
+        {
+            name: "ACCELERATION",
+            key: "acceleration",
+            icon: "🚀"
+        },
+
+        {
+            name: "HANDLING",
+            key: "handling",
+            icon: "↔"
+        },
+
+        {
+            name: "NITRO",
+            key: "nitro",
+            icon: "🔥"
+        },
+
+        {
+            name: "DURABILITY",
+            key: "health",
+            icon: "🛡"
+        }
+
+    ];
+
+
+    container.innerHTML =
+        values.map(stat => {
+
+            const value =
+                Number(
+                    stats?.[stat.key] ??
+                    vehicle?.[stat.key] ??
+                    50
+                );
+
+
+            const percentage =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        value
+                    )
+                );
+
+
+            return `
+
+                <div class="garage-stat">
+
+                    <div class="garage-stat-top">
+
+                        <span>
+                            ${stat.icon}
+                            ${stat.name}
+                        </span>
+
+                        <strong>
+                            ${value}
+                        </strong>
+
+                    </div>
+
+                    <div class="garage-stat-bar">
+
+                        <div
+                            class="garage-stat-fill"
+                            style="width:${percentage}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================
+   UPGRADES
+========================================= */
+
+function sfRenderGarageUpgrades(vehicle) {
+
+    const container =
+        document.getElementById(
+            "garageUpgrades"
+        );
+
+    if (!container)
+        return;
+
+
+    const upgrades = [
+        ["engine", "ENGINE", "🚀"],
+        ["handling", "HANDLING", "↔"],
+        ["nitro", "NITRO", "🔥"],
+        ["armor", "ARMOR", "🛡"]
+    ];
+
+
+    container.innerHTML =
+        upgrades.map(upgrade => {
+
+            const key =
+                upgrade[0];
+
+            const name =
+                upgrade[1];
+
+            const icon =
+                upgrade[2];
+
+
+            let level = 0;
+
+            try {
+
+                const data =
+                    streetforgeGetGameData();
+
+                const current =
+                    data.vehicles?.[vehicle.id];
+
+                level =
+                    current?.upgrades?.[key] || 0;
+
+            } catch (e) {}
+
+
+            let cost = 0;
+
+            try {
+
+                cost =
+                    streetforgeUpgradeCost(
+                        vehicle.id,
+                        key
+                    );
+
+            } catch (e) {
+
+                cost =
+                    500 + level * 500;
+
+            }
+
+
+            return `
+
+                <button
+                    class="upgrade-card"
+                    onclick="
+                        sfUpgradeVehicle(
+                            '${vehicle.id}',
+                            '${key}'
+                        )
+                    ">
+
+                    <div class="upgrade-icon">
+                        ${icon}
+                    </div>
+
+                    <div class="upgrade-info">
+
+                        <strong>
+                            ${name}
+                        </strong>
+
+                        <div class="upgrade-levels">
+
+                            ${[1,2,3,4,5].map(
+                                i =>
+                                    `<span class="${
+                                        i <= level
+                                            ? "filled"
+                                            : ""
+                                    }"></span>`
+                            ).join("")}
+
+                        </div>
+
+                    </div>
+
+                    <div class="upgrade-cost">
+
+                        ${
+                            level >= 5
+                                ? "MAX"
+                                : "$" +
+                                  Number(cost).toLocaleString()
+                        }
+
+                    </div>
+
+                </button>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function sfUpgradeVehicle(
+    vehicleId,
+    upgrade
+) {
+
+    if (
+        typeof streetforgeUpgrade !==
+        "function"
+    )
+        return;
+
+
+    const success =
+        streetforgeUpgrade(
+            vehicleId,
+            upgrade
+        );
+
+
+    if (success !== false) {
+
+        sfRefreshHUD();
+
+        sfRenderGarage();
+
+    }
+
+}
+
+
+/* =========================================
+   BUY / SELECT
+========================================= */
+
+function sfRenderGarageAction(vehicle) {
+
+    const container =
+        document.getElementById(
+            "garageAction"
+        );
+
+    if (!container)
+        return;
+
+
+    const owned =
+        typeof streetforgeOwnsVehicle === "function"
+            ? streetforgeOwnsVehicle(vehicle.id)
+            : false;
+
+
+    const selected =
+        typeof streetforgeGetSelectedVehicle === "function"
+            ? streetforgeGetSelectedVehicle()
+            : null;
+
+
+    const isSelected =
+        selected &&
+        selected.id === vehicle.id;
+
+
+    if (isSelected) {
+
+        container.innerHTML = `
+
+            <button
+                class="garage-main-action selected-action"
+                disabled>
+
+                ✓ CURRENT VEHICLE
+
+            </button>
+
+        `;
+
+        return;
+
+    }
+
+
+    if (owned) {
+
+        container.innerHTML = `
+
+            <button
+                class="garage-main-action"
+                onclick="
+                    sfSelectVehicle(
+                        '${vehicle.id}'
+                    )
+                ">
+
+                SELECT VEHICLE
+
+            </button>
+
+        `;
+
+        return;
+
+    }
+
+
+    const price =
+        Number(
+            vehicle.price || 0
+        );
+
+
+    container.innerHTML = `
+
+        <button
+            class="garage-main-action buy-action"
+            onclick="
+                sfBuyVehicle(
+                    '${vehicle.id}'
+                )
+            ">
+
+            💰 BUY FOR
+            $${price.toLocaleString()}
+
+        </button>
+
+    `;
+
+}
+
+
+function sfSelectVehicle(id) {
+
+    if (
+        typeof streetforgeSelectVehicle !==
+        "function"
+    )
+        return;
+
+
+    streetforgeSelectVehicle(id);
+
+    sfRenderGarage();
+
+    sfRefreshHUD();
+
+}
+
+
+function sfBuyVehicle(id) {
+
+    if (
+        typeof streetforgeBuyVehicle !==
+        "function"
+    )
+        return;
+
+
+    const success =
+        streetforgeBuyVehicle(id);
+
+
+    if (success !== false) {
+
+        sfRenderGarage();
+
+        sfRefreshHUD();
+
+    }
+
+}
+
+
+/* =========================================
    LEVELS
-   ------------------------------------------------------------ */
+========================================= */
 
 function sfRenderLevels() {
 
     const container =
         document.getElementById(
-            "sfLevelGrid"
+            "levelsContainer"
         );
 
-    if (!container) return;
+    if (!container)
+        return;
 
 
-    const game =
-        streetforgeGetGameData();
+    let html = "";
 
 
-    container.innerHTML = "";
+    for (
+        let i = 1;
+        i <= 8;
+        i++
+    ) {
+
+        let level;
 
 
-    STREETFORGE_LEVELS.forEach(
-        level => {
+        try {
 
-            const unlocked =
-                streetforgeIsLevelUnlocked(
-                    level.id
-                );
+            level =
+                streetforgeGetLevel(i);
 
+        } catch (e) {
 
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className =
-                "sf-level-card" +
-                (!unlocked
-                    ? " locked"
-                    : "");
-
-
-            card.innerHTML = `
-
-                <div class="sf-level-number">
-                    LEVEL ${level.id}
-                </div>
-
-                <div class="sf-level-name">
-                    ${level.name}
-                </div>
-
-                <div class="sf-level-location">
-                    ${level.location}
-                </div>
-
-                <div class="sf-level-reward">
-                    ${unlocked
-                        ? `+$${level.reward.toLocaleString()}`
-                        : `🔒 LVL ${level.requirement}`
-                    }
-                </div>
-
-            `;
-
-
-            if (unlocked) {
-
-                card.onclick =
-                    () => {
-
-                        streetforgePlayLevel(
-                            level.id
-                        );
-
-                    };
-
-            }
-
-
-            container.appendChild(
-                card
-            );
+            level = {
+                id: i,
+                name: "Level " + i,
+                description: "Street race",
+                reward: 1000,
+                distance: 1000
+            };
 
         }
-    );
 
+
+        let unlocked = true;
+
+
+        try {
+
+            unlocked =
+                streetforgeIsLevelUnlocked(i);
+
+        } catch (e) {
+
+            unlocked =
+                i === 1;
+
+        }
+
+
+        html += `
+
+            <button
+                class="
+                    level-card
+                    ${unlocked ? "unlocked" : "locked"}
+                "
+                ${
+                    unlocked
+                        ? `onclick="sfStartLevel(${i})"`
+                        : ""
+                }>
+
+                <div class="level-number">
+                    ${String(i).padStart(2, "0")}
+                </div>
+
+                <div class="level-info">
+
+                    <h3>
+                        ${
+                            level?.name ||
+                            "Street Run " + i
+                        }
+                    </h3>
+
+                    <p>
+                        ${
+                            level?.description ||
+                            "Push your machine to the limit."
+                        }
+                    </p>
+
+                    <div class="level-meta">
+
+                        <span>
+                            📏
+                            ${level?.distance || 1000}M
+                        </span>
+
+                        <span>
+                            💰
+                            ${Number(
+                                level?.reward || 1000
+                            ).toLocaleString()}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="level-status">
+
+                    ${
+                        unlocked
+                            ? "→"
+                            : "🔒"
+                    }
+
+                </div>
+
+            </button>
+
+        `;
+
+    }
+
+
+    container.innerHTML = html;
+
+}
+
+
+function sfRenderDifficulty() {
+
+    const container =
+        document.getElementById(
+            "difficultyContainer"
+        );
+
+    if (!container)
+        return;
+
+
+    const difficulties = [
+        ["easy", "EASY", "Relaxed traffic"],
+        ["normal", "NORMAL", "Balanced racing"],
+        ["hard", "HARD", "Heavy traffic"],
+        ["extreme", "EXTREME", "Pure chaos"]
+    ];
+
+
+    let current = "normal";
+
+
+    try {
+
+        current =
+            streetforgeGetDifficulty();
+
+    } catch (e) {}
+
+
+    container.innerHTML =
+        difficulties.map(
+            difficulty => {
+
+                const active =
+                    current === difficulty[0];
+
+
+                return `
+
+                    <button
+                        class="
+                            difficulty-card
+                            ${active ? "active" : ""}
+                        "
+                        onclick="
+                            sfSetDifficulty(
+                                '${difficulty[0]}'
+                            )
+                        ">
+
+                        <strong>
+                            ${difficulty[1]}
+                        </strong>
+
+                        <small>
+                            ${difficulty[2]}
+                        </small>
+
+                    </button>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+function sfSetDifficulty(
+    difficulty
+) {
+
+    if (
+        typeof streetforgeSetDifficulty ===
+        "function"
+    ) {
+
+        streetforgeSetDifficulty(
+            difficulty
+        );
+
+    }
 
     sfRenderDifficulty();
 
 }
 
 
-/* ------------------------------------------------------------
-   DIFFICULTY
-   ------------------------------------------------------------ */
+function sfStartLevel(level) {
 
-function sfRenderDifficulty() {
+    if (
+        typeof streetforgePlayLevel ===
+        "function"
+    ) {
 
-    const game =
-        streetforgeGetGameData();
+        streetforgePlayLevel(level);
 
-
-    const ids = {
-
-        easy:
-            "sfDifficultyEasy",
-
-        normal:
-            "sfDifficultyNormal",
-
-        hard:
-            "sfDifficultyHard",
-
-        extreme:
-            "sfDifficultyExtreme"
-
-    };
+    }
 
 
-    Object.entries(ids)
-        .forEach(
-            ([difficulty, id]) => {
+    if (
+        typeof sfStartGame ===
+        "function"
+    ) {
 
-                const element =
-                    document.getElementById(
-                        id
-                    );
+        sfStartGame(level);
 
-                if (!element) return;
-
-
-                element.classList.toggle(
-                    "active",
-                    game.difficulty ===
-                    difficulty
-                );
-
-            }
-        );
+    }
 
 }
 
 
-/* ------------------------------------------------------------
+/* =========================================
    SETTINGS
-   ------------------------------------------------------------ */
+========================================= */
 
 function sfRenderSettings() {
 
-    const game =
-        streetforgeGetGameData();
-
-
-    const volume =
+    const container =
         document.getElementById(
-            "sfVolume"
+            "settingsContainer"
         );
 
-
-    if (volume) {
-
-        volume.value =
-            game.settings.volume;
-
-    }
+    if (!container)
+        return;
 
 
-    sfSetToggle(
-        "sfMuteToggle",
-        game.settings.muted
-    );
+    container.innerHTML = `
+
+        <div class="settings-card">
+
+            <h3>🔊 Audio</h3>
+
+            <p>
+                Control your Streetforge audio.
+            </p>
+
+            <button
+                class="sf-secondary-btn"
+                onclick="streetforgeToggleMusic()">
+
+                🎵 Toggle Music
+
+            </button>
+
+            <button
+                class="sf-secondary-btn"
+                onclick="streetforgeToggleEffects()">
+
+                🔊 Toggle Effects
+
+            </button>
+
+        </div>
 
 
-    sfSetToggle(
-        "sfMusicToggle",
-        game.settings.music
-    );
+        <div class="settings-card danger-settings">
 
+            <h3>⚠️ Data</h3>
 
-    sfSetToggle(
-        "sfEffectsToggle",
-        game.settings.effects
-    );
+            <p>
+                Reset all Streetforge progression.
+            </p>
+
+            <button
+                class="sf-danger-btn"
+                onclick="
+                    streetforgeResetGame()
+                ">
+
+                RESET GAME DATA
+
+            </button>
+
+        </div>
+
+    `;
 
 }
 
 
-function sfSetToggle(
-    id,
-    active
-) {
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-    if (!element) return;
-
-
-    element.classList.toggle(
-        "active",
-        active
-    );
-
-}
-
-
-/* ------------------------------------------------------------
-   HIGH SCORES
-   ------------------------------------------------------------ */
+/* =========================================
+   SCORES
+========================================= */
 
 function sfRenderScores() {
 
-    const game =
-        streetforgeGetGameData();
-
-
-    const score =
+    const container =
         document.getElementById(
-            "sfScoreboardScore"
+            "scoresContainer"
         );
 
+    if (!container)
+        return;
 
-    if (score) {
 
-        score.textContent =
-            game.highScore.toLocaleString();
+    let data;
+
+
+    try {
+
+        data =
+            streetforgeGetGameData();
+
+    } catch (e) {
+
+        data = {};
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="score-hero">
+
+            <div class="score-trophy">
+                🏆
+            </div>
+
+            <div>
+
+                <small>
+                    PERSONAL BEST
+                </small>
+
+                <strong>
+                    ${Number(
+                        data.highScore || 0
+                    ).toLocaleString()}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="score-list">
+
+            <div>
+                <span>BEST SCORE</span>
+                <strong>
+                    ${Number(
+                        data.highScore || 0
+                    ).toLocaleString()}
+                </strong>
+            </div>
+
+            <div>
+                <span>BEST LEVEL</span>
+                <strong>
+                    ${data.bestLevel || 1}
+                </strong>
+            </div>
+
+            <div>
+                <span>TOTAL EARNED</span>
+                <strong>
+                    $${Number(
+                        data.totalEarned || 0
+                    ).toLocaleString()}
+                </strong>
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================
+   FULLSCREEN
+========================================= */
+
+function sfFullscreen() {
+
+    const element =
+        document.documentElement;
+
+
+    if (
+        document.fullscreenElement
+    ) {
+
+        document.exitFullscreen();
+
+        return;
+
+    }
+
+
+    if (
+        element.requestFullscreen
+    ) {
+
+        element.requestFullscreen();
 
     }
 
 }
 
 
-/* ------------------------------------------------------------
-   RESULT SCREEN
-   ------------------------------------------------------------ */
+/* =========================================
+   GARAGE WHEEL SUPPORT
+========================================= */
+
+const garageStage =
+    document.querySelector(
+        ".garage-stage"
+    );
+
+
+if (garageStage) {
+
+    garageStage.addEventListener(
+        "wheel",
+        event => {
+
+            if (
+                Math.abs(event.deltaY) <
+                Math.abs(event.deltaX)
+            )
+                return;
+
+
+            event.preventDefault();
+
+
+            if (event.deltaY > 0) {
+
+                sfGarageNext();
+
+            } else {
+
+                sfGaragePrevious();
+
+            }
+
+        },
+        {
+            passive: false
+        }
+    );
+
+}
+
+
+/* =========================================
+   KEYBOARD GARAGE CONTROL
+========================================= */
 
 document.addEventListener(
-    "streetforgeResult",
+    "keydown",
     event => {
 
-        const result =
-            event.detail;
+        const garage =
+            document.getElementById(
+                "sfGarage"
+            );
 
 
-        document.getElementById(
-            "sfResultScore"
-        ).textContent =
-            result.score.toLocaleString();
+        if (
+            !garage ||
+            !garage.classList.contains(
+                "sf-active"
+            )
+        )
+            return;
 
 
-        document.getElementById(
-            "sfResultMoney"
-        ).textContent =
-            `+$${result.reward.toLocaleString()}`;
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            sfGarageNext();
+
+        }
 
 
-        document.getElementById(
-            "sfResultXP"
-        ).textContent =
-            `+${result.xp}`;
+        if (
+            event.key === "ArrowLeft"
+        ) {
 
+            sfGaragePrevious();
 
-        document.getElementById(
-            "sfResultLevel"
-        ).textContent =
-            result.level;
-
-
-        sfShowPanel(
-            "sfResult"
-        );
+        }
 
     }
 );
 
 
-/* ------------------------------------------------------------
-   NOTIFICATIONS
-   ------------------------------------------------------------ */
+/* =========================================
+   INITIALIZE
+========================================= */
 
 document.addEventListener(
-    "streetforgeNotification",
-    event => {
+    "DOMContentLoaded",
+    () => {
 
-        const data =
-            event.detail;
+        sfRefreshHUD();
 
+        sfRenderGarage();
 
-        const existing =
-            document.querySelector(
-                ".sf-notification"
-            );
+    }
+);
 
 
-        if (existing) {
+/* =========================================
+   STREETFORGE EVENTS
+========================================= */
 
-            existing.remove();
+window.addEventListener(
+    "streetforgeRefresh",
+    () => {
+
+        sfRefreshHUD();
+
+        if (
+            document
+                .getElementById("sfGarage")
+                ?.classList.contains("sf-active")
+        ) {
+
+            sfRenderGarage();
 
         }
 
+    }
+);
+
+
+window.addEventListener(
+    "streetforgeNotification",
+    event => {
 
         const notification =
-            document.createElement(
-                "div"
+            document.getElementById(
+                "sfNotification"
             );
 
 
-        notification.className =
-            `sf-notification ${data.type}`;
+        if (!notification)
+            return;
 
 
         notification.textContent =
-            data.message;
+            event.detail?.message ||
+            event.detail ||
+            "";
 
 
-        document.body.appendChild(
-            notification
+        notification.classList.add(
+            "show"
         );
 
 
         setTimeout(
             () => {
 
-                notification.style.opacity =
-                    "0";
-
-                notification.style.transform =
-                    "translateY(10px)";
-
-                setTimeout(
-                    () => notification.remove(),
-                    250
+                notification.classList.remove(
+                    "show"
                 );
 
             },
@@ -1681,138 +2277,12 @@ document.addEventListener(
     }
 );
 
-
-/* ------------------------------------------------------------
-   GLOBAL UI REFRESH
-   ------------------------------------------------------------ */
-
-document.addEventListener(
-    "streetforgeRefresh",
-    () => {
-
-        const game =
-            streetforgeGetGameData();
-
-
-        const money =
-            document.getElementById(
-                "sfMoney"
-            );
-
-
-        const level =
-            document.getElementById(
-                "sfLevel"
-            );
-
-
-        const highScore =
-            document.getElementById(
-                "sfHighScore"
-            );
-
-
-        if (money) {
-
-            money.textContent =
-                `$${game.money.toLocaleString()}`;
-
-        }
-
-
-        if (level) {
-
-            level.textContent =
-                game.level;
-
-        }
-
-
-        if (highScore) {
-
-            highScore.textContent =
-                game.highScore.toLocaleString();
-
-        }
-
-
-        const currentPanel =
-            [
-                "sfGarage",
-                "sfLevels",
-                "sfSettings",
-                "sfScores"
-            ]
-            .find(id => {
-
-                const element =
-                    document.getElementById(
-                        id
-                    );
-
-                return (
-                    element &&
-                    element.style.display !==
-                    "none"
-                );
-
-            });
-
-
-        if (currentPanel === "sfGarage") {
-
-            sfRenderGarage();
-
-        }
-
-
-        if (currentPanel === "sfLevels") {
-
-            sfRenderLevels();
-
-        }
-
-
-        if (currentPanel === "sfSettings") {
-
-            sfRenderSettings();
-
-        }
-
-
-        if (currentPanel === "sfScores") {
-
-            sfRenderScores();
-
-        }
-
-    }
-);
-
-
-/* ------------------------------------------------------------
-   START
-   ------------------------------------------------------------ */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        sfRenderGarage();
-
-        sfRenderLevels();
-
-        sfRenderSettings();
-
-        sfRenderScores();
-
-        sfShowPanel("sfMenu");
-
-    }
-);
-
 </script>
 
-</body>
 
+<!-- Your existing game engine -->
+<script src="streetforge-game.js"></script>
+
+
+</body>
 </html>
