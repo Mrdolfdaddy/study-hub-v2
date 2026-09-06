@@ -10,6 +10,87 @@
 
 <link rel="stylesheet" href="main.css">
 
+<style>
+
+/* =========================
+   STREETFORGE STUDY HUB PAGE
+========================= */
+
+.streetforge-page {
+    max-width: 1600px !important;
+    padding-bottom: 40px;
+}
+
+.streetforge-page h1 {
+    margin-bottom: 20px !important;
+}
+
+.streetforge-container {
+    width: 100%;
+    min-height: calc(100vh - 150px);
+    background: #05070d;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35),
+        0 0 40px rgba(139,92,246,.08);
+}
+
+.streetforge-frame {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 170px);
+    min-height: 750px;
+    border: none;
+    background: #05070d;
+}
+
+.streetforge-launch-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(20px);
+}
+
+.streetforge-launch-info h2 {
+    margin: 0 0 6px;
+}
+
+.streetforge-launch-info p {
+    margin: 0;
+    opacity: .65;
+}
+
+.streetforge-open-button {
+    flex-shrink: 0;
+}
+
+/* Mobile */
+@media(max-width: 900px) {
+
+    .streetforge-container {
+        border-radius: 18px;
+    }
+
+    .streetforge-frame {
+        min-height: 800px;
+        height: calc(100vh - 180px);
+    }
+
+    .streetforge-launch-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
+
+</style>
+
 </head>
 
 
@@ -18,6 +99,10 @@
 
 <div class="app">
 
+
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar">
 
@@ -35,7 +120,8 @@
 <nav>
 
 
-<button class="nav-btn active"
+<button
+class="nav-btn active"
 onclick="showPage('dashboard', this)">
 
 🏠 Dashboard
@@ -44,7 +130,8 @@ onclick="showPage('dashboard', this)">
 
 
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('planner', this)">
 
 📖 Learning Planner
@@ -53,7 +140,8 @@ onclick="showPage('planner', this)">
 
 
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('projects', this)">
 
 🚀 Projects
@@ -62,7 +150,8 @@ onclick="showPage('projects', this)">
 
 
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('notes', this)">
 
 📝 Notes
@@ -71,7 +160,8 @@ onclick="showPage('notes', this)">
 
 
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('tools', this)">
 
 🛠 Tools
@@ -80,7 +170,22 @@ onclick="showPage('tools', this)">
 
 
 
-<button class="nav-btn"
+<!-- =========================
+     STREETFORGE
+========================= -->
+
+<button
+class="nav-btn"
+onclick="showPage('streetforge', this)">
+
+🏎️ Streetforge
+
+</button>
+
+
+
+<button
+class="nav-btn"
 onclick="showPage('settings', this)">
 
 ⚙️ Settings
@@ -92,7 +197,8 @@ onclick="showPage('settings', this)">
 
 
 
-<button class="theme-btn"
+<button
+class="theme-btn"
 onclick="toggleTheme()">
 
 🌙 Toggle Theme
@@ -110,13 +216,13 @@ onclick="toggleTheme()">
 
 
 
-
-
 <!-- =========================
      DASHBOARD
 ========================= -->
 
-<section id="dashboard" class="page active">
+<section
+id="dashboard"
+class="page active">
 
 
 <h1>
@@ -137,7 +243,8 @@ Welcome back 👋
 
 <p id="date"></p>
 
-<div id="clock"
+<div
+id="clock"
 class="dashboard-clock">
 </div>
 
@@ -238,7 +345,8 @@ View Projects
 
 
 
-<div id="todayTasks"
+<div
+id="todayTasks"
 class="dashboard-task-list">
 
 <p>
@@ -376,6 +484,15 @@ onclick="showPage('notes', this)">
 
 
 <button
+onclick="showPage('streetforge', this)">
+
+🏎️ Streetforge
+
+</button>
+
+
+
+<button
 onclick="exportBackup()">
 
 💾 Backup Now
@@ -396,15 +513,13 @@ onclick="exportBackup()">
 
 
 
-
-
-
-
 <!-- =========================
      PLANNER
 ========================= -->
 
-<section id="planner" class="page">
+<section
+id="planner"
+class="page">
 
 
 <h1>
@@ -454,15 +569,13 @@ Loading Planner...
 
 
 
-
-
-
-
 <!-- =========================
      PROJECTS
 ========================= -->
 
-<section id="projects" class="page">
+<section
+id="projects"
+class="page">
 
 
 <h1>
@@ -504,15 +617,13 @@ Loading Projects...
 
 
 
-
-
-
-
 <!-- =========================
      NOTES
 ========================= -->
 
-<section id="notes" class="page">
+<section
+id="notes"
+class="page">
 
 
 <h1>
@@ -538,15 +649,13 @@ placeholder="Write notes here...">
 
 
 
-
-
-
-
 <!-- =========================
      TOOLS
 ========================= -->
 
-<section id="tools" class="page">
+<section
+id="tools"
+class="page">
 
 
 <h1>
@@ -559,16 +668,28 @@ placeholder="Write notes here...">
 
 
 <h2>
-Coming Soon
+Tools & Games
 </h2>
 
 
 <p>
 
-AI tools, timers, calculators, games
-and resources will go here.
+Your collection of useful tools,
+games and resources.
 
 </p>
+
+
+<br>
+
+
+
+<button
+onclick="showPage('streetforge', document.querySelector('.nav-btn:nth-child(6)'))">
+
+🏎️ Open Streetforge
+
+</button>
 
 
 </div>
@@ -580,6 +701,67 @@ and resources will go here.
 
 
 
+<!-- =========================
+     STREETFORGE
+========================= -->
+
+<section
+id="streetforge"
+class="page streetforge-page">
+
+
+<h1>
+🏎️ Streetforge
+</h1>
+
+
+
+<div class="streetforge-launch-card">
+
+
+<div class="streetforge-launch-info">
+
+<h2>
+STREETFORGE
+</h2>
+
+<p>
+Build your ride. Tune your machine. Conquer the streets.
+</p>
+
+</div>
+
+
+
+<button
+class="streetforge-open-button"
+onclick="openStreetforgeFullscreen()">
+
+⛶ Fullscreen
+
+</button>
+
+
+</div>
+
+
+
+<div class="streetforge-container">
+
+<iframe
+id="streetforgeFrame"
+class="streetforge-frame"
+src="streetforge.html"
+title="Streetforge Racing Game"
+allow="autoplay">
+
+</iframe>
+
+</div>
+
+
+</section>
+
 
 
 
@@ -588,7 +770,9 @@ and resources will go here.
      SETTINGS
 ========================= -->
 
-<section id="settings" class="page">
+<section
+id="settings"
+class="page">
 
 
 <h1>
@@ -662,6 +846,10 @@ onchange="importBackup(event)">
 
 
 
+<!-- =========================
+     STUDY HUB SCRIPTS
+========================= -->
+
 <script src="storage.js"></script>
 
 <script src="planner.js"></script>
@@ -671,6 +859,70 @@ onchange="importBackup(event)">
 <script src="backup.js"></script>
 
 <script src="app.js"></script>
+
+
+
+<!-- =========================
+     STREETFORGE INTEGRATION
+========================= -->
+
+<script>
+
+function openStreetforgeFullscreen() {
+
+    const frame =
+        document.getElementById("streetforgeFrame");
+
+    if (!frame) return;
+
+
+    if (frame.requestFullscreen) {
+
+        frame.requestFullscreen();
+
+    } else if (frame.webkitRequestFullscreen) {
+
+        frame.webkitRequestFullscreen();
+
+    } else if (frame.msRequestFullscreen) {
+
+        frame.msRequestFullscreen();
+
+    }
+
+}
+
+
+/* Keep Streetforge alive while switching pages.
+   The iframe is deliberately NOT reloaded. */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const frame =
+            document.getElementById(
+                "streetforgeFrame"
+            );
+
+        if (!frame) return;
+
+
+        frame.addEventListener(
+            "load",
+            function() {
+
+                console.log(
+                    "Streetforge loaded successfully."
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
 
 
 </body>
