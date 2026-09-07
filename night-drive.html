@@ -1,0 +1,3240 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NIGHT DRIVE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --purple:#9b5cff;
+    --purple2:#6d35ff;
+    --cyan:#25e7ff;
+    --pink:#ff4fd8;
+    --white:#f5f7ff;
+    --muted:#9da6c8;
+    --panel:rgba(8,10,23,.82);
+    --border:rgba(156,92,255,.28);
+}
+
+body{
+    min-height:100vh;
+    background:#050611;
+    color:var(--white);
+    font-family:Orbitron,Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
+}
+
+.screen{
+    display:none;
+    min-height:100vh;
+    position:relative;
+}
+
+.screen.active{
+    display:block;
+}
+
+/* =========================================================
+   HOME BACKGROUND
+========================================================= */
+
+.home{
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            180deg,
+            #080b22 0%,
+            #111a3c 36%,
+            #10182d 58%,
+            #05070d 100%
+        );
+}
+
+.sky-glow{
+    position:absolute;
+    inset:-20%;
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(115,65,255,.38),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 18% 45%,
+            rgba(0,220,255,.13),
+            transparent 30%
+        ),
+        radial-gradient(
+            ellipse at 82% 42%,
+            rgba(255,42,197,.12),
+            transparent 28%
+        );
+    animation:skyPulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes skyPulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.06)}
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    opacity:.75;
+    background-image:
+        radial-gradient(circle,white 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(150,220,255,.8) 1px,transparent 1.5px);
+    background-size:90px 90px,170px 170px;
+    animation:stars 40s linear infinite;
+}
+
+@keyframes stars{
+    to{
+        background-position:90px 90px,-170px 170px;
+    }
+}
+
+.moon{
+    position:absolute;
+    width:125px;
+    height:125px;
+    right:13%;
+    top:11%;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff 0,
+            #e8edff 45%,
+            #aeb9dc 100%
+        );
+    box-shadow:
+        0 0 35px rgba(255,255,255,.45),
+        0 0 100px rgba(145,95,255,.35);
+}
+
+/* =========================================================
+   FOREST
+========================================================= */
+
+.forest{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:31%;
+    height:43%;
+}
+
+.tree{
+    position:absolute;
+    bottom:-5%;
+    width:75px;
+    height:100%;
+}
+
+.tree:before{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    width:260px;
+    height:340px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0 45%,
+            #0a1016 46% 54%,
+            transparent 55%
+        ),
+        #0c1519;
+    clip-path:polygon(
+        50% 0,
+        70% 25%,
+        59% 23%,
+        88% 45%,
+        68% 43%,
+        100% 70%,
+        73% 66%,
+        85% 100%,
+        15% 100%,
+        27% 66%,
+        0 70%,
+        32% 43%,
+        12% 45%,
+        41% 23%,
+        30% 25%
+    );
+    filter:drop-shadow(0 0 15px rgba(0,0,0,.8));
+}
+
+.tree:nth-child(1){left:-5%;transform:scale(1.35)}
+.tree:nth-child(2){left:6%;transform:scale(.8)}
+.tree:nth-child(3){left:17%;transform:scale(1.4)}
+.tree:nth-child(4){left:28%;transform:scale(.85)}
+.tree:nth-child(5){left:39%;transform:scale(1.2)}
+.tree:nth-child(6){left:50%;transform:scale(.82)}
+.tree:nth-child(7){left:61%;transform:scale(1.4)}
+.tree:nth-child(8){left:73%;transform:scale(.82)}
+.tree:nth-child(9){left:84%;transform:scale(1.35)}
+.tree:nth-child(10){left:95%;transform:scale(.9)}
+
+.forest-light{
+    position:absolute;
+    left:-10%;
+    right:-10%;
+    bottom:28%;
+    height:25%;
+    background:
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(125,70,255,.3),
+            rgba(0,210,255,.1) 35%,
+            transparent 72%
+        );
+    filter:blur(25px);
+}
+
+/* =========================================================
+   ROAD
+========================================================= */
+
+.road{
+    position:absolute;
+    left:50%;
+    bottom:-5%;
+    width:125%;
+    height:47%;
+    transform:translateX(-50%);
+    background:
+        linear-gradient(
+            90deg,
+            #03050a,
+            #171c29 27%,
+            #2b303b 50%,
+            #171c29 73%,
+            #03050a
+        );
+    clip-path:polygon(41% 0,59% 0,100% 100%,0 100%);
+    box-shadow:0 -20px 100px rgba(0,0,0,.8);
+}
+
+.road:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    width:6px;
+    height:100%;
+    transform:translateX(-50%);
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.8) 0 28px,
+            transparent 28px 90px
+        );
+    animation:roadMove .65s linear infinite;
+}
+
+@keyframes roadMove{
+    to{background-position:0 118px}
+}
+
+.road:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(130,60,255,.16),
+            transparent 25%,
+            transparent 75%,
+            rgba(0,225,255,.14)
+        );
+}
+
+/* =========================================================
+   LIGHTS
+========================================================= */
+
+.streak{
+    position:absolute;
+    top:30%;
+    width:2px;
+    height:100px;
+    border-radius:20px;
+    background:linear-gradient(
+        transparent,
+        rgba(180,130,255,.95)
+    );
+    box-shadow:0 0 18px var(--purple);
+    animation:streak 1.5s linear infinite;
+    opacity:0;
+}
+
+.streak:nth-child(1){left:12%;animation-delay:-.2s}
+.streak:nth-child(2){left:24%;animation-delay:-.8s}
+.streak:nth-child(3){left:37%;animation-delay:-.5s}
+.streak:nth-child(4){left:63%;animation-delay:-1s}
+.streak:nth-child(5){left:77%;animation-delay:-.35s}
+.streak:nth-child(6){left:90%;animation-delay:-.7s}
+
+@keyframes streak{
+    0%{transform:translateY(-100px) scale(.2);opacity:0}
+    20%{opacity:.7}
+    100%{transform:translateY(500px) scale(3);opacity:0}
+}
+
+/* =========================================================
+   HUD
+========================================================= */
+
+.hud{
+    position:absolute;
+    z-index:100;
+    top:22px;
+    left:22px;
+    right:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    pointer-events:none;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:3px;
+    text-shadow:
+        0 0 12px rgba(155,92,255,.8),
+        0 0 30px rgba(37,231,255,.3);
+}
+
+.logo span{
+    color:var(--cyan);
+}
+
+.stats{
+    display:flex;
+    gap:10px;
+}
+
+.stat{
+    min-width:105px;
+    padding:10px 14px;
+    border:1px solid rgba(155,92,255,.25);
+    background:rgba(5,7,18,.72);
+    backdrop-filter:blur(12px);
+    border-radius:10px;
+    text-align:center;
+}
+
+.stat small{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    letter-spacing:1.5px;
+    margin-bottom:5px;
+}
+
+.stat strong{
+    font-size:14px;
+    color:#fff;
+    text-shadow:0 0 10px rgba(37,231,255,.45);
+}
+
+/* =========================================================
+   HOME TITLE
+========================================================= */
+
+.home-title{
+    position:absolute;
+    z-index:20;
+    top:18%;
+    left:0;
+    right:0;
+    text-align:center;
+}
+
+.home-title h1{
+    font-size:clamp(55px,9vw,120px);
+    font-weight:900;
+    letter-spacing:clamp(5px,1vw,14px);
+    line-height:.9;
+    color:white;
+    text-shadow:
+        0 0 12px rgba(255,255,255,.8),
+        0 0 30px rgba(155,92,255,.9),
+        0 0 75px rgba(155,92,255,.5);
+}
+
+.home-title h1 span{
+    background:
+        linear-gradient(
+            90deg,
+            #7140ff,
+            #b78cff,
+            #25e7ff,
+            #ff4fd8,
+            #7140ff
+        );
+    background-size:300% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:titleFlow 5s linear infinite;
+}
+
+@keyframes titleFlow{
+    to{background-position:300%}
+}
+
+.subtitle{
+    margin-top:20px;
+    color:#c4c9e7;
+    font-size:10px;
+    letter-spacing:5px;
+}
+
+/* =========================================================
+   HOME BUTTONS
+========================================================= */
+
+.home-buttons{
+    position:absolute;
+    z-index:50;
+    left:50%;
+    bottom:35px;
+    transform:translateX(-50%);
+    width:min(850px,calc(100% - 40px));
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr;
+    gap:10px;
+}
+
+.btn{
+    height:58px;
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:10px;
+    background:rgba(5,8,18,.9);
+    color:white;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    transition:.2s;
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+    border-color:rgba(37,231,255,.7);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.4),
+        0 0 25px rgba(37,231,255,.15);
+}
+
+.btn.primary{
+    background:linear-gradient(135deg,#7540ff,#4f38e8);
+    border-color:rgba(205,185,255,.7);
+    box-shadow:0 0 30px rgba(117,64,255,.3);
+}
+
+.btn.primary:hover{
+    background:linear-gradient(135deg,#9468ff,#654cff);
+}
+
+/* =========================================================
+   INNER SCREENS
+========================================================= */
+
+.inner{
+    min-height:100vh;
+    padding:100px 5% 50px;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(107,58,255,.2),
+            transparent 40%
+        ),
+        #060711;
+}
+
+.page-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:35px;
+}
+
+.eyebrow{
+    color:var(--cyan);
+    font-size:9px;
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
+
+.page-head h2{
+    font-size:42px;
+    letter-spacing:3px;
+}
+
+.page-head p{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    position:relative;
+    padding:22px;
+    min-height:170px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:linear-gradient(
+        145deg,
+        rgba(18,20,40,.9),
+        rgba(6,8,18,.95)
+    );
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(37,231,255,.5);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+.card.locked{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.card-number{
+    color:var(--purple);
+    font-size:28px;
+    font-weight:900;
+}
+
+.card h3{
+    margin-top:18px;
+    font-size:15px;
+}
+
+.card p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:8px;
+    line-height:1.6;
+}
+
+.card-bottom{
+    position:absolute;
+    bottom:18px;
+    left:22px;
+    right:22px;
+    display:flex;
+    justify-content:space-between;
+    color:#bfc6e8;
+    font-size:8px;
+}
+
+/* =========================================================
+   GARAGE
+========================================================= */
+
+.garage{
+    max-width:1100px;
+    margin:auto;
+}
+
+.car-stage{
+    height:360px;
+    position:relative;
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            ellipse at center 55% 65%,
+            rgba(127,67,255,.3),
+            transparent 38%
+        ),
+        linear-gradient(
+            180deg,
+            #101329,
+            #060812
+        );
+}
+
+.car-stage:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+    background-size:45px 45px;
+}
+
+.car-floor{
+    position:absolute;
+    bottom:35px;
+    left:15%;
+    right:15%;
+    height:2px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--purple),
+        var(--cyan),
+        var(--purple),
+        transparent
+    );
+    box-shadow:0 0 30px var(--purple);
+}
+
+.car{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:min(620px,75%);
+    height:160px;
+    transform:translate(-50%,-30%);
+    filter:drop-shadow(0 25px 25px rgba(0,0,0,.8));
+}
+
+.car-body{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:30px;
+    height:90px;
+    border-radius:45px 65px 22px 22px;
+    background:
+        linear-gradient(
+            160deg,
+            #b5b8c9 0%,
+            #41455a 18%,
+            #141722 55%,
+            #080a11 100%
+        );
+    border:2px solid #858aa3;
+    box-shadow:
+        inset 0 8px 15px rgba(255,255,255,.12),
+        0 0 30px rgba(120,70,255,.18);
+}
+
+.car-roof{
+    position:absolute;
+    width:46%;
+    height:75px;
+    left:27%;
+    top:-55px;
+    border-radius:90px 90px 10px 10px;
+    background:
+        linear-gradient(
+            135deg,
+            #33384d,
+            #0b0d16
+        );
+    border:2px solid #777d98;
+    border-bottom:0;
+}
+
+.window{
+    position:absolute;
+    top:-42px;
+    height:48px;
+    width:18%;
+    background:
+        linear-gradient(
+            135deg,
+            #172e42,
+            #05080d
+        );
+    border:1px solid rgba(37,231,255,.5);
+}
+
+.window.left{
+    left:31%;
+    transform:skewX(12deg);
+}
+
+.window.right{
+    right:31%;
+    transform:skewX(-12deg);
+}
+
+.wheel{
+    position:absolute;
+    bottom:-27px;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            #666b80 0 20%,
+            #10121b 21% 45%,
+            #020307 46%
+        );
+    border:5px solid #080a10;
+    box-shadow:0 0 0 2px #4c5063;
+}
+
+.wheel.left{left:15%}
+.wheel.right{right:15%}
+
+.headlight{
+    position:absolute;
+    top:25px;
+    width:40px;
+    height:18px;
+    border-radius:50%;
+    background:#cfffff;
+    box-shadow:0 0 20px #25e7ff;
+}
+
+.headlight.left{left:4%}
+.headlight.right{right:4%}
+
+.car-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:18px;
+}
+
+.car-info h3{
+    font-size:25px;
+}
+
+.car-info p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:7px;
+}
+
+.car-selector{
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.car-option{
+    min-width:140px;
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#0b0d19;
+    color:white;
+    cursor:pointer;
+}
+
+.car-option.selected{
+    border-color:var(--cyan);
+    box-shadow:0 0 20px rgba(37,231,255,.12);
+}
+
+.car-option strong{
+    display:block;
+    font-size:10px;
+}
+
+.car-option small{
+    display:block;
+    margin-top:6px;
+    color:var(--muted);
+    font-size:8px;
+}
+
+/* =========================================================
+   SCORES / SETTINGS
+========================================================= */
+
+.score-panel,
+.settings-panel{
+    max-width:850px;
+    margin:auto;
+    display:grid;
+    gap:15px;
+}
+
+.score-row,
+.setting{
+    padding:24px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--panel);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.score-row span,
+.setting span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.score-row strong{
+    font-size:24px;
+    color:var(--cyan);
+}
+
+.setting button{
+    min-width:130px;
+    height:42px;
+}
+
+/* =========================================================
+   GAME
+========================================================= */
+
+#gameScreen{
+    background:#03050a;
+}
+
+.game-ui{
+    position:absolute;
+    z-index:50;
+    top:15px;
+    left:15px;
+    right:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    pointer-events:none;
+}
+
+.game-stat{
+    padding:9px 15px;
+    background:rgba(5,7,15,.85);
+    border:1px solid rgba(155,92,255,.3);
+    border-radius:8px;
+    text-align:center;
+}
+
+.game-stat small{
+    display:block;
+    color:var(--muted);
+    font-size:7px;
+}
+
+.game-stat strong{
+    display:block;
+    margin-top:4px;
+    font-size:14px;
+}
+
+.nitro{
+    width:180px;
+}
+
+.nitro-bar{
+    height:8px;
+    background:#171a26;
+    border-radius:10px;
+    margin-top:7px;
+    overflow:hidden;
+}
+
+.nitro-fill{
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        var(--purple),
+        var(--cyan)
+    );
+    box-shadow:0 0 12px var(--cyan);
+}
+
+#gameCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+}
+
+.game-controls{
+    position:absolute;
+    z-index:60;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+}
+
+.control{
+    padding:10px 16px;
+    border-radius:8px;
+    background:rgba(5,7,15,.78);
+    border:1px solid rgba(255,255,255,.12);
+    color:#aeb5d5;
+    font-size:8px;
+}
+
+.pause{
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    position:absolute;
+    z-index:200;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:min(450px,calc(100% - 30px));
+    padding:40px;
+    text-align:center;
+    border:1px solid rgba(155,92,255,.5);
+    border-radius:18px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(21,19,46,.97),
+            rgba(5,7,15,.98)
+        );
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.6),
+        0 0 50px rgba(120,60,255,.15);
+}
+
+.modal-card h2{
+    font-size:34px;
+    margin:10px 0 25px;
+}
+
+.result-value{
+    font-size:40px;
+    color:var(--cyan);
+    margin-bottom:25px;
+}
+
+.modal-actions{
+    display:grid;
+    gap:10px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:800px){
+
+    .hud{
+        top:12px;
+        left:12px;
+        right:12px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .stats{
+        gap:5px;
+    }
+
+    .stat{
+        min-width:70px;
+        padding:7px;
+    }
+
+    .stat small{
+        font-size:6px;
+    }
+
+    .stat strong{
+        font-size:11px;
+    }
+
+    .home-title{
+        top:24%;
+    }
+
+    .home-title h1{
+        font-size:48px;
+        letter-spacing:3px;
+    }
+
+    .subtitle{
+        font-size:7px;
+        letter-spacing:3px;
+    }
+
+    .home-buttons{
+        grid-template-columns:1fr 1fr;
+        bottom:18px;
+        gap:7px;
+    }
+
+    .home-buttons .primary{
+        grid-column:span 2;
+    }
+
+    .btn{
+        height:50px;
+        font-size:8px;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .page-head h2{
+        font-size:28px;
+    }
+
+    .inner{
+        padding:90px 15px 35px;
+    }
+
+    .game-controls{
+        display:none;
+    }
+
+    .game-ui{
+        flex-wrap:wrap;
+        gap:5px;
+    }
+
+    .nitro{
+        width:120px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ======================================================
+     HOME
+====================================================== -->
+
+<section id="homeScreen" class="screen active home">
+
+    <div class="sky-glow"></div>
+    <div class="stars"></div>
+    <div class="moon"></div>
+
+    <div class="forest">
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+        <div class="tree"></div>
+    </div>
+
+    <div class="forest-light"></div>
+    <div class="road"></div>
+
+    <div class="streaks">
+        <div class="streak"></div>
+        <div class="streak"></div>
+        <div class="streak"></div>
+        <div class="streak"></div>
+        <div class="streak"></div>
+        <div class="streak"></div>
+    </div>
+
+    <div class="hud">
+
+        <div class="logo">
+            NIGHT <span>DRIVE</span>
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <small>MONEY</small>
+                <strong id="money">$5,000</strong>
+            </div>
+
+            <div class="stat">
+                <small>LEVEL</small>
+                <strong id="level">1</strong>
+            </div>
+
+            <div class="stat">
+                <small>BEST</small>
+                <strong id="best">0</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="home-title">
+
+        <h1>
+            NIGHT <span>DRIVE</span>
+        </h1>
+
+        <div class="subtitle">
+            AFTER DARK // OWN THE ROAD
+        </div>
+
+    </div>
+
+    <div class="home-buttons">
+
+        <button
+            class="btn primary"
+            onclick="openLevels()">
+            🏁 START RACING
+        </button>
+
+        <button
+            class="btn"
+            onclick="openGarage()">
+            GARAGE
+        </button>
+
+        <button
+            class="btn"
+            onclick="openLevels()">
+            LEVELS
+        </button>
+
+        <button
+            class="btn"
+            onclick="openScores()">
+            SCORES
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     LEVELS
+====================================================== -->
+
+<section id="levelsScreen" class="screen">
+
+    <div class="inner">
+
+        <div class="page-head">
+
+            <div>
+                <div class="eyebrow">
+                    NIGHT DRIVE // RACE SELECT
+                </div>
+
+                <h2>LEVELS</h2>
+
+                <p>
+                    Push deeper into the night.
+                </p>
+            </div>
+
+            <button
+                class="btn"
+                onclick="showScreen('homeScreen')">
+                ← HOME
+            </button>
+
+        </div>
+
+        <div
+            id="levelsGrid"
+            class="grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     GARAGE
+====================================================== -->
+
+<section id="garageScreen" class="screen">
+
+    <div class="inner">
+
+        <div class="page-head">
+
+            <div>
+                <div class="eyebrow">
+                    NIGHT DRIVE // VEHICLE BAY
+                </div>
+
+                <h2>GARAGE</h2>
+
+                <p>
+                    Choose your machine.
+                </p>
+            </div>
+
+            <button
+                class="btn"
+                onclick="showScreen('homeScreen')">
+                ← HOME
+            </button>
+
+        </div>
+
+        <div class="garage">
+
+            <div class="car-stage">
+
+                <div class="car">
+
+                    <div class="car-body">
+
+                        <div class="car-roof"></div>
+
+                        <div class="window left"></div>
+                        <div class="window right"></div>
+
+                        <div class="headlight left"></div>
+                        <div class="headlight right"></div>
+
+                        <div class="wheel left"></div>
+                        <div class="wheel right"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="car-floor"></div>
+
+            </div>
+
+            <div class="car-info">
+
+                <div>
+                    <h3 id="carName">
+                        NIGHTRUNNER
+                    </h3>
+
+                    <p id="carDescription">
+                        Balanced street machine.
+                    </p>
+                </div>
+
+                <button
+                    id="selectCarButton"
+                    class="btn primary"
+                    onclick="selectCurrentCar()">
+                    SELECT
+                </button>
+
+            </div>
+
+            <div
+                id="carSelector"
+                class="car-selector">
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SCORES
+====================================================== -->
+
+<section id="scoresScreen" class="screen">
+
+    <div class="inner">
+
+        <div class="page-head">
+
+            <div>
+                <div class="eyebrow">
+                    NIGHT DRIVE // LEADERBOARD
+                </div>
+
+                <h2>SCORES</h2>
+
+                <p>
+                    Your best runs.
+                </p>
+            </div>
+
+            <button
+                class="btn"
+                onclick="showScreen('homeScreen')">
+                ← HOME
+            </button>
+
+        </div>
+
+        <div class="score-panel">
+
+            <div class="score-row">
+                <span>PERSONAL BEST</span>
+                <strong id="scoreBest">0</strong>
+            </div>
+
+            <div class="score-row">
+                <span>HIGHEST LEVEL</span>
+                <strong id="scoreLevel">1</strong>
+            </div>
+
+            <div class="score-row">
+                <span>TOTAL EARNINGS</span>
+                <strong id="scoreMoney">$5,000</strong>
+            </div>
+
+            <div class="score-row">
+                <span>RACES COMPLETED</span>
+                <strong id="scoreRaces">0</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SETTINGS
+====================================================== -->
+
+<section id="settingsScreen" class="screen">
+
+    <div class="inner">
+
+        <div class="page-head">
+
+            <div>
+                <div class="eyebrow">
+                    NIGHT DRIVE // SYSTEM
+                </div>
+
+                <h2>SETTINGS</h2>
+            </div>
+
+            <button
+                class="btn"
+                onclick="showScreen('homeScreen')">
+                ← HOME
+            </button>
+
+        </div>
+
+        <div class="settings-panel">
+
+            <div class="setting">
+
+                <span>
+                    ANIMATED BACKGROUND
+                </span>
+
+                <button
+                    id="animationButton"
+                    class="btn"
+                    onclick="toggleAnimation()">
+                    ON
+                </button>
+
+            </div>
+
+            <div class="setting">
+
+                <span>
+                    RESET PROGRESS
+                </span>
+
+                <button
+                    class="btn"
+                    onclick="resetGame()">
+                    RESET
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     GAME
+====================================================== -->
+
+<section id="gameScreen" class="screen">
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="game-ui">
+
+        <div class="game-stat">
+            <small>SCORE</small>
+            <strong id="gameScore">0</strong>
+        </div>
+
+        <div class="game-stat">
+            <small>DISTANCE</small>
+            <strong>
+                <span id="gameDistance">0</span>M
+            </strong>
+        </div>
+
+        <div class="game-stat">
+            <small>SPEED</small>
+            <strong>
+                <span id="gameSpeed">0</span>
+                KM/H
+            </strong>
+        </div>
+
+        <div class="game-stat nitro">
+            <small>NITRO</small>
+            <div class="nitro-bar">
+                <div
+                    id="nitroFill"
+                    class="nitro-fill">
+                </div>
+            </div>
+        </div>
+
+        <button
+            class="btn pause"
+            onclick="pauseGame()">
+            PAUSE
+        </button>
+
+    </div>
+
+    <div class="game-controls">
+
+        <div class="control">
+            A / ← MOVE LEFT
+        </div>
+
+        <div class="control">
+            D / → MOVE RIGHT
+        </div>
+
+        <div class="control">
+            SPACE NITRO
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     RESULT MODAL
+====================================================== -->
+
+<div
+    id="resultModal"
+    class="modal">
+
+    <div class="modal-card">
+
+        <div class="eyebrow">
+            RACE COMPLETE
+        </div>
+
+        <h2 id="resultTitle">
+            FINISHED
+        </h2>
+
+        <div
+            id="resultValue"
+            class="result-value">
+            0
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="btn primary"
+                onclick="restartRace()">
+                ↻ RACE AGAIN
+            </button>
+
+            <button
+                class="btn"
+                onclick="openLevels()">
+                LEVELS
+            </button>
+
+            <button
+                class="btn"
+                onclick="showScreen('homeScreen')">
+                HOME
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const defaultData = {
+    money:5000,
+    level:1,
+    best:0,
+    races:0,
+    selectedCar:0,
+    animation:true
+};
+
+let data =
+    JSON.parse(
+        localStorage.getItem("nightDriveData")
+    ) || {...defaultData};
+
+const cars = [
+
+    {
+        name:"NIGHTRUNNER",
+        description:"Balanced street machine.",
+        speed:72,
+        acceleration:70,
+        handling:76
+    },
+
+    {
+        name:"VOLT GT",
+        description:"Fast and brutally responsive.",
+        speed:88,
+        acceleration:84,
+        handling:62
+    },
+
+    {
+        name:"SHADOW X",
+        description:"Built for high-speed corners.",
+        speed:82,
+        acceleration:76,
+        handling:92
+    },
+
+    {
+        name:"NEON RS",
+        description:"Experimental midnight racer.",
+        speed:96,
+        acceleration:91,
+        handling:79
+    }
+
+];
+
+const levels = [
+
+    {
+        name:"FOREST RUN",
+        description:"Your first run through the redwoods.",
+        distance:900,
+        reward:600
+    },
+
+    {
+        name:"NIGHT HIGHWAY",
+        description:"Traffic gets heavier.",
+        distance:1200,
+        reward:900
+    },
+
+    {
+        name:"NEON PASS",
+        description:"A winding road above the city.",
+        distance:1500,
+        reward:1300
+    },
+
+    {
+        name:"BLACKOUT",
+        description:"Visibility is almost gone.",
+        distance:1800,
+        reward:1800
+    },
+
+    {
+        name:"REDLINE",
+        description:"Everything gets faster.",
+        distance:2100,
+        reward:2500
+    },
+
+    {
+        name:"MIDNIGHT",
+        description:"The final road.",
+        distance:2500,
+        reward:3500
+    }
+
+];
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "nightDriveData",
+        JSON.stringify(data)
+    );
+
+    updateHUD();
+
+}
+
+
+/* =========================================================
+   SCREEN SYSTEM
+========================================================= */
+
+function showScreen(id){
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen =>
+            screen.classList.remove("active")
+        );
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+    updateHUD();
+
+}
+
+
+function openLevels(){
+
+    showScreen("levelsScreen");
+    renderLevels();
+
+}
+
+
+function openGarage(){
+
+    showScreen("garageScreen");
+    renderGarage();
+
+}
+
+
+function openScores(){
+
+    showScreen("scoresScreen");
+    renderScores();
+
+}
+
+
+function openSettings(){
+
+    showScreen("settingsScreen");
+
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+function updateHUD(){
+
+    document.getElementById("money").textContent =
+        "$" + data.money.toLocaleString();
+
+    document.getElementById("level").textContent =
+        data.level;
+
+    document.getElementById("best").textContent =
+        data.best.toLocaleString();
+
+}
+
+
+/* =========================================================
+   LEVELS
+========================================================= */
+
+function renderLevels(){
+
+    const grid =
+        document.getElementById("levelsGrid");
+
+    grid.innerHTML = "";
+
+    levels.forEach(
+        (level,index)=>{
+
+            const number = index + 1;
+
+            const unlocked =
+                number <= data.level;
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "card " +
+                (unlocked ? "" : "locked");
+
+            card.innerHTML = `
+
+                <div class="card-number">
+                    ${String(number).padStart(2,"0")}
+                </div>
+
+                <h3>
+                    ${level.name}
+                </h3>
+
+                <p>
+                    ${level.description}
+                </p>
+
+                <div class="card-bottom">
+
+                    <span>
+                        ${level.distance}M
+                    </span>
+
+                    <span>
+                        💰 $${level.reward.toLocaleString()}
+                    </span>
+
+                </div>
+
+            `;
+
+            if(unlocked){
+
+                card.onclick =
+                    ()=>startRace(number);
+
+            }
+
+            grid.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GARAGE
+========================================================= */
+
+function renderGarage(){
+
+    const selector =
+        document.getElementById("carSelector");
+
+    selector.innerHTML = "";
+
+    cars.forEach(
+        (car,index)=>{
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "car-option " +
+                (
+                    index === data.selectedCar
+                        ? "selected"
+                        : ""
+                );
+
+            button.innerHTML = `
+
+                <strong>
+                    ${car.name}
+                </strong>
+
+                <small>
+                    SPEED ${car.speed}
+                    · ACC ${car.acceleration}
+                </small>
+
+            `;
+
+            button.onclick = ()=>{
+                data.selectedCar = index;
+                saveData();
+                renderGarage();
+            };
+
+            selector.appendChild(button);
+
+        }
+    );
+
+
+    const car =
+        cars[data.selectedCar];
+
+    document.getElementById("carName")
+        .textContent =
+        car.name;
+
+    document.getElementById("carDescription")
+        .textContent =
+        car.description;
+
+    document.getElementById("selectCarButton")
+        .textContent =
+        "✓ SELECTED";
+
+}
+
+
+function selectCurrentCar(){
+
+    saveData();
+
+}
+
+
+/* =========================================================
+   SCORES
+========================================================= */
+
+function renderScores(){
+
+    document.getElementById("scoreBest")
+        .textContent =
+        data.best.toLocaleString();
+
+    document.getElementById("scoreLevel")
+        .textContent =
+        data.level;
+
+    document.getElementById("scoreMoney")
+        .textContent =
+        "$" + data.money.toLocaleString();
+
+    document.getElementById("scoreRaces")
+        .textContent =
+        data.races;
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function toggleAnimation(){
+
+    data.animation =
+        !data.animation;
+
+    document.getElementById(
+        "animationButton"
+    ).textContent =
+        data.animation
+            ? "ON"
+            : "OFF";
+
+    document.querySelector(".stars").style.animationPlayState =
+        data.animation ? "running" : "paused";
+
+    document.querySelector(".sky-glow").style.animationPlayState =
+        data.animation ? "running" : "paused";
+
+    saveData();
+
+}
+
+
+function resetGame(){
+
+    if(
+        !confirm(
+            "Reset all NIGHT DRIVE progress?"
+        )
+    ) return;
+
+    data = {...defaultData};
+
+    saveData();
+
+    renderLevels();
+    renderGarage();
+    renderScores();
+
+}
+
+
+/* =========================================================
+   GAME ENGINE
+========================================================= */
+
+const canvas =
+    document.getElementById(
+        "gameCanvas"
+    );
+
+const ctx =
+    canvas.getContext("2d");
+
+let game = null;
+let animationFrame = null;
+
+
+function resizeCanvas(){
+
+    canvas.width =
+        window.innerWidth *
+        devicePixelRatio;
+
+    canvas.height =
+        window.innerHeight *
+        devicePixelRatio;
+
+    canvas.style.width =
+        window.innerWidth + "px";
+
+    canvas.style.height =
+        window.innerHeight + "px";
+
+    ctx.setTransform(
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
+    );
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+resizeCanvas();
+
+
+/* =========================================================
+   START RACE
+========================================================= */
+
+function startRace(levelNumber){
+
+    const level =
+        levels[levelNumber - 1];
+
+    game = {
+
+        level:levelNumber,
+
+        distance:0,
+
+        score:0,
+
+        speed:0,
+
+        nitro:100,
+
+        playerX:0,
+
+        targetX:0,
+
+        lane:1,
+
+        roadOffset:0,
+
+        traffic:[],
+
+        particles:[],
+
+        running:true,
+
+        paused:false,
+
+        keys:{},
+
+        spawnTimer:0,
+
+        startTime:performance.now()
+
+    };
+
+
+    createTraffic();
+
+    showScreen("gameScreen");
+
+    window.addEventListener(
+        "keydown",
+        gameKeyDown
+    );
+
+    window.addEventListener(
+        "keyup",
+        gameKeyUp
+    );
+
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+    animationFrame =
+        requestAnimationFrame(
+            gameLoop
+        );
+
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+function gameKeyDown(e){
+
+    if(!game || !game.running)
+        return;
+
+    game.keys[e.key.toLowerCase()] =
+        true;
+
+
+    if(
+        e.code === "Space" ||
+        e.key === " "
+    ){
+
+        game.keys.nitro = true;
+
+        e.preventDefault();
+
+    }
+
+
+    if(e.key === "Escape"){
+
+        pauseGame();
+
+    }
+
+}
+
+
+function gameKeyUp(e){
+
+    if(!game)
+        return;
+
+    game.keys[e.key.toLowerCase()] =
+        false;
+
+    if(
+        e.code === "Space" ||
+        e.key === " "
+    ){
+
+        game.keys.nitro = false;
+
+    }
+
+}
+
+
+/* =========================================================
+   TRAFFIC
+========================================================= */
+
+function createTraffic(){
+
+    if(!game)
+        return;
+
+    game.traffic = [];
+
+    for(
+        let i=0;
+        i<5;
+        i++
+    ){
+
+        game.traffic.push({
+
+            lane:
+                Math.floor(
+                    Math.random()*3
+                ),
+
+            y:
+                -i*280 -
+                200,
+
+            speed:
+                .7 +
+                Math.random()*.6,
+
+            color:
+                Math.random()>.5
+                    ? "#26314a"
+                    : "#361f48"
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME LOOP
+========================================================= */
+
+function gameLoop(time){
+
+    if(
+        !game ||
+        !game.running
+    ) return;
+
+
+    if(!game.paused){
+
+        updateGame();
+
+        drawGame();
+
+    }
+
+
+    animationFrame =
+        requestAnimationFrame(
+            gameLoop
+        );
+
+}
+
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function updateGame(){
+
+    const level =
+        levels[game.level-1];
+
+    const car =
+        cars[data.selectedCar];
+
+
+    /* steering */
+
+    if(
+        game.keys["a"] ||
+        game.keys["arrowleft"]
+    ){
+
+        game.targetX -= .055;
+
+    }
+
+
+    if(
+        game.keys["d"] ||
+        game.keys["arrowright"]
+    ){
+
+        game.targetX += .055;
+
+    }
+
+
+    game.targetX =
+        Math.max(
+            -.82,
+            Math.min(
+                .82,
+                game.targetX
+            )
+        );
+
+
+    game.playerX +=
+        (game.targetX-game.playerX)
+        *.15;
+
+
+    /* acceleration */
+
+    const baseSpeed =
+        .55 +
+        car.speed/180;
+
+
+    let nitroActive =
+        game.keys.nitro &&
+        game.nitro > 0;
+
+
+    if(nitroActive){
+
+        game.speed =
+            Math.min(
+                1.5,
+                game.speed +
+                .025
+            );
+
+        game.nitro =
+            Math.max(
+                0,
+                game.nitro -
+                .55
+            );
+
+    }else{
+
+        game.speed +=
+            (baseSpeed-game.speed)
+            *.04;
+
+        game.nitro =
+            Math.min(
+                100,
+                game.nitro +
+                .09
+            );
+
+    }
+
+
+    /* distance */
+
+    game.distance +=
+        game.speed *
+        2.2;
+
+
+    game.score +=
+        Math.floor(
+            game.speed *
+            1.8
+        );
+
+
+    game.roadOffset +=
+        game.speed *
+        14;
+
+
+    /* traffic */
+
+    game.spawnTimer += game.speed;
+
+    game.traffic.forEach(
+        traffic=>{
+
+            traffic.y +=
+                game.speed *
+                11 *
+                traffic.speed;
+
+
+            if(
+                traffic.y >
+                window.innerHeight + 180
+            ){
+
+                traffic.y =
+                    -250 -
+                    Math.random()*500;
+
+                traffic.lane =
+                    Math.floor(
+                        Math.random()*3
+                    );
+
+                traffic.speed =
+                    .7 +
+                    Math.random()*.6;
+
+                game.score += 100;
+
+            }
+
+        }
+    );
+
+
+    checkCollisions();
+
+
+    /* finish */
+
+    if(
+        game.distance >=
+        level.distance
+    ){
+
+        finishRace(true);
+
+    }
+
+
+    /* UI */
+
+    document.getElementById(
+        "gameScore"
+    ).textContent =
+        game.score.toLocaleString();
+
+    document.getElementById(
+        "gameDistance"
+    ).textContent =
+        Math.floor(
+            game.distance
+        );
+
+    document.getElementById(
+        "gameSpeed"
+    ).textContent =
+        Math.floor(
+            60 +
+            game.speed*80
+        );
+
+    document.getElementById(
+        "nitroFill"
+    ).style.width =
+        game.nitro + "%";
+
+}
+
+
+/* =========================================================
+   COLLISION
+========================================================= */
+
+function checkCollisions(){
+
+    const playerLane =
+        Math.round(
+            (
+                game.playerX + 1
+            ) / 2 * 2
+        );
+
+
+    game.traffic.forEach(
+        traffic=>{
+
+            if(
+                traffic.y >
+                window.innerHeight*.62 &&
+                traffic.y <
+                window.innerHeight*.85
+            ){
+
+                const lane =
+                    traffic.lane;
+
+
+                if(
+                    lane === playerLane
+                ){
+
+                    finishRace(false);
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DRAW GAME
+========================================================= */
+
+function drawGame(){
+
+    const w =
+        window.innerWidth;
+
+    const h =
+        window.innerHeight;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+
+    /* sky */
+
+    const sky =
+        ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            h
+        );
+
+    sky.addColorStop(
+        0,
+        "#07091c"
+    );
+
+    sky.addColorStop(
+        .45,
+        "#172348"
+    );
+
+    sky.addColorStop(
+        1,
+        "#05070c"
+    );
+
+    ctx.fillStyle =
+        sky;
+
+    ctx.fillRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+
+    /* moon */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        w*.82,
+        h*.16,
+        55,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fillStyle =
+        "#e7ebff";
+
+    ctx.shadowBlur =
+        35;
+
+    ctx.shadowColor =
+        "#9a8cff";
+
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+
+
+    /* forest */
+
+    drawGameForest(
+        w,
+        h
+    );
+
+
+    /* road */
+
+    const horizon =
+        h*.39;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        w*.45,
+        horizon
+    );
+
+    ctx.lineTo(
+        w*.55,
+        horizon
+    );
+
+    ctx.lineTo(
+        w*1.1,
+        h
+    );
+
+    ctx.lineTo(
+        -w*.1,
+        h
+    );
+
+    ctx.closePath();
+
+    const road =
+        ctx.createLinearGradient(
+            0,
+            0,
+            w,
+            0
+        );
+
+    road.addColorStop(
+        0,
+        "#080a10"
+    );
+
+    road.addColorStop(
+        .5,
+        "#282d38"
+    );
+
+    road.addColorStop(
+        1,
+        "#080a10"
+    );
+
+    ctx.fillStyle =
+        road;
+
+    ctx.fill();
+
+
+    /* road glow */
+
+    ctx.strokeStyle =
+        "rgba(155,92,255,.45)";
+
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        w*.45,
+        horizon
+    );
+
+    ctx.lineTo(
+        -w*.1,
+        h
+    );
+
+    ctx.moveTo(
+        w*.55,
+        horizon
+    );
+
+    ctx.lineTo(
+        w*1.1,
+        h
+    );
+
+    ctx.stroke();
+
+
+    /* centre road lines */
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.75)";
+
+    ctx.lineWidth = 5;
+
+    ctx.setLineDash([
+        30,
+        55
+    ]);
+
+    ctx.lineDashOffset =
+        -game.roadOffset;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        w/2,
+        horizon
+    );
+
+    ctx.lineTo(
+        w/2,
+        h
+    );
+
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+
+    /* traffic */
+
+    game.traffic.forEach(
+        drawTraffic
+    );
+
+
+    /* player */
+
+    drawPlayer(
+        w/2 +
+        game.playerX *
+        w*.27,
+        h*.77
+    );
+
+
+    /* vignette */
+
+    const vignette =
+        ctx.createRadialGradient(
+            w/2,
+            h*.55,
+            h*.2,
+            w/2,
+            h*.55,
+            h*.8
+        );
+
+    vignette.addColorStop(
+        0,
+        "rgba(0,0,0,0)"
+    );
+
+    vignette.addColorStop(
+        1,
+        "rgba(0,0,0,.65)"
+    );
+
+    ctx.fillStyle =
+        vignette;
+
+    ctx.fillRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+}
+
+
+/* =========================================================
+   FOREST DRAW
+========================================================= */
+
+function drawGameForest(w,h){
+
+    const horizon =
+        h*.39;
+
+    for(
+        let i=0;
+        i<18;
+        i++
+    ){
+
+        const x =
+            i *
+            (w/17);
+
+        const treeH =
+            100 +
+            (i%4)*55;
+
+        ctx.fillStyle =
+            "#080f15";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            horizon+50
+        );
+
+        ctx.lineTo(
+            x+35,
+            horizon-treeH
+        );
+
+        ctx.lineTo(
+            x+70,
+            horizon+50
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   TRAFFIC DRAW
+========================================================= */
+
+function drawTraffic(car){
+
+    const w =
+        window.innerWidth;
+
+    const laneX =
+        w/2 +
+        (
+            car.lane-1
+        ) *
+        w*.18;
+
+
+    const scale =
+        Math.max(
+            .35,
+            Math.min(
+                1.2,
+                car.y/
+                window.innerHeight
+            )
+        );
+
+
+    const width =
+        55*scale;
+
+    const height =
+        90*scale;
+
+
+    ctx.save();
+
+    ctx.translate(
+        laneX,
+        car.y
+    );
+
+
+    ctx.fillStyle =
+        car.color;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -width/2,
+        -height/2,
+        width,
+        height,
+        10
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        "#111827";
+
+    ctx.fillRect(
+        -width*.3,
+        -height*.25,
+        width*.6,
+        height*.25
+    );
+
+
+    ctx.fillStyle =
+        "#ff304f";
+
+    ctx.shadowBlur =
+        10;
+
+    ctx.shadowColor =
+        "#ff304f";
+
+    ctx.fillRect(
+        -width*.32,
+        height*.27,
+        width*.18,
+        5*scale
+    );
+
+    ctx.fillRect(
+        width*.14,
+        height*.27,
+        width*.18,
+        5*scale
+    );
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   PLAYER DRAW
+========================================================= */
+
+function drawPlayer(x,y){
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y
+    );
+
+
+    /* glow */
+
+    ctx.shadowBlur =
+        30;
+
+    ctx.shadowColor =
+        "#25e7ff";
+
+
+    /* body */
+
+    const gradient =
+        ctx.createLinearGradient(
+            -45,
+            -20,
+            45,
+            60
+        );
+
+    gradient.addColorStop(
+        0,
+        "#b8bdcf"
+    );
+
+    gradient.addColorStop(
+        .3,
+        "#51566b"
+    );
+
+    gradient.addColorStop(
+        .65,
+        "#151824"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#06070c"
+    );
+
+    ctx.fillStyle =
+        gradient;
+
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -48,
+        -65,
+        96,
+        125,
+        18
+    );
+
+    ctx.fill();
+
+
+    ctx.shadowBlur = 0;
+
+
+    /* roof */
+
+    ctx.fillStyle =
+        "#0b1723";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -34,
+        -52,
+        68,
+        55,
+        14
+    );
+
+    ctx.fill();
+
+
+    ctx.strokeStyle =
+        "rgba(37,231,255,.7)";
+
+    ctx.lineWidth = 2;
+
+    ctx.stroke();
+
+
+    /* headlights */
+
+    ctx.fillStyle =
+        "#e8ffff";
+
+    ctx.shadowBlur =
+        18;
+
+    ctx.shadowColor =
+        "#25e7ff";
+
+    ctx.fillRect(
+        -39,
+        -57,
+        22,
+        7
+    );
+
+    ctx.fillRect(
+        17,
+        -57,
+        22,
+        7
+    );
+
+
+    /* wheels */
+
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle =
+        "#030407";
+
+    ctx.fillRect(
+        -54,
+        -20,
+        10,
+        35
+    );
+
+    ctx.fillRect(
+        44,
+        -20,
+        10,
+        35
+    );
+
+    ctx.fillRect(
+        -54,
+        30,
+        10,
+        35
+    );
+
+    ctx.fillRect(
+        44,
+        30,
+        10,
+        35
+    );
+
+
+    /* centre neon */
+
+    ctx.fillStyle =
+        "#9b5cff";
+
+    ctx.shadowBlur =
+        15;
+
+    ctx.shadowColor =
+        "#9b5cff";
+
+    ctx.fillRect(
+        -42,
+        25,
+        84,
+        3
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function pauseGame(){
+
+    if(!game)
+        return;
+
+    game.paused =
+        !game.paused;
+
+}
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+function finishRace(won){
+
+    if(
+        !game ||
+        !game.running
+    ) return;
+
+
+    game.running = false;
+
+
+    window.removeEventListener(
+        "keydown",
+        gameKeyDown
+    );
+
+    window.removeEventListener(
+        "keyup",
+        gameKeyUp
+    );
+
+
+    if(won){
+
+        const level =
+            levels[game.level-1];
+
+
+        let reward =
+            level.reward;
+
+
+        const score =
+            Math.floor(
+                game.score +
+                game.distance
+            );
+
+
+        data.money +=
+            reward;
+
+        data.races++;
+
+
+        if(
+            score >
+            data.best
+        ){
+
+            data.best =
+                score;
+
+        }
+
+
+        if(
+            game.level ===
+            data.level &&
+            data.level <
+            levels.length
+        ){
+
+            data.level++;
+
+        }
+
+
+        saveData();
+
+
+        document.getElementById(
+            "resultTitle"
+        ).textContent =
+            "ROAD CLEARED";
+
+
+        document.getElementById(
+            "resultValue"
+        ).textContent =
+            score.toLocaleString();
+
+
+    }else{
+
+        document.getElementById(
+            "resultTitle"
+        ).textContent =
+            "CRASHED";
+
+
+        document.getElementById(
+            "resultValue"
+        ).textContent =
+            Math.floor(
+                game.score
+            ).toLocaleString();
+
+    }
+
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.add("show");
+
+}
+
+
+function restartRace(){
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.remove("show");
+
+
+    startRace(
+        game
+            ? game.level
+            : 1
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+updateHUD();
+
+renderLevels();
+
+renderGarage();
+
+renderScores();
+
+document.getElementById(
+    "animationButton"
+).textContent =
+    data.animation
+        ? "ON"
+        : "OFF";
+
+if(!data.animation){
+
+    document.querySelector(
+        ".stars"
+    ).style.animationPlayState =
+        "paused";
+
+    document.querySelector(
+        ".sky-glow"
+    ).style.animationPlayState =
+        "paused";
+
+}
+
+</script>
+
+</body>
+</html>
+```
