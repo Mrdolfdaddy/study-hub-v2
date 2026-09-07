@@ -13,19 +13,19 @@
 <style>
 
 /* =========================
-   STREETFORGE STUDY HUB PAGE
+   NIGHT DRIVE STUDY HUB PAGE
 ========================= */
 
-.streetforge-page {
+.nightdrive-page {
     max-width: 1600px !important;
     padding-bottom: 40px;
 }
 
-.streetforge-page h1 {
+.nightdrive-page h1 {
     margin-bottom: 20px !important;
 }
 
-.streetforge-container {
+.nightdrive-container {
     width: 100%;
     min-height: calc(100vh - 150px);
     background: #05070d;
@@ -36,7 +36,7 @@
         0 0 40px rgba(139,92,246,.08);
 }
 
-.streetforge-frame {
+.nightdrive-frame {
     display: block;
     width: 100%;
     height: calc(100vh - 170px);
@@ -45,7 +45,7 @@
     background: #05070d;
 }
 
-.streetforge-launch-card {
+.nightdrive-launch-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -57,32 +57,32 @@
     backdrop-filter: blur(20px);
 }
 
-.streetforge-launch-info h2 {
+.nightdrive-launch-info h2 {
     margin: 0 0 6px;
 }
 
-.streetforge-launch-info p {
+.nightdrive-launch-info p {
     margin: 0;
     opacity: .65;
 }
 
-.streetforge-open-button {
+.nightdrive-open-button {
     flex-shrink: 0;
 }
 
 /* Mobile */
 @media(max-width: 900px) {
 
-    .streetforge-container {
+    .nightdrive-container {
         border-radius: 18px;
     }
 
-    .streetforge-frame {
+    .nightdrive-frame {
         min-height: 800px;
         height: calc(100vh - 180px);
     }
 
-    .streetforge-launch-card {
+    .nightdrive-launch-card {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -171,14 +171,14 @@ onclick="showPage('tools', this)">
 
 
 <!-- =========================
-     STREETFORGE
+     NIGHT DRIVE
 ========================= -->
 
 <button
 class="nav-btn"
-onclick="showPage('streetforge', this)">
+onclick="showPage('nightdrive', this)">
 
-🏎️ Streetforge
+🌙 Night Drive
 
 </button>
 
@@ -484,9 +484,9 @@ onclick="showPage('notes', this)">
 
 
 <button
-onclick="showPage('streetforge', this)">
+onclick="showPage('nightdrive', this)">
 
-🏎️ Streetforge
+🌙 Night Drive
 
 </button>
 
@@ -685,9 +685,9 @@ games and resources.
 
 
 <button
-onclick="showPage('streetforge', document.querySelector('.nav-btn:nth-child(6)'))">
+onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
 
-🏎️ Open Streetforge
+🌙 Open Night Drive
 
 </button>
 
@@ -702,31 +702,31 @@ onclick="showPage('streetforge', document.querySelector('.nav-btn:nth-child(6)')
 
 
 <!-- =========================
-     STREETFORGE
+     NIGHT DRIVE
 ========================= -->
 
 <section
-id="streetforge"
-class="page streetforge-page">
+id="nightdrive"
+class="page nightdrive-page">
 
 
 <h1>
-🏎️ Streetforge
+🌙 Night Drive
 </h1>
 
 
 
-<div class="streetforge-launch-card">
+<div class="nightdrive-launch-card">
 
 
-<div class="streetforge-launch-info">
+<div class="nightdrive-launch-info">
 
 <h2>
-STREETFORGE
+NIGHT DRIVE
 </h2>
 
 <p>
-Build your ride. Tune your machine. Conquer the streets.
+Race through the night. Dodge traffic. Push your limits.
 </p>
 
 </div>
@@ -734,8 +734,8 @@ Build your ride. Tune your machine. Conquer the streets.
 
 
 <button
-class="streetforge-open-button"
-onclick="openStreetforgeFullscreen()">
+class="nightdrive-open-button"
+onclick="openNightDriveFullscreen()">
 
 ⛶ Fullscreen
 
@@ -746,13 +746,13 @@ onclick="openStreetforgeFullscreen()">
 
 
 
-<div class="streetforge-container">
+<div class="nightdrive-container">
 
 <iframe
-id="streetforgeFrame"
-class="streetforge-frame"
-src="streetforge.html"
-title="Streetforge Racing Game"
+id="nightdriveFrame"
+class="nightdrive-frame"
+src="night-drive.html"
+title="Night Drive Racing Game"
 allow="autoplay">
 
 </iframe>
@@ -863,15 +863,15 @@ onchange="importBackup(event)">
 
 
 <!-- =========================
-     STREETFORGE INTEGRATION
+     NIGHT DRIVE INTEGRATION
 ========================= -->
 
 <script>
 
-function openStreetforgeFullscreen() {
+function openNightDriveFullscreen() {
 
     const frame =
-        document.getElementById("streetforgeFrame");
+        document.getElementById("nightdriveFrame");
 
     if (!frame) return;
 
@@ -893,7 +893,7 @@ function openStreetforgeFullscreen() {
 }
 
 
-/* Keep Streetforge alive while switching pages.
+/* Keep Night Drive alive while switching pages.
    The iframe is deliberately NOT reloaded. */
 
 document.addEventListener(
@@ -902,7 +902,7 @@ document.addEventListener(
 
         const frame =
             document.getElementById(
-                "streetforgeFrame"
+                "nightdriveFrame"
             );
 
         if (!frame) return;
@@ -913,7 +913,7 @@ document.addEventListener(
             function() {
 
                 console.log(
-                    "Streetforge loaded successfully."
+                    "Night Drive loaded successfully."
                 );
 
             }
