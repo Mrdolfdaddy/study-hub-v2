@@ -10,20 +10,985 @@
 
 <link rel="stylesheet" href="streetforge.css">
 
+<!-- 3D MODEL VIEWER -->
+<script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+</script>
+
+<style>
+
+/* =========================================================
+   STREETFORGE HOME
+   ========================================================= */
+
+#sfMenu {
+    position: relative;
+    min-height: calc(100vh - 130px);
+    overflow: hidden;
+    padding: 0;
+    border-radius: 20px;
+    background: #111827;
+}
+
+/* Hide every inactive panel properly */
+
+.sf-panel {
+    display: none;
+}
+
+.sf-panel.sf-active {
+    display: block;
+}
+
+/* =========================================================
+   HOME WORLD
+   ========================================================= */
+
+.sf-home-world {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    min-height: 650px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #17213b 0%,
+            #253555 28%,
+            #34455a 48%,
+            #202b35 64%,
+            #0b1016 100%
+        );
+}
+
+/* Atmospheric sky */
+
+.sf-home-sky {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 28%,
+            rgba(167,139,250,.42),
+            transparent 32%
+        ),
+        radial-gradient(
+            ellipse at 20% 35%,
+            rgba(34,211,238,.18),
+            transparent 28%
+        ),
+        radial-gradient(
+            ellipse at 82% 35%,
+            rgba(139,92,246,.22),
+            transparent 30%
+        );
+}
+
+/* =========================================================
+   MOON
+   ========================================================= */
+
+.sf-home-moon {
+    position: absolute;
+
+    width: 125px;
+    height: 125px;
+
+    top: 9%;
+    right: 14%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 32%,
+            #ffffff 0%,
+            #f0f1ff 35%,
+            #c9cdf0 65%,
+            #9ca3c7 100%
+        );
+
+    box-shadow:
+        0 0 30px rgba(255,255,255,.35),
+        0 0 80px rgba(196,181,253,.3),
+        0 0 140px rgba(139,92,246,.2);
+
+    opacity: .95;
+}
+
+/* =========================================================
+   STARS
+   ========================================================= */
+
+.sf-home-stars {
+    position: absolute;
+    inset: 0;
+
+    opacity: .7;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1.5px
+        ),
+        radial-gradient(
+            circle,
+            rgba(196,181,253,.75) 1px,
+            transparent 1.5px
+        );
+
+    background-size:
+        95px 95px,
+        170px 170px;
+
+    animation:
+        sfStarsMove
+        45s
+        linear
+        infinite;
+}
+
+@keyframes sfStarsMove {
+
+    from {
+        background-position:
+            0 0,
+            0 0;
+    }
+
+    to {
+        background-position:
+            95px 95px,
+            -170px 170px;
+    }
+}
+
+/* =========================================================
+   REDWOOD FOREST
+   ========================================================= */
+
+.sf-home-forest {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 31%;
+
+    height: 47%;
+
+    overflow: hidden;
+}
+
+.sf-tree {
+    position: absolute;
+
+    bottom: -5%;
+
+    width: 75px;
+    height: 110%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0 25%,
+            #101820 26% 74%,
+            transparent 75%
+        );
+
+    filter:
+        drop-shadow(
+            0 0 15px
+            rgba(0,0,0,.45)
+        );
+}
+
+.sf-tree::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 260px;
+    height: 310px;
+
+    transform: translateX(-50%);
+
+    background: #111b20;
+
+    clip-path: polygon(
+        50% 0,
+        70% 25%,
+        60% 23%,
+        88% 46%,
+        68% 43%,
+        100% 72%,
+        72% 67%,
+        84% 100%,
+        16% 100%,
+        28% 67%,
+        0 72%,
+        32% 43%,
+        12% 46%,
+        40% 23%,
+        30% 25%
+    );
+}
+
+.sf-tree:nth-child(1) {
+    left: -4%;
+    transform: scale(1.35);
+}
+
+.sf-tree:nth-child(2) {
+    left: 7%;
+    transform: scale(.85);
+}
+
+.sf-tree:nth-child(3) {
+    left: 17%;
+    transform: scale(1.5);
+}
+
+.sf-tree:nth-child(4) {
+    left: 28%;
+    transform: scale(.8);
+}
+
+.sf-tree:nth-child(5) {
+    left: 39%;
+    transform: scale(1.25);
+}
+
+.sf-tree:nth-child(6) {
+    left: 50%;
+    transform: scale(.82);
+}
+
+.sf-tree:nth-child(7) {
+    left: 61%;
+    transform: scale(1.5);
+}
+
+.sf-tree:nth-child(8) {
+    left: 73%;
+    transform: scale(.8);
+}
+
+.sf-tree:nth-child(9) {
+    left: 83%;
+    transform: scale(1.35);
+}
+
+.sf-tree:nth-child(10) {
+    left: 94%;
+    transform: scale(.9);
+}
+
+/* Forest purple/cyan atmospheric lighting */
+
+.sf-home-forest-light {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 26%;
+
+    height: 30%;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(139,92,246,.28),
+            rgba(34,211,238,.12) 35%,
+            transparent 72%
+        );
+
+    filter: blur(25px);
+}
+
+/* =========================================================
+   ROAD
+   ========================================================= */
+
+.sf-home-road {
+    position: absolute;
+
+    left: 50%;
+    bottom: -8%;
+
+    width: 120%;
+    height: 52%;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #07090d 0%,
+            #1a2028 30%,
+            #303640 50%,
+            #1a2028 70%,
+            #07090d 100%
+        );
+
+    clip-path:
+        polygon(
+            41% 0,
+            59% 0,
+            100% 100%,
+            0 100%
+        );
+
+    box-shadow:
+        0 -30px 100px
+        rgba(0,0,0,.7);
+}
+
+/* Road center markings */
+
+.sf-home-road::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 7px;
+    height: 100%;
+
+    transform: translateX(-50%);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.8) 0 28px,
+            transparent 28px 90px
+        );
+
+    opacity: .55;
+
+    animation:
+        sfRoadMove
+        .65s
+        linear
+        infinite;
+}
+
+@keyframes sfRoadMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 118px;
+    }
+}
+
+/* Road colored edge glow */
+
+.sf-home-road::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(139,92,246,.16),
+            transparent 25%,
+            transparent 75%,
+            rgba(34,211,238,.14)
+        );
+}
+
+/* =========================================================
+   LIGHT STREAKS
+   ========================================================= */
+
+.sf-home-streaks {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+}
+
+.sf-streak {
+    position: absolute;
+
+    top: 25%;
+
+    width: 3px;
+    height: 100px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(196,181,253,.95)
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(139,92,246,.9);
+
+    opacity: 0;
+
+    animation:
+        sfStreakMove
+        1.4s
+        linear
+        infinite;
+}
+
+.sf-streak:nth-child(1) {
+    left: 15%;
+    animation-delay: -.2s;
+}
+
+.sf-streak:nth-child(2) {
+    left: 27%;
+    animation-delay: -.9s;
+}
+
+.sf-streak:nth-child(3) {
+    left: 38%;
+    animation-delay: -.5s;
+}
+
+.sf-streak:nth-child(4) {
+    left: 63%;
+    animation-delay: -.8s;
+}
+
+.sf-streak:nth-child(5) {
+    left: 75%;
+    animation-delay: -.35s;
+}
+
+.sf-streak:nth-child(6) {
+    left: 88%;
+    animation-delay: -1s;
+}
+
+@keyframes sfStreakMove {
+
+    0% {
+        transform:
+            translateY(-80px)
+            scale(.2);
+
+        opacity: 0;
+    }
+
+    20% {
+        opacity: .7;
+    }
+
+    100% {
+        transform:
+            translateY(500px)
+            scale(2.8);
+
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   FOG
+   ========================================================= */
+
+.sf-home-fog {
+    position: absolute;
+
+    left: -20%;
+    right: -20%;
+
+    bottom: 27%;
+
+    height: 25%;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(235,240,255,.11),
+            rgba(255,255,255,.07),
+            transparent
+        );
+
+    filter: blur(25px);
+
+    animation:
+        sfFogMove
+        12s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes sfFogMove {
+
+    from {
+        transform: translateX(-5%);
+    }
+
+    to {
+        transform: translateX(5%);
+    }
+}
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.sf-home-title {
+    position: absolute;
+
+    z-index: 20;
+
+    top: 8%;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    pointer-events: none;
+}
+
+.sf-home-title h1 {
+    margin: 0;
+
+    font-family:
+        "Orbitron",
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        clamp(
+            55px,
+            8.5vw,
+            115px
+        );
+
+    font-weight: 900;
+
+    letter-spacing:
+        clamp(
+            4px,
+            .8vw,
+            11px
+        );
+
+    line-height: .9;
+
+    color: white;
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.8),
+        0 0 30px rgba(139,92,246,.8),
+        0 0 70px rgba(139,92,246,.45);
+}
+
+.sf-home-title h1 span {
+
+    background:
+        linear-gradient(
+            90deg,
+            #8b5cf6,
+            #c4b5fd,
+            #22d3ee,
+            #8b5cf6
+        );
+
+    background-size: 300% auto;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    animation:
+        sfTitleFlow
+        5s
+        linear
+        infinite;
+}
+
+@keyframes sfTitleFlow {
+
+    from {
+        background-position: 0%;
+    }
+
+    to {
+        background-position: 300%;
+    }
+}
+
+/* =========================================================
+   3D CAR
+   ========================================================= */
+
+.sf-home-car {
+
+    position: absolute;
+
+    z-index: 18;
+
+    left: 50%;
+    bottom: 13%;
+
+    width:
+        min(
+            720px,
+            78vw
+        );
+
+    height: 350px;
+
+    transform: translateX(-50%);
+
+    pointer-events: none;
+}
+
+.sf-home-car model-viewer {
+
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+
+    --poster-color: transparent;
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(
+            0 25px 25px
+            rgba(0,0,0,.8)
+        );
+}
+
+/* Ground glow */
+
+.sf-car-glow {
+
+    position: absolute;
+
+    left: 12%;
+    right: 12%;
+    bottom: 10%;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(139,92,246,.7),
+            rgba(34,211,238,.2),
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    animation:
+        sfCarGlow
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes sfCarGlow {
+
+    0%,
+    100% {
+        transform: scaleX(1);
+        opacity: .7;
+    }
+
+    50% {
+        transform: scaleX(1.08);
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   HEADLIGHT BEAMS
+   ========================================================= */
+
+.sf-headlight {
+    position: absolute;
+
+    z-index: 12;
+
+    bottom: 22%;
+
+    width: 310px;
+    height: 240px;
+
+    opacity: .13;
+
+    filter: blur(13px);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.9),
+            rgba(167,139,250,.4),
+            transparent
+        );
+
+    clip-path:
+        polygon(
+            45% 0,
+            55% 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+.sf-headlight.left {
+    left: calc(50% - 275px);
+    transform: rotate(-8deg);
+}
+
+.sf-headlight.right {
+    left: calc(50% - 35px);
+    transform: rotate(8deg);
+}
+
+/* =========================================================
+   HOME NAVIGATION
+   ========================================================= */
+
+.sf-home-nav {
+
+    position: absolute;
+
+    z-index: 50;
+
+    left: 50%;
+    bottom: 24px;
+
+    transform: translateX(-50%);
+
+    width:
+        min(
+            820px,
+            calc(100% - 40px)
+        );
+
+    display: grid;
+
+    grid-template-columns:
+        1.45fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 10px;
+}
+
+.sf-home-nav button {
+
+    width: 100%;
+    height: 58px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
+
+    border-radius: 10px;
+
+    background:
+        rgba(8,11,19,.88);
+
+    color: white;
+
+    font-family:
+        "Orbitron",
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(16px);
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.sf-home-nav button:hover {
+
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(196,181,253,.8);
+
+    background:
+        rgba(43,34,70,.94);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.35),
+        0 0 25px
+        rgba(139,92,246,.25);
+}
+
+.sf-home-nav .sf-home-start {
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cf6,
+            #6366f1
+        );
+
+    border-color:
+        rgba(221,214,254,.8);
+
+    font-size: 12px;
+
+    box-shadow:
+        0 0 30px
+        rgba(139,92,246,.3);
+}
+
+.sf-home-nav .sf-home-start:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #a78bfa,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 0 45px
+        rgba(139,92,246,.45);
+}
+
+/* =========================================================
+   HOME VIGNETTE
+   ========================================================= */
+
+.sf-home-vignette {
+
+    position: absolute;
+
+    z-index: 30;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 42%,
+            rgba(0,0,0,.08) 65%,
+            rgba(0,0,0,.38) 100%
+        );
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    #sfMenu {
+        min-height: 700px;
+    }
+
+    .sf-home-title {
+        top: 7%;
+    }
+
+    .sf-home-car {
+        width: 90vw;
+        height: 300px;
+        bottom: 20%;
+    }
+
+    .sf-home-nav {
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+        bottom: 12px;
+    }
+
+    .sf-home-nav .sf-home-start {
+        grid-column: span 2;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .sf-home-title h1 {
+        font-size: 46px;
+        letter-spacing: 2px;
+    }
+
+    .sf-home-car {
+        height: 230px;
+        bottom: 27%;
+    }
+
+    .sf-home-nav {
+        width: calc(100% - 20px);
+        gap: 6px;
+    }
+
+    .sf-home-nav button {
+        height: 48px;
+        font-size: 8px;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="streetforge-app">
 
-<!-- =========================
+<!-- =========================================================
      HUD
-========================= -->
+========================================================= -->
 
 <header class="sf-header">
 
     <div class="sf-logo">
-        <span>STREET</span><strong>FORGE</strong>
+
+        <span>STREET</span>
+        <strong>FORGE</strong>
+
     </div>
 
     <div class="sf-hud">
@@ -48,118 +1013,154 @@
 </header>
 
 
-<!-- =========================
-     MAIN MENU
-========================= -->
+<!-- =========================================================
+     HOME
+========================================================= -->
 
 <section id="sfMenu" class="sf-panel sf-active">
 
-    <div class="sf-hero">
+    <div class="sf-home-world">
 
-        <div class="sf-hero-glow"></div>
+        <div class="sf-home-sky"></div>
 
-        <div class="sf-hero-content">
+        <div class="sf-home-stars"></div>
 
-            <div class="sf-eyebrow">
-                THE STREETS ARE WAITING
-            </div>
+        <div class="sf-home-moon"></div>
+
+
+        <!-- REDWOOD FOREST -->
+
+        <div class="sf-home-forest">
+
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+            <div class="sf-tree"></div>
+
+        </div>
+
+        <div class="sf-home-forest-light"></div>
+
+
+        <!-- ROAD -->
+
+        <div class="sf-home-road"></div>
+
+
+        <!-- MOVING LIGHTS -->
+
+        <div class="sf-home-streaks">
+
+            <span class="sf-streak"></span>
+            <span class="sf-streak"></span>
+            <span class="sf-streak"></span>
+            <span class="sf-streak"></span>
+            <span class="sf-streak"></span>
+            <span class="sf-streak"></span>
+
+        </div>
+
+
+        <!-- FOG -->
+
+        <div class="sf-home-fog"></div>
+
+
+        <!-- HEADLIGHTS -->
+
+        <div class="sf-headlight left"></div>
+        <div class="sf-headlight right"></div>
+
+
+        <!-- TITLE -->
+
+        <div class="sf-home-title">
 
             <h1>
                 STREET<span>FORGE</span>
             </h1>
 
-            <p>
-                Build your ride. Tune your machine.
-                Conquer the streets.
-            </p>
+        </div>
+
+
+        <!-- REAL 3D CAR -->
+
+        <div class="sf-home-car">
+
+            <div class="sf-car-glow"></div>
+
+            <model-viewer
+                src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CarConcept/glTF-Binary/CarConcept.glb"
+                camera-controls="false"
+                disable-zoom
+                disable-pan
+                interaction-prompt="none"
+                auto-rotate
+                rotation-per-second="12deg"
+                camera-orbit="0deg 72deg 4.5m"
+                field-of-view="30deg"
+                shadow-intensity="1"
+                exposure="1.35"
+                environment-image="neutral"
+                loading="eager"
+                alt="Streetforge concept car">
+            </model-viewer>
+
+        </div>
+
+
+        <!-- HOME BUTTONS -->
+
+        <div class="sf-home-nav">
 
             <button
-                class="sf-primary-btn sf-big-btn"
+                class="sf-home-start"
                 onclick="sfOpenLevels()">
 
                 🏁 START RACING
 
             </button>
 
+            <button
+                onclick="sfOpenGarage()">
+
+                GARAGE
+
+            </button>
+
+            <button
+                onclick="sfOpenLevels()">
+
+                LEVELS
+
+            </button>
+
+            <button
+                onclick="sfOpenHighScores()">
+
+                SCORES
+
+            </button>
+
         </div>
 
-    </div>
 
-
-    <div class="sf-menu-grid">
-
-        <button
-            class="sf-menu-card"
-            onclick="sfOpenGarage()">
-
-            <div class="sf-menu-icon">🏎️</div>
-
-            <div>
-                <h3>Garage</h3>
-                <p>Build your perfect machine</p>
-            </div>
-
-            <span>→</span>
-
-        </button>
-
-
-        <button
-            class="sf-menu-card"
-            onclick="sfOpenLevels()">
-
-            <div class="sf-menu-icon">🏁</div>
-
-            <div>
-                <h3>Levels</h3>
-                <p>Take on the streets</p>
-            </div>
-
-            <span>→</span>
-
-        </button>
-
-
-        <button
-            class="sf-menu-card"
-            onclick="sfOpenHighScores()">
-
-            <div class="sf-menu-icon">🏆</div>
-
-            <div>
-                <h3>High Scores</h3>
-                <p>See your best runs</p>
-            </div>
-
-            <span>→</span>
-
-        </button>
-
-
-        <button
-            class="sf-menu-card"
-            onclick="sfOpenSettings()">
-
-            <div class="sf-menu-icon">⚙️</div>
-
-            <div>
-                <h3>Settings</h3>
-                <p>Customize your experience</p>
-            </div>
-
-            <span>→</span>
-
-        </button>
+        <div class="sf-home-vignette"></div>
 
     </div>
 
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      GARAGE
-========================= -->
+========================================================= -->
 
 <section id="sfGarage" class="sf-panel">
 
@@ -191,10 +1192,6 @@
     </div>
 
 
-    <!-- =========================
-         HORIZONTAL CAR SELECTOR
-    ========================= -->
-
     <div class="garage-selector">
 
         <button
@@ -214,20 +1211,14 @@
             <div class="garage-light garage-light-left"></div>
             <div class="garage-light garage-light-right"></div>
 
-
             <div
                 id="garageVehicleDisplay"
                 class="garage-vehicle-display">
-
             </div>
-
 
             <div class="garage-floor">
-
                 <div class="garage-floor-line"></div>
-
             </div>
-
 
             <div class="garage-car-shadow"></div>
 
@@ -246,46 +1237,27 @@
     </div>
 
 
-    <!-- =========================
-         VEHICLE INFO
-    ========================= -->
-
     <div
         id="garageVehicleInfo"
         class="garage-vehicle-info">
-
     </div>
 
-
-    <!-- =========================
-         CAR SELECTOR RAIL
-    ========================= -->
 
     <div class="garage-selector-wrapper">
 
         <div
             id="garageSelector"
             class="garage-selector-rail">
-
         </div>
 
     </div>
 
 
-    <!-- =========================
-         VEHICLE STATS
-    ========================= -->
-
     <div
         id="garageStats"
         class="garage-stats-panel">
-
     </div>
 
-
-    <!-- =========================
-         UPGRADES
-    ========================= -->
 
     <div class="garage-upgrades">
 
@@ -293,17 +1265,13 @@
 
             <span>PERFORMANCE</span>
 
-            <small>
-                Tune your machine
-            </small>
+            <small>Tune your machine</small>
 
         </div>
-
 
         <div
             id="garageUpgrades"
             class="upgrade-grid">
-
         </div>
 
     </div>
@@ -312,16 +1280,14 @@
     <div
         id="garageAction"
         class="garage-action">
-
     </div>
 
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      LEVELS
-========================= -->
+========================================================= -->
 
 <section id="sfLevels" class="sf-panel">
 
@@ -355,7 +1321,6 @@
     <div
         id="levelsContainer"
         class="levels-grid">
-
     </div>
 
 
@@ -374,7 +1339,6 @@
         <div
             id="difficultyContainer"
             class="difficulty-grid">
-
         </div>
 
     </div>
@@ -382,10 +1346,9 @@
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      SETTINGS
-========================= -->
+========================================================= -->
 
 <section id="sfSettings" class="sf-panel">
 
@@ -415,16 +1378,14 @@
     <div
         id="settingsContainer"
         class="settings-grid">
-
     </div>
 
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      HIGH SCORES
-========================= -->
+========================================================= -->
 
 <section id="sfScores" class="sf-panel">
 
@@ -454,16 +1415,14 @@
     <div
         id="scoresContainer"
         class="scores-container">
-
     </div>
 
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      GAME
-========================= -->
+========================================================= -->
 
 <section id="sfGame" class="sf-panel sf-game-panel">
 
@@ -482,9 +1441,7 @@
 
             <small>SCORE</small>
 
-            <strong id="gameScore">
-                0
-            </strong>
+            <strong id="gameScore">0</strong>
 
         </div>
 
@@ -521,7 +1478,6 @@
                 <div
                     id="gameNitroFill"
                     class="nitro-fill">
-
                 </div>
 
             </div>
@@ -533,23 +1489,16 @@
 
     <div class="game-wrapper">
 
-        <canvas
-            id="streetforgeCanvas">
-
-        </canvas>
-
+        <canvas id="streetforgeCanvas"></canvas>
 
         <div
             id="gameCountdown"
             class="game-countdown">
-
         </div>
-
 
         <div
             id="gameMessage"
             class="game-message">
-
         </div>
 
 
@@ -598,31 +1547,19 @@
 
     <div class="game-controls">
 
-        <span>
-            ← A / D →
-        </span>
-
-        <span>
-            ↑ ACCELERATE
-        </span>
-
-        <span>
-            SPACE NITRO
-        </span>
-
-        <span>
-            ESC PAUSE
-        </span>
+        <span>← A / D →</span>
+        <span>↑ ACCELERATE</span>
+        <span>SPACE NITRO</span>
+        <span>ESC PAUSE</span>
 
     </div>
 
 </section>
 
 
-
-<!-- =========================
+<!-- =========================================================
      RESULT
-========================= -->
+========================================================= -->
 
 <section id="sfResult" class="sf-panel">
 
@@ -639,7 +1576,6 @@
         <div
             id="resultStats"
             class="result-stats">
-
         </div>
 
         <div class="result-actions">
@@ -675,40 +1611,31 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      NOTIFICATION
-========================= -->
+========================================================= -->
 
 <div
     id="sfNotification"
     class="sf-notification">
-
 </div>
 
 </div>
 
-
-<!-- =========================
-     CORE STREETFORGE
-========================= -->
 
 <script src="streetforge.js"></script>
 
 
-<!-- =========================
-     GARAGE + GAME UI
-========================= -->
-
 <script>
+
+/* =========================================================
+   PANEL SYSTEM
+========================================================= */
 
 let sfGarageIndex = 0;
 let sfGarageVehicles = [];
 let sfGarageAnimating = false;
 
-
-/* =========================================
-   PANEL SYSTEM
-========================================= */
 
 function sfHideAllPanels() {
 
@@ -741,10 +1668,6 @@ function sfShowPanel(id) {
 
 }
 
-
-/* =========================================
-   MENU
-========================================= */
 
 function sfBackToMenu() {
 
@@ -793,17 +1716,21 @@ function sfOpenHighScores() {
 }
 
 
-/* =========================================
+/* =========================================================
    HUD
-========================================= */
+========================================================= */
 
 function sfRefreshHUD() {
 
-    if (typeof streetforgeGetGameData !== "function")
-        return;
+    if (
+        typeof streetforgeGetGameData !==
+        "function"
+    ) return;
+
 
     const data =
         streetforgeGetGameData();
+
 
     const money =
         document.getElementById("sfMoney");
@@ -815,34 +1742,52 @@ function sfRefreshHUD() {
         document.getElementById("sfBestScore");
 
 
-    if (money)
+    if (money) {
+
         money.textContent =
-            "$" + Number(data.money || 0).toLocaleString();
+            "$" +
+            Number(
+                data.money || 0
+            ).toLocaleString();
+
+    }
 
 
-    if (level)
+    if (level) {
+
         level.textContent =
             data.level || 1;
 
+    }
 
-    if (best)
+
+    if (best) {
+
         best.textContent =
-            Number(data.highScore || 0).toLocaleString();
+            Number(
+                data.highScore || 0
+            ).toLocaleString();
+
+    }
 
 }
 
 
-/* =========================================
-   GARAGE VEHICLES
-========================================= */
+/* =========================================================
+   GARAGE
+========================================================= */
 
 function sfGetGarageVehicles() {
 
-    if (typeof streetforgeGetGameData !== "function")
-        return [];
+    if (
+        typeof streetforgeGetGameData !==
+        "function"
+    ) return [];
+
 
     const data =
         streetforgeGetGameData();
+
 
     return Object.values(
         data.vehicles || {}
@@ -856,12 +1801,14 @@ function sfRenderGarage() {
     sfGarageVehicles =
         sfGetGarageVehicles();
 
+
     if (!sfGarageVehicles.length)
         return;
 
 
     const selected =
-        typeof streetforgeGetSelectedVehicle === "function"
+        typeof streetforgeGetSelectedVehicle ===
+        "function"
             ? streetforgeGetSelectedVehicle()
             : null;
 
@@ -899,13 +1846,14 @@ function sfGarageNext() {
 
     sfGarageAnimating = true;
 
-
     sfGarageIndex =
         (sfGarageIndex + 1) %
         sfGarageVehicles.length;
 
-
-    sfRenderSelectedVehicle(true, "next");
+    sfRenderSelectedVehicle(
+        true,
+        "next"
+    );
 
 }
 
@@ -921,21 +1869,22 @@ function sfGaragePrevious() {
 
     sfGarageAnimating = true;
 
-
     sfGarageIndex =
         (sfGarageIndex - 1 +
             sfGarageVehicles.length) %
         sfGarageVehicles.length;
 
-
-    sfRenderSelectedVehicle(true, "previous");
+    sfRenderSelectedVehicle(
+        true,
+        "previous"
+    );
 
 }
 
 
-/* =========================================
-   SELECTOR RAIL
-========================================= */
+/* =========================================================
+   GARAGE SELECTOR
+========================================================= */
 
 function sfRenderGarageSelector() {
 
@@ -944,7 +1893,8 @@ function sfRenderGarageSelector() {
             "garageSelector"
         );
 
-    if (!rail) return;
+    if (!rail)
+        return;
 
 
     rail.innerHTML =
@@ -956,53 +1906,74 @@ function sfRenderGarageSelector() {
 
 
                 const owned =
-                    typeof streetforgeOwnsVehicle === "function"
-                        ? streetforgeOwnsVehicle(vehicle.id)
+                    typeof streetforgeOwnsVehicle ===
+                    "function"
+                        ? streetforgeOwnsVehicle(
+                            vehicle.id
+                        )
                         : false;
 
 
                 const level =
-                    typeof streetforgeVehicleLevelRequirement === "function"
-                        ? streetforgeVehicleLevelRequirement(vehicle.id)
+                    typeof streetforgeVehicleLevelRequirement ===
+                    "function"
+                        ? streetforgeVehicleLevelRequirement(
+                            vehicle.id
+                        )
                         : vehicle.level || 1;
 
 
                 return `
 
-                <button
-                    class="
-                        garage-selector-card
-                        ${active ? "selected" : ""}
-                        ${owned ? "owned" : "locked"}
-                    "
-                    onclick="sfSelectGarageVehicle(${index})">
+                    <button
+                        class="
+                            garage-selector-card
+                            ${active ? "selected" : ""}
+                            ${owned ? "owned" : "locked"}
+                        "
+                        onclick="
+                            sfSelectGarageVehicle(
+                                ${index}
+                            )
+                        ">
 
-                    <div class="selector-number">
-                        ${String(index + 1).padStart(2, "0")}
-                    </div>
+                        <div class="selector-number">
+                            ${String(
+                                index + 1
+                            ).padStart(2,"0")}
+                        </div>
 
-                    <div class="selector-car">
+                        <div class="selector-car">
 
-                        <div class="mini-car
-                            rarity-${String(vehicle.rarity || "common").toLowerCase()}">
+                            <div class="
+                                mini-car
+                                rarity-${String(
+                                    vehicle.rarity ||
+                                    "common"
+                                ).toLowerCase()}
+                            ">
 
-                            <span></span>
+                                <span></span>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                        <div class="selector-name">
+                            ${vehicle.name || "Vehicle"}
+                        </div>
 
-                    <div class="selector-name">
-                        ${vehicle.name || "Vehicle"}
-                    </div>
+                        <div class="selector-status">
 
-                    ${
-                        owned
-                            ? `<div class="selector-status">OWNED</div>`
-                            : `<div class="selector-status">LVL ${level}</div>`
-                    }
+                            ${
+                                owned
+                                    ? "OWNED"
+                                    : "LVL " + level
+                            }
 
-                </button>
+                        </div>
+
+                    </button>
 
                 `;
 
@@ -1038,8 +2009,7 @@ function sfSelectGarageVehicle(index) {
     if (
         index < 0 ||
         index >= sfGarageVehicles.length
-    )
-        return;
+    ) return;
 
 
     if (index === sfGarageIndex)
@@ -1064,9 +2034,9 @@ function sfSelectGarageVehicle(index) {
 }
 
 
-/* =========================================
+/* =========================================================
    SELECTED VEHICLE
-========================================= */
+========================================================= */
 
 function sfRenderSelectedVehicle(
     animate = false,
@@ -1074,7 +2044,9 @@ function sfRenderSelectedVehicle(
 ) {
 
     const vehicle =
-        sfGarageVehicles[sfGarageIndex];
+        sfGarageVehicles[
+            sfGarageIndex
+        ];
 
 
     if (!vehicle)
@@ -1085,7 +2057,6 @@ function sfRenderSelectedVehicle(
         document.getElementById(
             "garageVehicleDisplay"
         );
-
 
     const info =
         document.getElementById(
@@ -1104,9 +2075,7 @@ function sfRenderSelectedVehicle(
             "garage-slide-previous"
         );
 
-
         void display.offsetWidth;
-
 
         display.classList.add(
             direction === "next"
@@ -1119,18 +2088,23 @@ function sfRenderSelectedVehicle(
 
     const rarity =
         String(
-            vehicle.rarity || "Common"
+            vehicle.rarity ||
+            "Common"
         ).toLowerCase();
 
 
     const owned =
-        typeof streetforgeOwnsVehicle === "function"
-            ? streetforgeOwnsVehicle(vehicle.id)
+        typeof streetforgeOwnsVehicle ===
+        "function"
+            ? streetforgeOwnsVehicle(
+                vehicle.id
+            )
             : false;
 
 
     const selected =
-        typeof streetforgeGetSelectedVehicle === "function"
+        typeof streetforgeGetSelectedVehicle ===
+        "function"
             ? streetforgeGetSelectedVehicle()
             : null;
 
@@ -1141,8 +2115,11 @@ function sfRenderSelectedVehicle(
 
 
     const level =
-        typeof streetforgeVehicleLevelRequirement === "function"
-            ? streetforgeVehicleLevelRequirement(vehicle.id)
+        typeof streetforgeVehicleLevelRequirement ===
+        "function"
+            ? streetforgeVehicleLevelRequirement(
+                vehicle.id
+            )
             : vehicle.level || 1;
 
 
@@ -1203,12 +2180,17 @@ function sfRenderSelectedVehicle(
 
             </div>
 
-
             <div class="garage-number">
 
-                ${String(sfGarageIndex + 1).padStart(2, "0")}
+                ${String(
+                    sfGarageIndex + 1
+                ).padStart(2,"0")}
+
                 <span>/</span>
-                ${String(sfGarageVehicles.length).padStart(2, "0")}
+
+                ${String(
+                    sfGarageVehicles.length
+                ).padStart(2,"0")}
 
             </div>
 
@@ -1239,11 +2221,8 @@ function sfRenderSelectedVehicle(
 
 
     sfRenderGarageStats(vehicle);
-
     sfRenderGarageUpgrades(vehicle);
-
     sfRenderGarageAction(vehicle);
-
     sfRenderGarageSelector();
 
 
@@ -1261,9 +2240,9 @@ function sfRenderSelectedVehicle(
 }
 
 
-/* =========================================
+/* =========================================================
    STATS
-========================================= */
+========================================================= */
 
 function sfRenderGarageStats(vehicle) {
 
@@ -1277,8 +2256,11 @@ function sfRenderGarageStats(vehicle) {
 
 
     let stats =
-        typeof streetforgeGetVehicleStats === "function"
-            ? streetforgeGetVehicleStats(vehicle.id)
+        typeof streetforgeGetVehicleStats ===
+        "function"
+            ? streetforgeGetVehicleStats(
+                vehicle.id
+            )
             : vehicle.stats || vehicle;
 
 
@@ -1359,8 +2341,9 @@ function sfRenderGarageStats(vehicle) {
 
                         <div
                             class="garage-stat-fill"
-                            style="width:${percentage}%">
-
+                            style="
+                                width:${percentage}%
+                            ">
                         </div>
 
                     </div>
@@ -1374,9 +2357,9 @@ function sfRenderGarageStats(vehicle) {
 }
 
 
-/* =========================================
+/* =========================================================
    UPGRADES
-========================================= */
+========================================================= */
 
 function sfRenderGarageUpgrades(vehicle) {
 
@@ -1390,27 +2373,25 @@ function sfRenderGarageUpgrades(vehicle) {
 
 
     const upgrades = [
+
         ["engine", "ENGINE", "🚀"],
         ["handling", "HANDLING", "↔"],
         ["nitro", "NITRO", "🔥"],
         ["armor", "ARMOR", "🛡"]
+
     ];
 
 
     container.innerHTML =
         upgrades.map(upgrade => {
 
-            const key =
-                upgrade[0];
-
-            const name =
-                upgrade[1];
-
-            const icon =
-                upgrade[2];
+            const key = upgrade[0];
+            const name = upgrade[1];
+            const icon = upgrade[2];
 
 
             let level = 0;
+
 
             try {
 
@@ -1418,7 +2399,9 @@ function sfRenderGarageUpgrades(vehicle) {
                     streetforgeGetGameData();
 
                 const current =
-                    data.vehicles?.[vehicle.id];
+                    data.vehicles?.[
+                        vehicle.id
+                    ];
 
                 level =
                     current?.upgrades?.[key] || 0;
@@ -1427,6 +2410,7 @@ function sfRenderGarageUpgrades(vehicle) {
 
 
             let cost = 0;
+
 
             try {
 
@@ -1439,7 +2423,8 @@ function sfRenderGarageUpgrades(vehicle) {
             } catch (e) {
 
                 cost =
-                    500 + level * 500;
+                    500 +
+                    level * 500;
 
             }
 
@@ -1467,7 +2452,9 @@ function sfRenderGarageUpgrades(vehicle) {
 
                         <div class="upgrade-levels">
 
-                            ${[1,2,3,4,5].map(
+                            ${[
+                                1,2,3,4,5
+                            ].map(
                                 i =>
                                     `<span class="${
                                         i <= level
@@ -1486,7 +2473,9 @@ function sfRenderGarageUpgrades(vehicle) {
                             level >= 5
                                 ? "MAX"
                                 : "$" +
-                                  Number(cost).toLocaleString()
+                                  Number(
+                                      cost
+                                  ).toLocaleString()
                         }
 
                     </div>
@@ -1508,8 +2497,7 @@ function sfUpgradeVehicle(
     if (
         typeof streetforgeUpgrade !==
         "function"
-    )
-        return;
+    ) return;
 
 
     const success =
@@ -1530,9 +2518,9 @@ function sfUpgradeVehicle(
 }
 
 
-/* =========================================
+/* =========================================================
    BUY / SELECT
-========================================= */
+========================================================= */
 
 function sfRenderGarageAction(vehicle) {
 
@@ -1546,13 +2534,17 @@ function sfRenderGarageAction(vehicle) {
 
 
     const owned =
-        typeof streetforgeOwnsVehicle === "function"
-            ? streetforgeOwnsVehicle(vehicle.id)
+        typeof streetforgeOwnsVehicle ===
+        "function"
+            ? streetforgeOwnsVehicle(
+                vehicle.id
+            )
             : false;
 
 
     const selected =
-        typeof streetforgeGetSelectedVehicle === "function"
+        typeof streetforgeGetSelectedVehicle ===
+        "function"
             ? streetforgeGetSelectedVehicle()
             : null;
 
@@ -1567,7 +2559,10 @@ function sfRenderGarageAction(vehicle) {
         container.innerHTML = `
 
             <button
-                class="garage-main-action selected-action"
+                class="
+                    garage-main-action
+                    selected-action
+                "
                 disabled>
 
                 ✓ CURRENT VEHICLE
@@ -1613,7 +2608,10 @@ function sfRenderGarageAction(vehicle) {
     container.innerHTML = `
 
         <button
-            class="garage-main-action buy-action"
+            class="
+                garage-main-action
+                buy-action
+            "
             onclick="
                 sfBuyVehicle(
                     '${vehicle.id}'
@@ -1635,14 +2633,12 @@ function sfSelectVehicle(id) {
     if (
         typeof streetforgeSelectVehicle !==
         "function"
-    )
-        return;
+    ) return;
 
 
     streetforgeSelectVehicle(id);
 
     sfRenderGarage();
-
     sfRefreshHUD();
 
 }
@@ -1653,8 +2649,7 @@ function sfBuyVehicle(id) {
     if (
         typeof streetforgeBuyVehicle !==
         "function"
-    )
-        return;
+    ) return;
 
 
     const success =
@@ -1664,7 +2659,6 @@ function sfBuyVehicle(id) {
     if (success !== false) {
 
         sfRenderGarage();
-
         sfRefreshHUD();
 
     }
@@ -1672,9 +2666,9 @@ function sfBuyVehicle(id) {
 }
 
 
-/* =========================================
+/* =========================================================
    LEVELS
-========================================= */
+========================================================= */
 
 function sfRenderLevels() {
 
@@ -1707,11 +2701,21 @@ function sfRenderLevels() {
         } catch (e) {
 
             level = {
+
                 id: i,
-                name: "Level " + i,
-                description: "Street race",
-                reward: 1000,
-                distance: 1000
+
+                name:
+                    "Level " + i,
+
+                description:
+                    "Street race",
+
+                reward:
+                    1000,
+
+                distance:
+                    1000
+
             };
 
         }
@@ -1723,7 +2727,9 @@ function sfRenderLevels() {
         try {
 
             unlocked =
-                streetforgeIsLevelUnlocked(i);
+                streetforgeIsLevelUnlocked(
+                    i
+                );
 
         } catch (e) {
 
@@ -1742,12 +2748,14 @@ function sfRenderLevels() {
                 "
                 ${
                     unlocked
-                        ? `onclick="sfStartLevel(${i})"`
+                        ? `onclick="
+                            sfStartLevel(${i})
+                        "`
                         : ""
                 }>
 
                 <div class="level-number">
-                    ${String(i).padStart(2, "0")}
+                    ${String(i).padStart(2,"0")}
                 </div>
 
                 <div class="level-info">
@@ -1776,7 +2784,8 @@ function sfRenderLevels() {
                         <span>
                             💰
                             ${Number(
-                                level?.reward || 1000
+                                level?.reward ||
+                                1000
                             ).toLocaleString()}
                         </span>
 
@@ -1801,7 +2810,8 @@ function sfRenderLevels() {
     }
 
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
@@ -1818,10 +2828,31 @@ function sfRenderDifficulty() {
 
 
     const difficulties = [
-        ["easy", "EASY", "Relaxed traffic"],
-        ["normal", "NORMAL", "Balanced racing"],
-        ["hard", "HARD", "Heavy traffic"],
-        ["extreme", "EXTREME", "Pure chaos"]
+
+        [
+            "easy",
+            "EASY",
+            "Relaxed traffic"
+        ],
+
+        [
+            "normal",
+            "NORMAL",
+            "Balanced racing"
+        ],
+
+        [
+            "hard",
+            "HARD",
+            "Heavy traffic"
+        ],
+
+        [
+            "extreme",
+            "EXTREME",
+            "Pure chaos"
+        ]
+
     ];
 
 
@@ -1841,7 +2872,8 @@ function sfRenderDifficulty() {
             difficulty => {
 
                 const active =
-                    current === difficulty[0];
+                    current ===
+                    difficulty[0];
 
 
                 return `
@@ -1919,9 +2951,9 @@ function sfStartLevel(level) {
 }
 
 
-/* =========================================
+/* =========================================================
    SETTINGS
-========================================= */
+========================================================= */
 
 function sfRenderSettings() {
 
@@ -1946,7 +2978,9 @@ function sfRenderSettings() {
 
             <button
                 class="sf-secondary-btn"
-                onclick="streetforgeToggleMusic()">
+                onclick="
+                    streetforgeToggleMusic()
+                ">
 
                 🎵 Toggle Music
 
@@ -1954,7 +2988,9 @@ function sfRenderSettings() {
 
             <button
                 class="sf-secondary-btn"
-                onclick="streetforgeToggleEffects()">
+                onclick="
+                    streetforgeToggleEffects()
+                ">
 
                 🔊 Toggle Effects
 
@@ -1963,7 +2999,10 @@ function sfRenderSettings() {
         </div>
 
 
-        <div class="settings-card danger-settings">
+        <div class="
+            settings-card
+            danger-settings
+        ">
 
             <h3>⚠️ Data</h3>
 
@@ -1988,9 +3027,9 @@ function sfRenderSettings() {
 }
 
 
-/* =========================================
+/* =========================================================
    SCORES
-========================================= */
+========================================================= */
 
 function sfRenderScores() {
 
@@ -2047,6 +3086,7 @@ function sfRenderScores() {
 
             <div>
                 <span>BEST SCORE</span>
+
                 <strong>
                     ${Number(
                         data.highScore || 0
@@ -2056,6 +3096,7 @@ function sfRenderScores() {
 
             <div>
                 <span>BEST LEVEL</span>
+
                 <strong>
                     ${data.bestLevel || 1}
                 </strong>
@@ -2063,6 +3104,7 @@ function sfRenderScores() {
 
             <div>
                 <span>TOTAL EARNED</span>
+
                 <strong>
                     $${Number(
                         data.totalEarned || 0
@@ -2077,9 +3119,9 @@ function sfRenderScores() {
 }
 
 
-/* =========================================
+/* =========================================================
    FULLSCREEN
-========================================= */
+========================================================= */
 
 function sfFullscreen() {
 
@@ -2109,54 +3151,71 @@ function sfFullscreen() {
 }
 
 
-/* =========================================
-   GARAGE WHEEL SUPPORT
-========================================= */
+/* =========================================================
+   GARAGE WHEEL
+========================================================= */
 
-const garageStage =
-    document.querySelector(
-        ".garage-stage"
-    );
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-
-if (garageStage) {
-
-    garageStage.addEventListener(
-        "wheel",
-        event => {
-
-            if (
-                Math.abs(event.deltaY) <
-                Math.abs(event.deltaX)
-            )
-                return;
+        const garageStage =
+            document.querySelector(
+                ".garage-stage"
+            );
 
 
-            event.preventDefault();
+        if (garageStage) {
+
+            garageStage.addEventListener(
+                "wheel",
+                event => {
+
+                    if (
+                        Math.abs(
+                            event.deltaY
+                        ) <
+                        Math.abs(
+                            event.deltaX
+                        )
+                    ) return;
 
 
-            if (event.deltaY > 0) {
+                    event.preventDefault();
 
-                sfGarageNext();
 
-            } else {
+                    if (
+                        event.deltaY > 0
+                    ) {
 
-                sfGaragePrevious();
+                        sfGarageNext();
 
-            }
+                    } else {
 
-        },
-        {
-            passive: false
+                        sfGaragePrevious();
+
+                    }
+
+                },
+                {
+                    passive: false
+                }
+            );
+
         }
-    );
-
-}
 
 
-/* =========================================
-   KEYBOARD GARAGE CONTROL
-========================================= */
+        sfRefreshHUD();
+
+        sfRenderGarage();
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD GARAGE
+========================================================= */
 
 document.addEventListener(
     "keydown",
@@ -2173,12 +3232,12 @@ document.addEventListener(
             !garage.classList.contains(
                 "sf-active"
             )
-        )
-            return;
+        ) return;
 
 
         if (
-            event.key === "ArrowRight"
+            event.key ===
+            "ArrowRight"
         ) {
 
             sfGarageNext();
@@ -2187,7 +3246,8 @@ document.addEventListener(
 
 
         if (
-            event.key === "ArrowLeft"
+            event.key ===
+            "ArrowLeft"
         ) {
 
             sfGaragePrevious();
@@ -2198,25 +3258,9 @@ document.addEventListener(
 );
 
 
-/* =========================================
-   INITIALIZE
-========================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        sfRefreshHUD();
-
-        sfRenderGarage();
-
-    }
-);
-
-
-/* =========================================
+/* =========================================================
    STREETFORGE EVENTS
-========================================= */
+========================================================= */
 
 window.addEventListener(
     "streetforgeRefresh",
@@ -2224,10 +3268,15 @@ window.addEventListener(
 
         sfRefreshHUD();
 
+
         if (
             document
-                .getElementById("sfGarage")
-                ?.classList.contains("sf-active")
+                .getElementById(
+                    "sfGarage"
+                )
+                ?.classList.contains(
+                    "sf-active"
+                )
         ) {
 
             sfRenderGarage();
@@ -2280,10 +3329,7 @@ window.addEventListener(
 </script>
 
 
-<!-- Your existing game engine -->
 <script src="streetforge-game.js"></script>
-
 
 </body>
 </html>
-<script src="streetforge-home.js"></script>
