@@ -1,16 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Study Hub 4.5</title>
+<title>Oakwood Workspace</title>
 
 <link rel="stylesheet" href="main.css">
 
 <style>
+/* =========================
+   OAKWOOD WORKSPACE WELCOME
+========================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.oakwood-sidebar-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 6px;
+}
+
+.logo-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.welcome-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px 15px 30px;
+    animation: oakwoodWelcomeIn 0.8s ease both;
+}
+
+.oakwood-welcome-logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    animation: oakwoodLogoIn 0.9s ease both;
+}
+
+.welcome-hero h1 {
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.welcome-credit {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+@keyframes oakwoodWelcomeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes oakwoodLogoIn {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .oakwood-welcome-logo {
+        width: 85px;
+        height: 85px;
+    }
+
+    .welcome-hero h1 {
+        font-size: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-hero,
+    .oakwood-welcome-logo {
+        animation: none;
+    }
+}
 
 /* =========================
    NIGHT DRIVE STUDY HUB PAGE
@@ -70,9 +163,7 @@
     flex-shrink: 0;
 }
 
-/* Mobile */
 @media(max-width: 900px) {
-
     .nightdrive-container {
         border-radius: 18px;
     }
@@ -86,845 +177,337 @@
         flex-direction: column;
         align-items: flex-start;
     }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
 
-
-<!-- =========================
-     SIDEBAR
-========================= -->
-
+<!-- SIDEBAR -->
 <aside class="sidebar">
 
-
 <div class="logo">
-
-📚 Study Hub
-
-<span>4.5</span>
-
+    <img
+        class="oakwood-sidebar-logo"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9iDKxUTC0TCtECsndbAiPJv7qUYXX19NclN0QJ4oM3-qnxAR1WkHXfU&amp;s=10"
+        alt="Oakwood School logo"
+    >
+    <div class="logo-title">Oakwood Workspace</div>
 </div>
-
-
 
 <nav>
 
-
-<button
-class="nav-btn active"
+<button class="nav-btn active"
 onclick="showPage('dashboard', this)">
-
 🏠 Dashboard
-
 </button>
 
-
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('planner', this)">
-
 📖 Learning Planner
-
 </button>
 
-
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('projects', this)">
-
 🚀 Projects
-
 </button>
 
-
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('notes', this)">
-
 📝 Notes
-
 </button>
 
-
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('tools', this)">
-
 🛠 Tools
-
 </button>
 
-
-
-<!-- =========================
-     NIGHT DRIVE
-========================= -->
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('nightdrive', this)">
-
 🌙 Night Drive
-
 </button>
 
-
-
-<button
-class="nav-btn"
+<button class="nav-btn"
 onclick="showPage('settings', this)">
-
 ⚙️ Settings
-
 </button>
-
 
 </nav>
 
-
-
-<button
-class="theme-btn"
-onclick="toggleTheme()">
-
+<button class="theme-btn" onclick="toggleTheme()">
 🌙 Toggle Theme
-
 </button>
-
 
 </aside>
 
-
-
-
-
 <main class="main">
 
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
 
+<div class="welcome-hero">
 
-<!-- =========================
-     DASHBOARD
-========================= -->
+    <img
+        class="oakwood-welcome-logo"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9iDKxUTC0TCtECsndbAiPJv7qUYXX19NclN0QJ4oM3-qnxAR1WkHXfU&amp;s=10"
+        alt="Oakwood School logo"
+    >
 
-<section
-id="dashboard"
-class="page active">
+    <h1>Welcome to the Oakwood Workspace</h1>
 
+    <p class="welcome-credit">
+        Made by Narayan Brennan, the All-Time UNO Champ
+    </p>
 
-<h1>
-Welcome back 👋
-</h1>
-
-
+</div>
 
 <!-- TOP CARDS -->
-
 <div class="dashboard-grid">
 
-
-
 <div class="card dashboard-card">
-
 <h2>📅 Today</h2>
-
 <p id="date"></p>
-
-<div
-id="clock"
-class="dashboard-clock">
+<div id="clock" class="dashboard-clock"></div>
 </div>
-
-</div>
-
-
-
-
 
 <div class="card dashboard-card">
-
 <h2>📊 Overall Progress</h2>
-
-<div
-id="dashboardProgress"
-class="progress-box">
-
-0%
-
-</div>
-
+<div id="dashboardProgress" class="progress-box">0%</div>
 <div class="dashboard-progress-bar">
-
-<div
-id="dashboardProgressFill"
+<div id="dashboardProgressFill"
 class="dashboard-progress-fill"
-style="width:0%">
-
+style="width:0%"></div>
 </div>
-
+<p id="progressText">0 / 0 tasks completed</p>
 </div>
-
-<p id="progressText">
-
-0 / 0 tasks completed
-
-</p>
-
-</div>
-
-
-
-
 
 <div class="card dashboard-card">
-
 <h2>🚀 Projects</h2>
-
-<div
-id="projectCount"
-class="dashboard-number">
-
-0 Projects
+<div id="projectCount" class="dashboard-number">0 Projects</div>
+<p id="projectProgressText">No projects yet.</p>
+</div>
 
 </div>
 
-<p id="projectProgressText">
-
-No projects yet.
-
-</p>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- TODAY -->
-
+<!-- TASKS -->
 <div class="card">
-
-
 <div class="dashboard-section-header">
-
 <div>
-
 <h2>✅ Tasks</h2>
-
-<p>
-Your unfinished work
-</p>
-
+<p>Your unfinished work</p>
+</div>
+<button onclick="showPage('projects', this)">View Projects</button>
 </div>
 
-
-<button
-onclick="showPage('projects', this)">
-
-View Projects
-
-</button>
-
+<div id="todayTasks" class="dashboard-task-list">
+<p>No unfinished tasks.</p>
 </div>
-
-
-
-<div
-id="todayTasks"
-class="dashboard-task-list">
-
-<p>
-No unfinished tasks.
-</p>
-
 </div>
-
-
-</div>
-
-
-
-
 
 <!-- PLANNER -->
-
 <div class="card">
-
-
 <div class="dashboard-section-header">
-
 <div>
-
 <h2>📖 Learning Planner</h2>
-
-<p>
-Your current study progress
-</p>
-
+<p>Your current study progress</p>
 </div>
-
-
-<button
-onclick="showPage('planner', this)">
-
-Open Planner
-
-</button>
-
+<button onclick="showPage('planner', this)">Open Planner</button>
 </div>
-
-
 
 <div class="dashboard-planner-stats">
-
-
 <div>
-
-<span id="plannerCompleted">
-0
-</span>
-
-<small>
-Completed
-</small>
-
+<span id="plannerCompleted">0</span>
+<small>Completed</small>
 </div>
-
-
-
 <div>
-
-<span id="plannerRemaining">
-0
-</span>
-
-<small>
-Remaining
-</small>
-
+<span id="plannerRemaining">0</span>
+<small>Remaining</small>
 </div>
-
-
-
 <div>
-
-<span id="plannerProgress">
-0%
-</span>
-
-<small>
-Progress
-</small>
-
+<span id="plannerProgress">0%</span>
+<small>Progress</small>
 </div>
-
-
 </div>
-
-
 </div>
-
-
-
-
 
 <!-- QUICK ACTIONS -->
-
 <div class="card">
-
-
 <h2>⚡ Quick Actions</h2>
 
-
-
 <div class="quick-actions">
-
-
-<button
-onclick="createProject()">
-
-➕ New Project
-
-</button>
-
-
-
-<button
-onclick="showPage('planner', this)">
-
-📖 Open Planner
-
-</button>
-
-
-
-<button
-onclick="showPage('notes', this)">
-
-📝 Open Notes
-
-</button>
-
-
-
-<button
-onclick="showPage('nightdrive', this)">
-
-🌙 Night Drive
-
-</button>
-
-
-
-<button
-onclick="exportBackup()">
-
-💾 Backup Now
-
-</button>
-
-
+<button onclick="createProject()">➕ New Project</button>
+<button onclick="showPage('planner', this)">📖 Open Planner</button>
+<button onclick="showPage('notes', this)">📝 Open Notes</button>
+<button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+<button onclick="exportBackup()">💾 Backup Now</button>
 </div>
-
-
 </div>
-
-
 
 </section>
 
+<!-- PLANNER -->
+<section id="planner" class="page">
 
-
-
-
-<!-- =========================
-     PLANNER
-========================= -->
-
-<section
-id="planner"
-class="page">
-
-
-<h1>
-📖 Learning Planner
-</h1>
-
-
+<h1>📖 Learning Planner</h1>
 
 <div class="planner-controls">
-
-
-<button onclick="createPlan()">
-
-➕ New Week
-
-</button>
-
-
-
-<select
-id="planSelector"
-onchange="changePlan(this.value)">
-
-</select>
-
-
+<button onclick="createPlan()">➕ New Week</button>
+<select id="planSelector" onchange="changePlan(this.value)"></select>
 </div>
-
-
 
 <div id="plannerContainer">
-
 <div class="card">
-
-<h2>
-Loading Planner...
-</h2>
-
+<h2>Loading Planner...</h2>
 </div>
-
 </div>
-
 
 </section>
 
+<!-- PROJECTS -->
+<section id="projects" class="page">
 
-
-
-
-<!-- =========================
-     PROJECTS
-========================= -->
-
-<section
-id="projects"
-class="page">
-
-
-<h1>
-🚀 Projects
-</h1>
-
-
+<h1>🚀 Projects</h1>
 
 <div class="planner-actions">
-
-
-<button onclick="createProject()">
-
-➕ New Project
-
-</button>
-
-
+<button onclick="createProject()">➕ New Project</button>
 </div>
-
-
 
 <div id="projectsContainer">
-
 <div class="card">
-
-<h2>
-Loading Projects...
-</h2>
-
+<h2>Loading Projects...</h2>
 </div>
-
 </div>
-
 
 </section>
 
+<!-- NOTES -->
+<section id="notes" class="page">
 
-
-
-
-<!-- =========================
-     NOTES
-========================= -->
-
-<section
-id="notes"
-class="page">
-
-
-<h1>
-📝 Notes
-</h1>
-
-
+<h1>📝 Notes</h1>
 
 <div class="card">
-
-
-<textarea
-placeholder="Write notes here...">
-</textarea>
-
-
+<textarea placeholder="Write notes here..."></textarea>
 </div>
-
 
 </section>
 
+<!-- TOOLS -->
+<section id="tools" class="page">
 
-
-
-
-<!-- =========================
-     TOOLS
-========================= -->
-
-<section
-id="tools"
-class="page">
-
-
-<h1>
-🛠 Tools
-</h1>
-
-
+<h1>🛠 Tools</h1>
 
 <div class="card">
-
-
-<h2>
-Tools & Games
-</h2>
-
+<h2>Tools &amp; Games</h2>
 
 <p>
-
 Your collection of useful tools,
 games and resources.
-
 </p>
-
 
 <br>
 
-
-
-<button
-onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
-
+<button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
 🌙 Open Night Drive
-
 </button>
-
-
 </div>
-
 
 </section>
 
+<!-- NIGHT DRIVE -->
+<section id="nightdrive" class="page nightdrive-page">
 
-
-
-
-<!-- =========================
-     NIGHT DRIVE
-========================= -->
-
-<section
-id="nightdrive"
-class="page nightdrive-page">
-
-
-<h1>
-🌙 Night Drive
-</h1>
-
-
+<h1>🌙 Night Drive</h1>
 
 <div class="nightdrive-launch-card">
-
-
 <div class="nightdrive-launch-info">
-
-<h2>
-NIGHT DRIVE
-</h2>
-
-<p>
-Race through the night. Dodge traffic. Push your limits.
-</p>
-
+<h2>NIGHT DRIVE</h2>
+<p>Race through the night. Dodge traffic. Push your limits.</p>
 </div>
 
-
-
-<button
-class="nightdrive-open-button"
+<button class="nightdrive-open-button"
 onclick="openNightDriveFullscreen()">
-
 ⛶ Fullscreen
-
 </button>
-
-
 </div>
-
-
 
 <div class="nightdrive-container">
-
 <iframe
 id="nightdriveFrame"
 class="nightdrive-frame"
 src="night-drive.html"
 title="Night Drive Racing Game"
 allow="autoplay">
-
 </iframe>
-
 </div>
-
 
 </section>
 
+<!-- SETTINGS -->
+<section id="settings" class="page">
 
-
-
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<section
-id="settings"
-class="page">
-
-
-<h1>
-⚙️ Settings
-</h1>
-
-
+<h1>⚙️ Settings</h1>
 
 <div class="card">
 
-
-<h2>
-Study Hub 4.5
-</h2>
-
-
-<p>
-Your personal learning dashboard.
-</p>
-
+<h2>Oakwood Workspace</h2>
+<p>Your personal learning dashboard.</p>
 
 <hr>
 
+<h3>💾 Backup</h3>
 
-
-<h3>
-💾 Backup
-</h3>
-
-
-
-<button onclick="exportBackup()">
-
-💾 Export Backup
-
-</button>
-
-
+<button onclick="exportBackup()">💾 Export Backup</button>
 
 <br><br>
-
-
 
 <label>
-
 📂 Import Backup
-
 <br><br>
-
-
-<input
-type="file"
-accept=".json"
-onchange="importBackup(event)">
-
+<input type="file" accept=".json" onchange="importBackup(event)">
 </label>
 
-
 </div>
-
 
 </section>
 
-
-
 </main>
-
 </div>
 
-
-
-
-
-<!-- =========================
-     STUDY HUB SCRIPTS
-========================= -->
-
+<!-- EXISTING SCRIPTS -->
 <script src="storage.js"></script>
-
 <script src="planner.js"></script>
-
 <script src="projects.js"></script>
-
 <script src="backup.js"></script>
-
 <script src="app.js"></script>
 
-
-
-<!-- =========================
-     NIGHT DRIVE INTEGRATION
-========================= -->
-
+<!-- NIGHT DRIVE INTEGRATION -->
 <script>
-
 function openNightDriveFullscreen() {
-
-    const frame =
-        document.getElementById("nightdriveFrame");
-
+    const frame = document.getElementById("nightdriveFrame");
     if (!frame) return;
 
-
     if (frame.requestFullscreen) {
-
         frame.requestFullscreen();
-
     } else if (frame.webkitRequestFullscreen) {
-
         frame.webkitRequestFullscreen();
-
     } else if (frame.msRequestFullscreen) {
-
         frame.msRequestFullscreen();
-
     }
-
 }
-
 
 /* Keep Night Drive alive while switching pages.
    The iframe is deliberately NOT reloaded. */
+document.addEventListener("DOMContentLoaded", function() {
+    const frame = document.getElementById("nightdriveFrame");
+    if (!frame) return;
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        const frame =
-            document.getElementById(
-                "nightdriveFrame"
-            );
-
-        if (!frame) return;
-
-
-        frame.addEventListener(
-            "load",
-            function() {
-
-                console.log(
-                    "Night Drive loaded successfully."
-                );
-
-            }
-        );
-
-    }
-);
-
+    frame.addEventListener("load", function() {
+        console.log("Night Drive loaded successfully.");
+    });
+});
 </script>
 
-
 </body>
-
 </html>
