@@ -1,11 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Oakwood Workspace</title>
 <link rel="stylesheet" href="main.css">
 
@@ -78,48 +76,61 @@
     to { opacity: 1; transform: scale(1); }
 }
 
-/* SMOOTH, FREE-SPINNING LOGO */
+/* SEPARATE WRAPPER FOR THE SCALE BOUNCE */
 
-.oakwood-logo-spin {
-    animation: oakwoodBearingSpin 2.4s
-        cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
+.oakwood-logo-motion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transform-origin: center center;
     will-change: transform;
 }
 
-@keyframes oakwoodBearingSpin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    12% {
-        transform: rotate(360deg);
-    }
-
-    30% {
-        transform: rotate(900deg);
-    }
-
-    55% {
-        transform: rotate(1620deg);
-    }
-
-    75% {
-        transform: rotate(2160deg);
-    }
-
-    90% {
-        transform: rotate(2480deg);
-    }
-
-    100% {
-        transform: rotate(2520deg);
-    }
+.oakwood-logo-motion > svg {
+    display: block;
+    transform-origin: center center;
+    backface-visibility: hidden;
 }
 
-.oakwood-sidebar-logo,
-.oakwood-welcome-logo {
+/* Keep the bounce separate from the SVG rotation. */
+.oakwood-logo-bounce {
+    animation: oakwoodScaleBounce 2.8s both;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes oakwoodScaleBounce {
+    0%   { transform: scale(1); }
+    8%   { transform: scale(1.16); }
+    16%  { transform: scale(0.94); }
+    25%  { transform: scale(1.11); }
+    35%  { transform: scale(0.97); }
+    46%  { transform: scale(1.07); }
+    58%  { transform: scale(0.985); }
+    70%  { transform: scale(1.035); }
+    82%  { transform: scale(0.995); }
+    92%  { transform: scale(1.012); }
+    100% { transform: scale(1); }
+}
+
+/* SUPER-SMOOTH BEARING SPIN */
+
+.oakwood-logo-spin {
+    animation: oakwoodBearingSpin 3.2s
+        cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
+    transform-origin: center center;
+    transform-box: fill-box;
     backface-visibility: hidden;
+    will-change: transform;
+}
+
+/*
+   One continuous rotation curve means no sudden speed changes
+   between keyframes. It spins quickly, then gradually settles.
+*/
+@keyframes oakwoodBearingSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(2520deg); }
 }
 
 @media (max-width: 600px) {
@@ -141,6 +152,10 @@
 
     .oakwood-logo-spin {
         animation-duration: 1.2s !important;
+    }
+
+    .oakwood-logo-bounce {
+        animation-duration: 0.8s;
     }
 }
 
@@ -215,246 +230,242 @@
         align-items: flex-start;
     }
 }
-
-/* KEEP MOTION COMPOSITED DURING SPIN */
-.oakwood-logo-spin {
-    backface-visibility: hidden;
-}
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
+    <div class="logo">
+        <svg class="oakwood-sidebar-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
 
-<div class="logo">
+            <!-- Turquoise half -->
+            <path
+                d="M54 11
+                   C32.5 11 11 28.5 11 50
+                   C11 71.5 32.5 89 54 89"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
 
-<svg class="oakwood-sidebar-logo"
-     viewBox="0 0 100 100"
-     xmlns="http://www.w3.org/2000/svg"
-     role="img"
-     aria-label="Oakwood circular symbol">
+            <!-- Orange half, separated by a small gap -->
+            <path
+                d="M46 11
+                   C67.5 11 89 28.5 89 50
+                   C89 71.5 67.5 89 46 89"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
 
-    <path
-        d="M50 11 A39 39 0 0 0 50 89"
-        fill="none"
-        stroke="#2bb7b4"
-        stroke-width="13"
-        stroke-linecap="butt"
-    />
+        <div class="logo-title">Oakwood Workspace</div>
+    </div>
 
-    <path
-        d="M50 11 A39 39 0 0 1 50 89"
-        fill="none"
-        stroke="#ed684d"
-        stroke-width="13"
-        stroke-linecap="butt"
-    />
-</svg>
+    <nav>
+        <button class="nav-btn active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+        <button class="nav-btn" onclick="showPage('planner', this)">📖 Learning Planner</button>
+        <button class="nav-btn" onclick="showPage('projects', this)">🚀 Projects</button>
+        <button class="nav-btn" onclick="showPage('notes', this)">📝 Notes</button>
+        <button class="nav-btn" onclick="showPage('tools', this)">🛠 Tools</button>
+        <button class="nav-btn" onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+        <button class="nav-btn" onclick="showPage('settings', this)">⚙️ Settings</button>
+    </nav>
 
-<div class="logo-title">Oakwood Workspace</div>
-</div>
-
-<nav>
-<button class="nav-btn active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
-<button class="nav-btn" onclick="showPage('planner', this)">📖 Learning Planner</button>
-<button class="nav-btn" onclick="showPage('projects', this)">🚀 Projects</button>
-<button class="nav-btn" onclick="showPage('notes', this)">📝 Notes</button>
-<button class="nav-btn" onclick="showPage('tools', this)">🛠 Tools</button>
-<button class="nav-btn" onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
-<button class="nav-btn" onclick="showPage('settings', this)">⚙️ Settings</button>
-</nav>
-
-<button class="theme-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
-
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
 </aside>
 
 <main class="main">
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="page active">
+    <div class="welcome-hero">
+        <svg class="oakwood-welcome-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
 
-<div class="welcome-hero">
+            <path
+                d="M54 11
+                   C32.5 11 11 28.5 11 50
+                   C11 71.5 32.5 89 54 89"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
 
-<svg class="oakwood-welcome-logo"
-     viewBox="0 0 100 100"
-     xmlns="http://www.w3.org/2000/svg"
-     role="img"
-     aria-label="Oakwood circular symbol">
+            <path
+                d="M46 11
+                   C67.5 11 89 28.5 89 50
+                   C89 71.5 67.5 89 46 89"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
 
-    <path
-        d="M50 11 A39 39 0 0 0 50 89"
-        fill="none"
-        stroke="#2bb7b4"
-        stroke-width="13"
-        stroke-linecap="butt"
-    />
+        <h1>Welcome to the Oakwood Workspace</h1>
+        <p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
+    </div>
 
-    <path
-        d="M50 11 A39 39 0 0 1 50 89"
-        fill="none"
-        stroke="#ed684d"
-        stroke-width="13"
-        stroke-linecap="butt"
-    />
-</svg>
+    <div class="dashboard-grid">
+        <div class="card dashboard-card">
+            <h2>📅 Today</h2>
+            <p id="date"></p>
+            <div id="clock" class="dashboard-clock"></div>
+        </div>
 
-<h1>Welcome to the Oakwood Workspace</h1>
-<p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
-</div>
+        <div class="card dashboard-card">
+            <h2>📊 Overall Progress</h2>
+            <div id="dashboardProgress" class="progress-box">0%</div>
+            <div class="dashboard-progress-bar">
+                <div id="dashboardProgressFill" class="dashboard-progress-fill" style="width:0%"></div>
+            </div>
+            <p id="progressText">0 / 0 tasks completed</p>
+        </div>
 
-<div class="dashboard-grid">
+        <div class="card dashboard-card">
+            <h2>🚀 Projects</h2>
+            <div id="projectCount" class="dashboard-number">0 Projects</div>
+            <p id="projectProgressText">No projects yet.</p>
+        </div>
+    </div>
 
-<div class="card dashboard-card">
-<h2>📅 Today</h2>
-<p id="date"></p>
-<div id="clock" class="dashboard-clock"></div>
-</div>
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>✅ Tasks</h2>
+                <p>Your unfinished work</p>
+            </div>
+            <button onclick="showPage('projects', this)">View Projects</button>
+        </div>
+        <div id="todayTasks" class="dashboard-task-list">
+            <p>No unfinished tasks.</p>
+        </div>
+    </div>
 
-<div class="card dashboard-card">
-<h2>📊 Overall Progress</h2>
-<div id="dashboardProgress" class="progress-box">0%</div>
-<div class="dashboard-progress-bar">
-<div id="dashboardProgressFill" class="dashboard-progress-fill" style="width:0%"></div>
-</div>
-<p id="progressText">0 / 0 tasks completed</p>
-</div>
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>📖 Learning Planner</h2>
+                <p>Your current study progress</p>
+            </div>
+            <button onclick="showPage('planner', this)">Open Planner</button>
+        </div>
+        <div class="dashboard-planner-stats">
+            <div><span id="plannerCompleted">0</span><small>Completed</small></div>
+            <div><span id="plannerRemaining">0</span><small>Remaining</small></div>
+            <div><span id="plannerProgress">0%</span><small>Progress</small></div>
+        </div>
+    </div>
 
-<div class="card dashboard-card">
-<h2>🚀 Projects</h2>
-<div id="projectCount" class="dashboard-number">0 Projects</div>
-<p id="projectProgressText">No projects yet.</p>
-</div>
-
-</div>
-
-<div class="card">
-<div class="dashboard-section-header">
-<div>
-<h2>✅ Tasks</h2>
-<p>Your unfinished work</p>
-</div>
-<button onclick="showPage('projects', this)">View Projects</button>
-</div>
-<div id="todayTasks" class="dashboard-task-list">
-<p>No unfinished tasks.</p>
-</div>
-</div>
-
-<div class="card">
-<div class="dashboard-section-header">
-<div>
-<h2>📖 Learning Planner</h2>
-<p>Your current study progress</p>
-</div>
-<button onclick="showPage('planner', this)">Open Planner</button>
-</div>
-<div class="dashboard-planner-stats">
-<div><span id="plannerCompleted">0</span><small>Completed</small></div>
-<div><span id="plannerRemaining">0</span><small>Remaining</small></div>
-<div><span id="plannerProgress">0%</span><small>Progress</small></div>
-</div>
-</div>
-
-<div class="card">
-<h2>⚡ Quick Actions</h2>
-<div class="quick-actions">
-<button onclick="createProject()">➕ New Project</button>
-<button onclick="showPage('planner', this)">📖 Open Planner</button>
-<button onclick="showPage('notes', this)">📝 Open Notes</button>
-<button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
-<button onclick="exportBackup()">💾 Backup Now</button>
-</div>
-</div>
-
+    <div class="card">
+        <h2>⚡ Quick Actions</h2>
+        <div class="quick-actions">
+            <button onclick="createProject()">➕ New Project</button>
+            <button onclick="showPage('planner', this)">📖 Open Planner</button>
+            <button onclick="showPage('notes', this)">📝 Open Notes</button>
+            <button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+            <button onclick="exportBackup()">💾 Backup Now</button>
+        </div>
+    </div>
 </section>
 
 <!-- PLANNER -->
 <section id="planner" class="page">
-<h1>📖 Learning Planner</h1>
-<div class="planner-controls">
-<button onclick="createPlan()">➕ New Week</button>
-<select id="planSelector" onchange="changePlan(this.value)"></select>
-</div>
-<div id="plannerContainer">
-<div class="card"><h2>Loading Planner...</h2></div>
-</div>
+    <h1>📖 Learning Planner</h1>
+    <div class="planner-controls">
+        <button onclick="createPlan()">➕ New Week</button>
+        <select id="planSelector" onchange="changePlan(this.value)"></select>
+    </div>
+    <div id="plannerContainer">
+        <div class="card"><h2>Loading Planner...</h2></div>
+    </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects" class="page">
-<h1>🚀 Projects</h1>
-<div class="planner-actions">
-<button onclick="createProject()">➕ New Project</button>
-</div>
-<div id="projectsContainer">
-<div class="card"><h2>Loading Projects...</h2></div>
-</div>
+    <h1>🚀 Projects</h1>
+    <div class="planner-actions">
+        <button onclick="createProject()">➕ New Project</button>
+    </div>
+    <div id="projectsContainer">
+        <div class="card"><h2>Loading Projects...</h2></div>
+    </div>
 </section>
 
 <!-- NOTES -->
 <section id="notes" class="page">
-<h1>📝 Notes</h1>
-<div class="card">
-<textarea placeholder="Write notes here..."></textarea>
-</div>
+    <h1>📝 Notes</h1>
+    <div class="card">
+        <textarea placeholder="Write notes here..."></textarea>
+    </div>
 </section>
 
 <!-- TOOLS -->
 <section id="tools" class="page">
-<h1>🛠 Tools</h1>
-<div class="card">
-<h2>Tools &amp; Games</h2>
-<p>Your collection of useful tools, games and resources.</p>
-<br>
-<button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
-🌙 Open Night Drive
-</button>
-</div>
+    <h1>🛠 Tools</h1>
+    <div class="card">
+        <h2>Tools &amp; Games</h2>
+        <p>Your collection of useful tools, games and resources.</p>
+        <br>
+        <button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
+            🌙 Open Night Drive
+        </button>
+    </div>
 </section>
 
 <!-- NIGHT DRIVE -->
 <section id="nightdrive" class="page nightdrive-page">
-<h1>🌙 Night Drive</h1>
+    <h1>🌙 Night Drive</h1>
 
-<div class="nightdrive-launch-card">
-<div class="nightdrive-launch-info">
-<h2>NIGHT DRIVE</h2>
-<p>Race through the night. Dodge traffic. Push your limits.</p>
-</div>
-<button class="nightdrive-open-button" onclick="openNightDriveFullscreen()">⛶ Fullscreen</button>
-</div>
+    <div class="nightdrive-launch-card">
+        <div class="nightdrive-launch-info">
+            <h2>NIGHT DRIVE</h2>
+            <p>Race through the night. Dodge traffic. Push your limits.</p>
+        </div>
+        <button class="nightdrive-open-button" onclick="openNightDriveFullscreen()">⛶ Fullscreen</button>
+    </div>
 
-<div class="nightdrive-container">
-<iframe
-id="nightdriveFrame"
-class="nightdrive-frame"
-src="night-drive.html"
-title="Night Drive Racing Game"
-allow="autoplay">
-</iframe>
-</div>
+    <div class="nightdrive-container">
+        <iframe
+            id="nightdriveFrame"
+            class="nightdrive-frame"
+            src="night-drive.html"
+            title="Night Drive Racing Game"
+            allow="autoplay">
+        </iframe>
+    </div>
 </section>
 
 <!-- SETTINGS -->
 <section id="settings" class="page">
-<h1>⚙️ Settings</h1>
-<div class="card">
-<h2>Oakwood Workspace</h2>
-<p>Your personal learning dashboard.</p>
-<hr>
-<h3>💾 Backup</h3>
-<button onclick="exportBackup()">💾 Export Backup</button>
-<br><br>
-<label>
-📂 Import Backup
-<br><br>
-<input type="file" accept=".json" onchange="importBackup(event)">
-</label>
-</div>
+    <h1>⚙️ Settings</h1>
+    <div class="card">
+        <h2>Oakwood Workspace</h2>
+        <p>Your personal learning dashboard.</p>
+        <hr>
+        <h3>💾 Backup</h3>
+        <button onclick="exportBackup()">💾 Export Backup</button>
+        <br><br>
+        <label>
+            📂 Import Backup
+            <br><br>
+            <input type="file" accept=".json" onchange="importBackup(event)">
+        </label>
+    </div>
 </section>
 
 </main>
@@ -474,7 +485,7 @@ function openNightDriveFullscreen() {
     if (!frame) return;
 
     if (frame.requestFullscreen) {
-        frame.requestFullscreen();
+        frame.requestFullscreen().catch(() => {});
     } else if (frame.webkitRequestFullscreen) {
         frame.webkitRequestFullscreen();
     } else if (frame.msRequestFullscreen) {
@@ -482,17 +493,16 @@ function openNightDriveFullscreen() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const frame = document.getElementById("nightdriveFrame");
-    if (!frame) return;
+const nightdriveFrame = document.getElementById("nightdriveFrame");
 
-    frame.addEventListener("load", function() {
+if (nightdriveFrame) {
+    nightdriveFrame.addEventListener("load", function() {
         console.log("Night Drive loaded successfully.");
     });
-});
+}
 </script>
 
-<!-- THREE-CLICK FREE-SPIN EASTER EGG -->
+<!-- THREE-CLICK SPIN AND SCALE-BOUNCE EASTER EGG -->
 <script>
 (() => {
     const logos = document.querySelectorAll(
@@ -503,6 +513,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let clicks = 0;
         let clickTimer = null;
         let spinning = false;
+
+        /*
+         * Put the SVG inside a wrapper so rotation and scale
+         * use separate elements and never fight over transform.
+         */
+        const wrapper = document.createElement("span");
+        wrapper.className = "oakwood-logo-motion";
+
+        logo.parentNode.insertBefore(wrapper, logo);
+        wrapper.appendChild(logo);
 
         logo.addEventListener("click", () => {
             if (spinning) return;
@@ -518,11 +538,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 spinning = true;
 
                 logo.classList.remove("oakwood-logo-spin");
+                wrapper.classList.remove("oakwood-logo-bounce");
 
-                // Restart cleanly without changing the logo's dimensions.
+                /* Restart both effects cleanly. */
                 void logo.getBoundingClientRect();
+                void wrapper.getBoundingClientRect();
 
                 logo.classList.add("oakwood-logo-spin");
+                wrapper.classList.add("oakwood-logo-bounce");
                 return;
             }
 
@@ -537,6 +560,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
             logo.classList.remove("oakwood-logo-spin");
             spinning = false;
+        });
+
+        wrapper.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodScaleBounce") return;
+
+            wrapper.classList.remove("oakwood-logo-bounce");
         });
     });
 })();
