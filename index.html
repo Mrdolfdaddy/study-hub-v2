@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +8,6 @@
 <link rel="stylesheet" href="main.css">
 
 <style>
-/* OAKWOOD WORKSPACE WELCOME */
-
 .logo {
     display: flex;
     align-items: center;
@@ -75,8 +74,6 @@
     to { opacity: 1; transform: scale(1); }
 }
 
-/* LOGO ANIMATION WRAPPER */
-
 .oakwood-logo-motion {
     display: inline-flex;
     align-items: center;
@@ -104,8 +101,6 @@
     backface-visibility: hidden;
 }
 
-/* SCALE BOUNCE */
-
 .oakwood-logo-bounce {
     animation: oakwoodScaleBounce 2.8s both;
     transform-origin: center center;
@@ -125,8 +120,6 @@
     92%  { transform: scale(1.012); }
     100% { transform: scale(1); }
 }
-
-/* SMOOTH SPIN */
 
 .oakwood-logo-spin {
     animation: oakwoodBearingSpin 3.2s
@@ -173,8 +166,6 @@
         animation-duration: 0.8s;
     }
 }
-
-/* NIGHT DRIVE */
 
 .nightdrive-page {
     max-width: 1600px !important;
@@ -251,7 +242,6 @@
 <body>
 <div class="app">
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="logo">
         <svg class="oakwood-sidebar-logo"
@@ -259,24 +249,16 @@
              xmlns="http://www.w3.org/2000/svg"
              role="img"
              aria-label="Oakwood circular symbol">
-
-            <!-- Turquoise semicircle -->
-            <path
-                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
-                fill="none"
-                stroke="#2bb7b4"
-                stroke-width="13"
-                stroke-linecap="butt"
-            />
-
-            <!-- Orange semicircle, same radius, tiny endpoint gaps -->
-            <path
-                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
-                fill="none"
-                stroke="#ed684d"
-                stroke-width="13"
-                stroke-linecap="butt"
-            />
+            <path d="M50 14 A36 36 0 0 0 50 86"
+                  fill="none"
+                  stroke="#2bb7b4"
+                  stroke-width="10"
+                  stroke-linecap="butt"/>
+            <path d="M50 14 A36 36 0 0 1 50 86"
+                  fill="none"
+                  stroke="#ed684d"
+                  stroke-width="10"
+                  stroke-linecap="butt"/>
         </svg>
 
         <div class="logo-title">Oakwood Workspace</div>
@@ -297,7 +279,6 @@
 
 <main class="main">
 
-<!-- DASHBOARD -->
 <section id="dashboard" class="page active">
     <div class="welcome-hero">
         <svg class="oakwood-welcome-logo"
@@ -305,22 +286,16 @@
              xmlns="http://www.w3.org/2000/svg"
              role="img"
              aria-label="Oakwood circular symbol">
-
-            <path
-                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
-                fill="none"
-                stroke="#2bb7b4"
-                stroke-width="13"
-                stroke-linecap="butt"
-            />
-
-            <path
-                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
-                fill="none"
-                stroke="#ed684d"
-                stroke-width="13"
-                stroke-linecap="butt"
-            />
+            <path d="M50 14 A36 36 0 0 0 50 86"
+                  fill="none"
+                  stroke="#2bb7b4"
+                  stroke-width="10"
+                  stroke-linecap="butt"/>
+            <path d="M50 14 A36 36 0 0 1 50 86"
+                  fill="none"
+                  stroke="#ed684d"
+                  stroke-width="10"
+                  stroke-linecap="butt"/>
         </svg>
 
         <h1>Welcome to the Oakwood Workspace</h1>
@@ -390,7 +365,6 @@
     </div>
 </section>
 
-<!-- PLANNER -->
 <section id="planner" class="page">
     <h1>📖 Learning Planner</h1>
     <div class="planner-controls">
@@ -402,7 +376,6 @@
     </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="page">
     <h1>🚀 Projects</h1>
     <div class="planner-actions">
@@ -413,7 +386,6 @@
     </div>
 </section>
 
-<!-- NOTES -->
 <section id="notes" class="page">
     <h1>📝 Notes</h1>
     <div class="card">
@@ -421,7 +393,6 @@
     </div>
 </section>
 
-<!-- TOOLS -->
 <section id="tools" class="page">
     <h1>🛠 Tools</h1>
     <div class="card">
@@ -434,7 +405,6 @@
     </div>
 </section>
 
-<!-- NIGHT DRIVE -->
 <section id="nightdrive" class="page nightdrive-page">
     <h1>🌙 Night Drive</h1>
 
@@ -447,17 +417,14 @@
     </div>
 
     <div class="nightdrive-container">
-        <iframe
-            id="nightdriveFrame"
-            class="nightdrive-frame"
-            src="night-drive.html"
-            title="Night Drive Racing Game"
-            allow="autoplay">
-        </iframe>
+        <iframe id="nightdriveFrame"
+                class="nightdrive-frame"
+                src="night-drive.html"
+                title="Night Drive Racing Game"
+                allow="autoplay"></iframe>
     </div>
 </section>
 
-<!-- SETTINGS -->
 <section id="settings" class="page">
     <h1>⚙️ Settings</h1>
     <div class="card">
@@ -478,14 +445,12 @@
 </main>
 </div>
 
-<!-- EXISTING SCRIPTS -->
 <script src="storage.js"></script>
 <script src="planner.js"></script>
 <script src="projects.js"></script>
 <script src="backup.js"></script>
 <script src="app.js"></script>
 
-<!-- NIGHT DRIVE INTEGRATION -->
 <script>
 function openNightDriveFullscreen() {
     const frame = document.getElementById("nightdriveFrame");
@@ -509,7 +474,6 @@ if (nightdriveFrame) {
 }
 </script>
 
-<!-- THREE-CLICK SPIN AND SCALE-BOUNCE EASTER EGG -->
 <script>
 (() => {
     const logos = document.querySelectorAll(
