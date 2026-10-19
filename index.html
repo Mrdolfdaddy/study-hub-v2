@@ -1,825 +1,546 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b1018">
-    <title>Oakwood Workspace</title>
-    <link rel="stylesheet" href="main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        /* The wrapper handles scaling; the SVG handles rotation independently. */
-        .oakwood-logo-motion {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transform-origin: center center;
-            will-change: transform;
-        }
+<title>Oakwood Workspace</title>
+<link rel="stylesheet" href="main.css">
 
-        .oakwood-logo {
-            display: block;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            transform-origin: center center;
-            transform-box: view-box;
-            backface-visibility: hidden;
-        }
+<style>
+/* OAKWOOD WORKSPACE WELCOME */
 
-        /* Keep the scale bounce. Do not apply rotation to this wrapper. */
-        .oakwood-logo-bounce {
-            animation: oakwoodScaleBounce 2.8s both;
-            transform-origin: center center;
-            will-change: transform;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        @keyframes oakwoodScaleBounce {
-            0%   { transform: scale(1); }
-            8%   { transform: scale(1.16); }
-            16%  { transform: scale(0.94); }
-            25%  { transform: scale(1.11); }
-            35%  { transform: scale(0.97); }
-            46%  { transform: scale(1.07); }
-            58%  { transform: scale(0.985); }
-            70%  { transform: scale(1.035); }
-            82%  { transform: scale(0.995); }
-            92%  { transform: scale(1.012); }
-            100% { transform: scale(1); }
-        }
+.oakwood-sidebar-logo {
+    display: block;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
 
-        .oakwood-logo-clickable {
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
+.logo-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
 
-        .oakwood-logo-clickable:focus-visible {
-            outline: 2px solid #2bb7b4;
-            outline-offset: 5px;
-            border-radius: 50%;
-        }
+.welcome-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px 15px 30px;
+    animation: oakwoodWelcomeIn 0.8s ease both;
+}
 
-        @media (prefers-reduced-motion: reduce) {
-            .oakwood-logo-bounce {
-                animation-duration: 0.8s;
-            }
-        }
-    </style>
+.oakwood-welcome-logo {
+    display: block;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    animation: oakwoodLogoIn 0.9s ease both;
+}
+
+.welcome-hero h1 {
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.welcome-credit {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+@keyframes oakwoodWelcomeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oakwoodLogoIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* SMOOTH, FREE-SPINNING LOGO */
+
+.oakwood-logo-spin {
+    animation: oakwoodBearingSpin 2.4s
+        cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes oakwoodBearingSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    12% {
+        transform: rotate(360deg);
+    }
+
+    30% {
+        transform: rotate(900deg);
+    }
+
+    55% {
+        transform: rotate(1620deg);
+    }
+
+    75% {
+        transform: rotate(2160deg);
+    }
+
+    90% {
+        transform: rotate(2480deg);
+    }
+
+    100% {
+        transform: rotate(2520deg);
+    }
+}
+
+.oakwood-sidebar-logo,
+.oakwood-welcome-logo {
+    backface-visibility: hidden;
+}
+
+@media (max-width: 600px) {
+    .oakwood-welcome-logo {
+        width: 85px;
+        height: 85px;
+    }
+
+    .welcome-hero h1 {
+        font-size: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-hero,
+    .oakwood-welcome-logo {
+        animation: none;
+    }
+
+    .oakwood-logo-spin {
+        animation-duration: 1.2s !important;
+    }
+}
+
+/* NIGHT DRIVE */
+
+.nightdrive-page {
+    max-width: 1600px !important;
+    padding-bottom: 40px;
+}
+
+.nightdrive-page h1 {
+    margin-bottom: 20px !important;
+}
+
+.nightdrive-container {
+    width: 100%;
+    min-height: calc(100vh - 150px);
+    background: #05070d;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35),
+        0 0 40px rgba(139,92,246,.08);
+}
+
+.nightdrive-frame {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 170px);
+    min-height: 750px;
+    border: none;
+    background: #05070d;
+}
+
+.nightdrive-launch-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(20px);
+}
+
+.nightdrive-launch-info h2 {
+    margin: 0 0 6px;
+}
+
+.nightdrive-launch-info p {
+    margin: 0;
+    opacity: .65;
+}
+
+.nightdrive-open-button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .nightdrive-container {
+        border-radius: 18px;
+    }
+
+    .nightdrive-frame {
+        min-height: 800px;
+        height: calc(100vh - 180px);
+    }
+
+    .nightdrive-launch-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* KEEP MOTION COMPOSITED DURING SPIN */
+.oakwood-logo-spin {
+    backface-visibility: hidden;
+}
+</style>
 </head>
 
 <body>
-    <div class="app-shell">
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <div
-                    class="oakwood-logo-clickable"
-                    id="sidebarLogoClick"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Oakwood Workspace logo"
-                    title="Click three times for a surprise"
-                >
-                    <span class="oakwood-logo-motion" id="sidebarLogoMotion">
-                        <svg
-                            class="oakwood-logo"
-                            id="sidebarLogo"
-                            viewBox="0 0 100 100"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M50 11 A39 39 0 0 0 50 89"
-                                fill="none"
-                                stroke="#2bb7b4"
-                                stroke-width="13"
-                                stroke-linecap="butt"
-                            />
-                            <path
-                                d="M50 11 A39 39 0 0 1 50 89"
-                                fill="none"
-                                stroke="#ed684d"
-                                stroke-width="13"
-                                stroke-linecap="butt"
-                            />
-                        </svg>
-                    </span>
-                </div>
 
-                <div class="brand-copy">
-                    <h1>Oakwood</h1>
-                    <p>Workspace</p>
-                </div>
-            </div>
+<div class="app">
 
-            <nav class="sidebar-nav" aria-label="Main navigation">
-                <button class="nav-item active" data-page="dashboard">
-                    <span>⌂</span> Dashboard
-                </button>
-                <button class="nav-item" data-page="planner">
-                    <span>▦</span> Learning Planner
-                </button>
-                <button class="nav-item" data-page="projects">
-                    <span>◇</span> Projects
-                </button>
-                <button class="nav-item" data-page="notes">
-                    <span>▤</span> Notes
-                </button>
-                <button class="nav-item" data-page="tools">
-                    <span>⚙</span> Tools
-                </button>
-                <button class="nav-item" data-page="nightdrive">
-                    <span>☾</span> Night Drive
-                </button>
-                <button class="nav-item" data-page="settings">
-                    <span>⚙</span> Settings
-                </button>
-            </nav>
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-            <div class="sidebar-bottom">
-                <button id="themeToggle" class="secondary-button">
-                    Toggle theme
-                </button>
-                <p class="sidebar-footer">Your space to learn and create.</p>
-            </div>
-        </aside>
+<div class="logo">
 
-        <main class="main-content">
+<svg class="oakwood-sidebar-logo"
+     viewBox="0 0 100 100"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="Oakwood circular symbol">
 
-            <!-- DASHBOARD -->
-            <section class="page-section active" id="dashboard">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">YOUR WORKSPACE</p>
-                        <h2>Dashboard</h2>
-                        <p>Everything you're working on, all in one place.</p>
-                    </div>
-                </header>
+    <path
+        d="M50 11 A39 39 0 0 0 50 89"
+        fill="none"
+        stroke="#2bb7b4"
+        stroke-width="13"
+        stroke-linecap="butt"
+    />
 
-                <div class="welcome-card">
-                    <div class="welcome-copy">
-                        <p class="eyebrow">WELCOME BACK</p>
-                        <h2>Make today count.</h2>
-                        <p>
-                            Keep track of your learning, organise your projects,
-                            and make progress at your own pace.
-                        </p>
-                    </div>
+    <path
+        d="M50 11 A39 39 0 0 1 50 89"
+        fill="none"
+        stroke="#ed684d"
+        stroke-width="13"
+        stroke-linecap="butt"
+    />
+</svg>
 
-                    <div
-                        class="welcome-logo oakwood-logo-clickable"
-                        id="welcomeLogoClick"
-                        role="button"
-                        tabindex="0"
-                        aria-label="Oakwood logo"
-                        title="Click three times for a surprise"
-                    >
-                        <span class="oakwood-logo-motion" id="welcomeLogoMotion">
-                            <svg
-                                class="oakwood-logo"
-                                id="welcomeLogo"
-                                viewBox="0 0 100 100"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M50 11 A39 39 0 0 0 50 89"
-                                    fill="none"
-                                    stroke="#2bb7b4"
-                                    stroke-width="13"
-                                    stroke-linecap="butt"
-                                />
-                                <path
-                                    d="M50 11 A39 39 0 0 1 50 89"
-                                    fill="none"
-                                    stroke="#ed684d"
-                                    stroke-width="13"
-                                    stroke-linecap="butt"
-                                />
-                            </svg>
-                        </span>
-                    </div>
-                </div>
+<div class="logo-title">Oakwood Workspace</div>
+</div>
 
-                <div class="dashboard-grid">
-                    <article class="dashboard-card">
-                        <p class="card-label">TODAY</p>
-                        <h3 id="todayTaskCount">0 tasks</h3>
-                        <p>Keep moving through your plan.</p>
-                    </article>
+<nav>
+<button class="nav-btn active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+<button class="nav-btn" onclick="showPage('planner', this)">📖 Learning Planner</button>
+<button class="nav-btn" onclick="showPage('projects', this)">🚀 Projects</button>
+<button class="nav-btn" onclick="showPage('notes', this)">📝 Notes</button>
+<button class="nav-btn" onclick="showPage('tools', this)">🛠 Tools</button>
+<button class="nav-btn" onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+<button class="nav-btn" onclick="showPage('settings', this)">⚙️ Settings</button>
+</nav>
 
-                    <article class="dashboard-card">
-                        <p class="card-label">OVERALL PROGRESS</p>
-                        <h3 id="overallProgress">0%</h3>
-                        <div class="progress-track">
-                            <div
-                                class="progress-fill"
-                                id="overallProgressBar"
-                                style="width: 0%"
-                            ></div>
-                        </div>
-                    </article>
+<button class="theme-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
 
-                    <article class="dashboard-card">
-                        <p class="card-label">PROJECTS</p>
-                        <h3 id="dashboardProjectCount">0 projects</h3>
-                        <p>Your ideas and work in progress.</p>
-                    </article>
-                </div>
+</aside>
 
-                <div class="content-card">
-                    <div class="section-heading">
-                        <div>
-                            <h3>Today's tasks</h3>
-                            <p>Your upcoming learning tasks.</p>
-                        </div>
-                        <button class="text-button" data-goto="planner">
-                            Open planner →
-                        </button>
-                    </div>
-                    <div id="dashboardTasks">
-                        <p class="empty-state">
-                            Your planner tasks will appear here.
-                        </p>
-                    </div>
-                </div>
+<main class="main">
 
-                <div class="content-card">
-                    <div class="section-heading">
-                        <div>
-                            <h3>Quick actions</h3>
-                            <p>Jump straight into what you need.</p>
-                        </div>
-                    </div>
-                    <div class="quick-actions">
-                        <button class="primary-button" data-goto="planner">
-                            Open learning planner
-                        </button>
-                        <button class="secondary-button" data-goto="projects">
-                            View projects
-                        </button>
-                        <button class="secondary-button" data-goto="notes">
-                            Open notes
-                        </button>
-                    </div>
-                </div>
-            </section>
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
 
-            <!-- LEARNING PLANNER -->
-            <section class="page-section" id="planner">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">STAY ON TRACK</p>
-                        <h2>Learning Planner</h2>
-                        <p>Organise your learning and keep track of progress.</p>
-                    </div>
-                </header>
+<div class="welcome-hero">
 
-                <div class="content-card">
-                    <div class="section-heading">
-                        <div>
-                            <h3>Your plans</h3>
-                            <p>Choose a plan or create a new one.</p>
-                        </div>
-                        <button class="primary-button" onclick="createPlan()">
-                            + Create plan
-                        </button>
-                    </div>
+<svg class="oakwood-welcome-logo"
+     viewBox="0 0 100 100"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="Oakwood circular symbol">
 
-                    <div class="planner-controls">
-                        <label for="planSelector">Select plan</label>
-                        <select id="planSelector" onchange="changePlan()">
-                            <option value="">Loading plans...</option>
-                        </select>
-                    </div>
+    <path
+        d="M50 11 A39 39 0 0 0 50 89"
+        fill="none"
+        stroke="#2bb7b4"
+        stroke-width="13"
+        stroke-linecap="butt"
+    />
 
-                    <div id="plannerContainer">
-                        <p class="empty-state">
-                            Your learning plans will appear here.
-                        </p>
-                    </div>
-                </div>
-            </section>
+    <path
+        d="M50 11 A39 39 0 0 1 50 89"
+        fill="none"
+        stroke="#ed684d"
+        stroke-width="13"
+        stroke-linecap="butt"
+    />
+</svg>
 
-            <!-- PROJECTS -->
-            <section class="page-section" id="projects">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">MAKE SOMETHING</p>
-                        <h2>Projects</h2>
-                        <p>Keep your ideas, goals and ongoing work organised.</p>
-                    </div>
-                    <button class="primary-button" onclick="createProject()">
-                        + New project
-                    </button>
-                </header>
+<h1>Welcome to the Oakwood Workspace</h1>
+<p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
+</div>
 
-                <div class="content-card">
-                    <div id="projectsContainer">
-                        <p class="empty-state">
-                            Your projects will appear here.
-                        </p>
-                    </div>
-                </div>
-            </section>
+<div class="dashboard-grid">
 
-            <!-- NOTES -->
-            <section class="page-section" id="notes">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">GET IT DOWN</p>
-                        <h2>Notes</h2>
-                        <p>A simple space for thoughts, reminders and ideas.</p>
-                    </div>
-                </header>
+<div class="card dashboard-card">
+<h2>📅 Today</h2>
+<p id="date"></p>
+<div id="clock" class="dashboard-clock"></div>
+</div>
 
-                <div class="content-card">
-                    <label for="notesArea">Your notes</label>
-                    <textarea
-                        id="notesArea"
-                        rows="18"
-                        placeholder="Write something down..."
-                    ></textarea>
-                    <p class="muted-text" id="notesStatus">
-                        Notes are saved by your workspace scripts when available.
-                    </p>
-                </div>
-            </section>
+<div class="card dashboard-card">
+<h2>📊 Overall Progress</h2>
+<div id="dashboardProgress" class="progress-box">0%</div>
+<div class="dashboard-progress-bar">
+<div id="dashboardProgressFill" class="dashboard-progress-fill" style="width:0%"></div>
+</div>
+<p id="progressText">0 / 0 tasks completed</p>
+</div>
 
-            <!-- TOOLS -->
-            <section class="page-section" id="tools">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">USEFUL EXTRAS</p>
-                        <h2>Tools</h2>
-                        <p>Shortcuts and tools for your workspace.</p>
-                    </div>
-                </header>
+<div class="card dashboard-card">
+<h2>🚀 Projects</h2>
+<div id="projectCount" class="dashboard-number">0 Projects</div>
+<p id="projectProgressText">No projects yet.</p>
+</div>
 
-                <div class="dashboard-grid">
-                    <article class="dashboard-card">
-                        <h3>Night Drive</h3>
-                        <p>Take a break and enjoy a quiet driving experience.</p>
-                        <button class="primary-button" data-goto="nightdrive">
-                            Open Night Drive
-                        </button>
-                    </article>
+</div>
 
-                    <article class="dashboard-card">
-                        <h3>Learning Planner</h3>
-                        <p>Organise tasks and keep track of what you've done.</p>
-                        <button class="secondary-button" data-goto="planner">
-                            Open planner
-                        </button>
-                    </article>
+<div class="card">
+<div class="dashboard-section-header">
+<div>
+<h2>✅ Tasks</h2>
+<p>Your unfinished work</p>
+</div>
+<button onclick="showPage('projects', this)">View Projects</button>
+</div>
+<div id="todayTasks" class="dashboard-task-list">
+<p>No unfinished tasks.</p>
+</div>
+</div>
 
-                    <article class="dashboard-card">
-                        <h3>Projects</h3>
-                        <p>Keep your work and ideas together.</p>
-                        <button class="secondary-button" data-goto="projects">
-                            Open projects
-                        </button>
-                    </article>
-                </div>
-            </section>
+<div class="card">
+<div class="dashboard-section-header">
+<div>
+<h2>📖 Learning Planner</h2>
+<p>Your current study progress</p>
+</div>
+<button onclick="showPage('planner', this)">Open Planner</button>
+</div>
+<div class="dashboard-planner-stats">
+<div><span id="plannerCompleted">0</span><small>Completed</small></div>
+<div><span id="plannerRemaining">0</span><small>Remaining</small></div>
+<div><span id="plannerProgress">0%</span><small>Progress</small></div>
+</div>
+</div>
 
-            <!-- NIGHT DRIVE -->
-            <section class="page-section" id="nightdrive">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">TAKE A BREATHER</p>
-                        <h2>Night Drive</h2>
-                        <p>A little space to relax between tasks.</p>
-                    </div>
-                    <button
-                        class="secondary-button"
-                        id="nightdriveFullscreen"
-                        onclick="openNightDriveFullscreen()"
-                    >
-                        Fullscreen
-                    </button>
-                </header>
+<div class="card">
+<h2>⚡ Quick Actions</h2>
+<div class="quick-actions">
+<button onclick="createProject()">➕ New Project</button>
+<button onclick="showPage('planner', this)">📖 Open Planner</button>
+<button onclick="showPage('notes', this)">📝 Open Notes</button>
+<button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+<button onclick="exportBackup()">💾 Backup Now</button>
+</div>
+</div>
 
-                <div class="content-card nightdrive-card">
-                    <iframe
-                        id="nightdriveFrame"
-                        class="nightdrive-frame"
-                        src="night-drive.html"
-                        title="Night Drive"
-                        loading="lazy"
-                    ></iframe>
-                </div>
-            </section>
+</section>
 
-            <!-- SETTINGS -->
-            <section class="page-section" id="settings">
-                <header class="page-header">
-                    <div>
-                        <p class="eyebrow">MAKE IT YOURS</p>
-                        <h2>Settings</h2>
-                        <p>Manage your workspace preferences and data.</p>
-                    </div>
-                </header>
+<!-- PLANNER -->
+<section id="planner" class="page">
+<h1>📖 Learning Planner</h1>
+<div class="planner-controls">
+<button onclick="createPlan()">➕ New Week</button>
+<select id="planSelector" onchange="changePlan(this.value)"></select>
+</div>
+<div id="plannerContainer">
+<div class="card"><h2>Loading Planner...</h2></div>
+</div>
+</section>
 
-                <div class="content-card">
-                    <h3>Appearance</h3>
-                    <p>Switch between the available workspace themes.</p>
-                    <button class="secondary-button" id="settingsThemeToggle">
-                        Toggle theme
-                    </button>
-                </div>
+<!-- PROJECTS -->
+<section id="projects" class="page">
+<h1>🚀 Projects</h1>
+<div class="planner-actions">
+<button onclick="createProject()">➕ New Project</button>
+</div>
+<div id="projectsContainer">
+<div class="card"><h2>Loading Projects...</h2></div>
+</div>
+</section>
 
-                <div class="content-card">
-                    <h3>Backup and restore</h3>
-                    <p>Use the existing backup tools to export or restore your data.</p>
-                    <div class="quick-actions">
-                        <button class="primary-button" id="exportBackupButton">
-                            Export backup
-                        </button>
-                        <button class="secondary-button" id="importBackupButton">
-                            Import backup
-                        </button>
-                        <input
-                            type="file"
-                            id="importBackupFile"
-                            accept=".json,application/json"
-                            hidden
-                        >
-                    </div>
-                </div>
-            </section>
+<!-- NOTES -->
+<section id="notes" class="page">
+<h1>📝 Notes</h1>
+<div class="card">
+<textarea placeholder="Write notes here..."></textarea>
+</div>
+</section>
 
-        </main>
-    </div>
+<!-- TOOLS -->
+<section id="tools" class="page">
+<h1>🛠 Tools</h1>
+<div class="card">
+<h2>Tools &amp; Games</h2>
+<p>Your collection of useful tools, games and resources.</p>
+<br>
+<button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
+🌙 Open Night Drive
+</button>
+</div>
+</section>
 
-    <!-- Keep the existing workspace scripts. -->
-    <script src="storage.js"></script>
-    <script src="planner.js"></script>
-    <script src="projects.js"></script>
-    <script src="backup.js"></script>
-    <script src="app.js"></script>
+<!-- NIGHT DRIVE -->
+<section id="nightdrive" class="page nightdrive-page">
+<h1>🌙 Night Drive</h1>
 
-    <script>
-        /*
-         * Logo Easter egg:
-         * Three quick clicks trigger a smooth, decelerating spin
-         * and the original scale bounce at the same time.
-         */
-        (() => {
-            const logoPairs = [
-                {
-                    click: document.getElementById("sidebarLogoClick"),
-                    motion: document.getElementById("sidebarLogoMotion"),
-                    logo: document.getElementById("sidebarLogo")
-                },
-                {
-                    click: document.getElementById("welcomeLogoClick"),
-                    motion: document.getElementById("welcomeLogoMotion"),
-                    logo: document.getElementById("welcomeLogo")
-                }
-            ];
+<div class="nightdrive-launch-card">
+<div class="nightdrive-launch-info">
+<h2>NIGHT DRIVE</h2>
+<p>Race through the night. Dodge traffic. Push your limits.</p>
+</div>
+<button class="nightdrive-open-button" onclick="openNightDriveFullscreen()">⛶ Fullscreen</button>
+</div>
 
-            const clickTimes = new WeakMap();
-            const clickCounts = new WeakMap();
-            const resetTimers = new WeakMap();
-            const runningEffects = new WeakMap();
+<div class="nightdrive-container">
+<iframe
+id="nightdriveFrame"
+class="nightdrive-frame"
+src="night-drive.html"
+title="Night Drive Racing Game"
+allow="autoplay">
+</iframe>
+</div>
+</section>
 
-            const SPIN_DURATION = 2800;
-            const SPIN_ROTATIONS = 7;
+<!-- SETTINGS -->
+<section id="settings" class="page">
+<h1>⚙️ Settings</h1>
+<div class="card">
+<h2>Oakwood Workspace</h2>
+<p>Your personal learning dashboard.</p>
+<hr>
+<h3>💾 Backup</h3>
+<button onclick="exportBackup()">💾 Export Backup</button>
+<br><br>
+<label>
+📂 Import Backup
+<br><br>
+<input type="file" accept=".json" onchange="importBackup(event)">
+</label>
+</div>
+</section>
 
-            function stopPreviousEffect(motion) {
-                const previous = runningEffects.get(motion);
-                if (!previous) return;
+</main>
+</div>
 
-                if (previous.frameId) {
-                    cancelAnimationFrame(previous.frameId);
-                }
+<!-- EXISTING SCRIPTS -->
+<script src="storage.js"></script>
+<script src="planner.js"></script>
+<script src="projects.js"></script>
+<script src="backup.js"></script>
+<script src="app.js"></script>
 
-                if (previous.spinAnimation) {
-                    previous.spinAnimation.cancel();
-                }
+<!-- NIGHT DRIVE INTEGRATION -->
+<script>
+function openNightDriveFullscreen() {
+    const frame = document.getElementById("nightdriveFrame");
+    if (!frame) return;
 
-                if (previous.bounceHandler) {
-                    motion.removeEventListener(
-                        "animationend",
-                        previous.bounceHandler
-                    );
-                }
+    if (frame.requestFullscreen) {
+        frame.requestFullscreen();
+    } else if (frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+    } else if (frame.msRequestFullscreen) {
+        frame.msRequestFullscreen();
+    }
+}
 
-                motion.classList.remove("oakwood-logo-bounce");
-                runningEffects.delete(motion);
+document.addEventListener("DOMContentLoaded", function() {
+    const frame = document.getElementById("nightdriveFrame");
+    if (!frame) return;
+
+    frame.addEventListener("load", function() {
+        console.log("Night Drive loaded successfully.");
+    });
+});
+</script>
+
+<!-- THREE-CLICK FREE-SPIN EASTER EGG -->
+<script>
+(() => {
+    const logos = document.querySelectorAll(
+        ".oakwood-sidebar-logo, .oakwood-welcome-logo"
+    );
+
+    logos.forEach(logo => {
+        let clicks = 0;
+        let clickTimer = null;
+        let spinning = false;
+
+        logo.addEventListener("click", () => {
+            if (spinning) return;
+
+            clicks++;
+
+            if (clickTimer !== null) {
+                clearTimeout(clickTimer);
             }
 
-            function triggerLogoEffect(pair) {
-                if (!pair.motion || !pair.logo) return;
+            if (clicks >= 3) {
+                clicks = 0;
+                spinning = true;
 
-                stopPreviousEffect(pair.motion);
+                logo.classList.remove("oakwood-logo-spin");
 
-                pair.motion.classList.remove("oakwood-logo-bounce");
-                void pair.motion.offsetWidth;
+                // Restart cleanly without changing the logo's dimensions.
+                void logo.getBoundingClientRect();
 
-                /*
-                 * Spin using requestAnimationFrame.
-                 * The rotation advances continuously and decelerates smoothly,
-                 * like a freely spinning, well-oiled bearing.
-                 */
-                const startTime = performance.now();
-                let frameId = 0;
-                let lastAngle = 0;
-
-                const duration = window.matchMedia(
-                    "(prefers-reduced-motion: reduce)"
-                ).matches ? 800 : SPIN_DURATION;
-
-                const rotations = window.matchMedia(
-                    "(prefers-reduced-motion: reduce)"
-                ).matches ? 2 : SPIN_ROTATIONS;
-
-                const totalAngle = rotations * 360;
-
-                /*
-                 * Ease-out quart: fast at the start, then a gradual,
-                 * continuous slowdown all the way to a gentle stop.
-                 */
-                function animateSpin(now) {
-                    const elapsed = Math.min(now - startTime, duration);
-                    const progress = elapsed / duration;
-                    const easedProgress = 1 - Math.pow(1 - progress, 4);
-                    const angle = totalAngle * easedProgress;
-
-                    pair.logo.style.transform =
-                        `rotate(${angle}deg)`;
-
-                    lastAngle = angle;
-
-                    if (progress < 1) {
-                        frameId = requestAnimationFrame(animateSpin);
-                    } else {
-                        pair.logo.style.transform = "";
-                        const current = runningEffects.get(pair.motion);
-                        if (current) current.frameId = 0;
-                    }
-                }
-
-                /*
-                 * Restart the scale bounce independently of the rotation.
-                 * This keeps the bouncing effect without fighting the spin.
-                 */
-                pair.motion.classList.add("oakwood-logo-bounce");
-
-                const effect = {
-                    frameId: 0,
-                    spinAnimation: null,
-                    bounceHandler: null
-                };
-
-                effect.bounceHandler = event => {
-                    if (
-                        event.target !== pair.motion ||
-                        event.animationName !== "oakwoodScaleBounce"
-                    ) {
-                        return;
-                    }
-
-                    pair.motion.classList.remove("oakwood-logo-bounce");
-                    pair.motion.removeEventListener(
-                        "animationend",
-                        effect.bounceHandler
-                    );
-
-                    const current = runningEffects.get(pair.motion);
-                    if (current === effect) {
-                        runningEffects.delete(pair.motion);
-                    }
-                };
-
-                pair.motion.addEventListener(
-                    "animationend",
-                    effect.bounceHandler
-                );
-
-                runningEffects.set(pair.motion, effect);
-                frameId = requestAnimationFrame(animateSpin);
-                effect.frameId = frameId;
+                logo.classList.add("oakwood-logo-spin");
+                return;
             }
 
-            function handleLogoClick(pair) {
-                const key = pair.click;
-                const now = performance.now();
-                const last = clickTimes.get(key) || 0;
-                let count = clickCounts.get(key) || 0;
+            clickTimer = setTimeout(() => {
+                clicks = 0;
+                clickTimer = null;
+            }, 650);
+        });
 
-                count = now - last <= 650 ? count + 1 : 1;
+        logo.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodBearingSpin") return;
 
-                clickTimes.set(key, now);
-                clickCounts.set(key, count);
+            logo.classList.remove("oakwood-logo-spin");
+            spinning = false;
+        });
+    });
+})();
+</script>
 
-                const oldTimer = resetTimers.get(key);
-                if (oldTimer) {
-                    window.clearTimeout(oldTimer);
-                }
-
-                if (count >= 3) {
-                    clickCounts.set(key, 0);
-                    clickTimes.set(key, 0);
-                    triggerLogoEffect(pair);
-                    return;
-                }
-
-                resetTimers.set(
-                    key,
-                    window.setTimeout(() => {
-                        clickCounts.set(key, 0);
-                        clickTimes.set(key, 0);
-                    }, 700)
-                );
-            }
-
-            logoPairs.forEach(pair => {
-                if (!pair.click) return;
-
-                pair.click.addEventListener("click", () => {
-                    handleLogoClick(pair);
-                });
-
-                pair.click.addEventListener("keydown", event => {
-                    if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        handleLogoClick(pair);
-                    }
-                });
-            });
-        })();
-
-        /* Navigation between workspace sections. */
-        (() => {
-            const navButtons = document.querySelectorAll("[data-page]");
-            const sections = document.querySelectorAll(".page-section");
-
-            function showPage(pageId) {
-                sections.forEach(section => {
-                    section.classList.toggle("active", section.id === pageId);
-                });
-
-                navButtons.forEach(button => {
-                    button.classList.toggle(
-                        "active",
-                        button.dataset.page === pageId
-                    );
-                });
-
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-
-            navButtons.forEach(button => {
-                button.addEventListener("click", () => {
-                    showPage(button.dataset.page);
-                });
-            });
-
-            document.querySelectorAll("[data-goto]").forEach(button => {
-                button.addEventListener("click", () => {
-                    showPage(button.dataset.goto);
-                });
-            });
-        })();
-
-        /* Theme controls. */
-        (() => {
-            const themeButtons = [
-                document.getElementById("themeToggle"),
-                document.getElementById("settingsThemeToggle")
-            ].filter(Boolean);
-
-            function toggleTheme() {
-                document.body.classList.toggle("light-theme");
-                document.documentElement.classList.toggle("light-theme");
-
-                const isLight =
-                    document.body.classList.contains("light-theme");
-
-                try {
-                    localStorage.setItem(
-                        "oakwood-theme",
-                        isLight ? "light" : "dark"
-                    );
-                } catch (_) {}
-            }
-
-            try {
-                if (localStorage.getItem("oakwood-theme") === "light") {
-                    document.body.classList.add("light-theme");
-                    document.documentElement.classList.add("light-theme");
-                }
-            } catch (_) {}
-
-            themeButtons.forEach(button => {
-                button.addEventListener("click", toggleTheme);
-            });
-        })();
-
-        /* Notes persistence. */
-        (() => {
-            const notesArea = document.getElementById("notesArea");
-            const notesStatus = document.getElementById("notesStatus");
-            if (!notesArea) return;
-
-            try {
-                notesArea.value =
-                    localStorage.getItem("oakwood-notes") || "";
-            } catch (_) {}
-
-            let saveTimeout;
-
-            notesArea.addEventListener("input", () => {
-                window.clearTimeout(saveTimeout);
-
-                saveTimeout = window.setTimeout(() => {
-                    try {
-                        localStorage.setItem(
-                            "oakwood-notes",
-                            notesArea.value
-                        );
-
-                        if (notesStatus) {
-                            notesStatus.textContent = "Saved.";
-                        }
-                    } catch (_) {
-                        if (notesStatus) {
-                            notesStatus.textContent =
-                                "Your browser could not save these notes.";
-                        }
-                    }
-                }, 250);
-            });
-        })();
-
-        /* Backup controls connect to the existing backup script functions. */
-        (() => {
-            const exportButton =
-                document.getElementById("exportBackupButton");
-            const importButton =
-                document.getElementById("importBackupButton");
-            const fileInput =
-                document.getElementById("importBackupFile");
-
-            if (exportButton) {
-                exportButton.addEventListener("click", () => {
-                    if (typeof exportBackup === "function") {
-                        exportBackup();
-                    } else if (typeof exportData === "function") {
-                        exportData();
-                    } else {
-                        alert(
-                            "The export function was not found in backup.js."
-                        );
-                    }
-                });
-            }
-
-            if (importButton && fileInput) {
-                importButton.addEventListener("click", () => {
-                    fileInput.click();
-                });
-
-                fileInput.addEventListener("change", () => {
-                    if (!fileInput.files || !fileInput.files[0]) return;
-
-                    if (typeof importBackup === "function") {
-                        importBackup(fileInput.files[0]);
-                    } else if (typeof importData === "function") {
-                        importData(fileInput.files[0]);
-                    } else {
-                        alert(
-                            "The import function was not found in backup.js."
-                        );
-                    }
-                });
-            }
-        })();
-
-        /* Fullscreen support for Night Drive. */
-        function openNightDriveFullscreen() {
-            const frame = document.getElementById("nightdriveFrame");
-            if (!frame) return;
-
-            if (frame.requestFullscreen) {
-                frame.requestFullscreen().catch(() => {
-                    window.open("night-drive.html", "_blank");
-                });
-            } else {
-                window.open("night-drive.html", "_blank");
-            }
-        }
-
-        const nightdriveFrame =
-            document.getElementById("nightdriveFrame");
-
-        if (nightdriveFrame) {
-            nightdriveFrame.addEventListener("load", () => {
-                console.log("Night Drive loaded.");
-            });
-        }
-    </script>
 </body>
 </html>
