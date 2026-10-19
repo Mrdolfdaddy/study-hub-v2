@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="main.css">
 
     <style>
-        /* Keep the logo's scale bounce separate from its rotation. */
+        /* The wrapper handles scaling; the SVG handles rotation independently. */
         .oakwood-logo-motion {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transform-origin: center;
+            transform-origin: center center;
             will-change: transform;
         }
 
@@ -23,83 +23,30 @@
             width: 100%;
             height: 100%;
             overflow: visible;
-            transform-origin: center;
+            transform-origin: center center;
+            transform-box: view-box;
             backface-visibility: hidden;
         }
 
-        .oakwood-logo-spin {
-            animation: oakwoodBearingSpin 2.8s
-                cubic-bezier(0.12, 0.72, 0.18, 1) forwards;
-            transform-origin: center;
-            will-change: transform;
-        }
-
-        /* The original scale-bouncing effect is retained. */
+        /* Keep the scale bounce. Do not apply rotation to this wrapper. */
         .oakwood-logo-bounce {
-            animation: oakwoodScaleBounce 2.8s
-                cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            transform-origin: center;
+            animation: oakwoodScaleBounce 2.8s both;
+            transform-origin: center center;
             will-change: transform;
-        }
-
-        @keyframes oakwoodBearingSpin {
-            0% {
-                transform: rotate(0deg);
-            }
-            8% {
-                transform: rotate(420deg);
-            }
-            24% {
-                transform: rotate(1080deg);
-            }
-            45% {
-                transform: rotate(1740deg);
-            }
-            66% {
-                transform: rotate(2220deg);
-            }
-            82% {
-                transform: rotate(2460deg);
-            }
-            100% {
-                transform: rotate(2520deg);
-            }
         }
 
         @keyframes oakwoodScaleBounce {
-            0% {
-                transform: scale(1);
-            }
-            8% {
-                transform: scale(1.16);
-            }
-            16% {
-                transform: scale(0.94);
-            }
-            25% {
-                transform: scale(1.11);
-            }
-            35% {
-                transform: scale(0.97);
-            }
-            46% {
-                transform: scale(1.07);
-            }
-            58% {
-                transform: scale(0.985);
-            }
-            70% {
-                transform: scale(1.035);
-            }
-            82% {
-                transform: scale(0.995);
-            }
-            92% {
-                transform: scale(1.012);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0%   { transform: scale(1); }
+            8%   { transform: scale(1.16); }
+            16%  { transform: scale(0.94); }
+            25%  { transform: scale(1.11); }
+            35%  { transform: scale(0.97); }
+            46%  { transform: scale(1.07); }
+            58%  { transform: scale(0.985); }
+            70%  { transform: scale(1.035); }
+            82%  { transform: scale(0.995); }
+            92%  { transform: scale(1.012); }
+            100% { transform: scale(1); }
         }
 
         .oakwood-logo-clickable {
@@ -114,7 +61,6 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .oakwood-logo-spin,
             .oakwood-logo-bounce {
                 animation-duration: 0.8s;
             }
@@ -124,7 +70,6 @@
 
 <body>
     <div class="app-shell">
-
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <div
@@ -488,16 +433,10 @@
                     <h3>Backup and restore</h3>
                     <p>Use the existing backup tools to export or restore your data.</p>
                     <div class="quick-actions">
-                        <button
-                            class="primary-button"
-                            id="exportBackupButton"
-                        >
+                        <button class="primary-button" id="exportBackupButton">
                             Export backup
                         </button>
-                        <button
-                            class="secondary-button"
-                            id="importBackupButton"
-                        >
+                        <button class="secondary-button" id="importBackupButton">
                             Import backup
                         </button>
                         <input
@@ -521,7 +460,11 @@
     <script src="app.js"></script>
 
     <script>
-        /* Three quick clicks trigger the spin AND scale bounce. */
+        /*
+         * Logo Easter egg:
+         * Three quick clicks trigger a smooth, decelerating spin
+         * and the original scale bounce at the same time.
+         */
         (() => {
             const logoPairs = [
                 {
@@ -539,61 +482,125 @@
             const clickTimes = new WeakMap();
             const clickCounts = new WeakMap();
             const resetTimers = new WeakMap();
-            const activeAnimations = new WeakMap();
+            const runningEffects = new WeakMap();
+
+            const SPIN_DURATION = 2800;
+            const SPIN_ROTATIONS = 7;
+
+            function stopPreviousEffect(motion) {
+                const previous = runningEffects.get(motion);
+                if (!previous) return;
+
+                if (previous.frameId) {
+                    cancelAnimationFrame(previous.frameId);
+                }
+
+                if (previous.spinAnimation) {
+                    previous.spinAnimation.cancel();
+                }
+
+                if (previous.bounceHandler) {
+                    motion.removeEventListener(
+                        "animationend",
+                        previous.bounceHandler
+                    );
+                }
+
+                motion.classList.remove("oakwood-logo-bounce");
+                runningEffects.delete(motion);
+            }
 
             function triggerLogoEffect(pair) {
                 if (!pair.motion || !pair.logo) return;
 
-                const previous = activeAnimations.get(pair.motion);
-                if (previous) {
-                    previous.forEach(animation => {
-                        try {
-                            animation.cancel();
-                        } catch (_) {}
-                    });
+                stopPreviousEffect(pair.motion);
+
+                pair.motion.classList.remove("oakwood-logo-bounce");
+                void pair.motion.offsetWidth;
+
+                /*
+                 * Spin using requestAnimationFrame.
+                 * The rotation advances continuously and decelerates smoothly,
+                 * like a freely spinning, well-oiled bearing.
+                 */
+                const startTime = performance.now();
+                let frameId = 0;
+                let lastAngle = 0;
+
+                const duration = window.matchMedia(
+                    "(prefers-reduced-motion: reduce)"
+                ).matches ? 800 : SPIN_DURATION;
+
+                const rotations = window.matchMedia(
+                    "(prefers-reduced-motion: reduce)"
+                ).matches ? 2 : SPIN_ROTATIONS;
+
+                const totalAngle = rotations * 360;
+
+                /*
+                 * Ease-out quart: fast at the start, then a gradual,
+                 * continuous slowdown all the way to a gentle stop.
+                 */
+                function animateSpin(now) {
+                    const elapsed = Math.min(now - startTime, duration);
+                    const progress = elapsed / duration;
+                    const easedProgress = 1 - Math.pow(1 - progress, 4);
+                    const angle = totalAngle * easedProgress;
+
+                    pair.logo.style.transform =
+                        `rotate(${angle}deg)`;
+
+                    lastAngle = angle;
+
+                    if (progress < 1) {
+                        frameId = requestAnimationFrame(animateSpin);
+                    } else {
+                        pair.logo.style.transform = "";
+                        const current = runningEffects.get(pair.motion);
+                        if (current) current.frameId = 0;
+                    }
                 }
 
-                pair.logo.classList.remove("oakwood-logo-spin");
-                pair.motion.classList.remove("oakwood-logo-bounce");
-
-                /* Force a clean restart of both animations. */
-                void pair.logo.getBoundingClientRect();
-                void pair.motion.getBoundingClientRect();
-
-                pair.logo.classList.add("oakwood-logo-spin");
+                /*
+                 * Restart the scale bounce independently of the rotation.
+                 * This keeps the bouncing effect without fighting the spin.
+                 */
                 pair.motion.classList.add("oakwood-logo-bounce");
 
-                const cleanup = () => {
-                    pair.logo.classList.remove("oakwood-logo-spin");
-                    pair.motion.classList.remove("oakwood-logo-bounce");
-                    activeAnimations.delete(pair.motion);
+                const effect = {
+                    frameId: 0,
+                    spinAnimation: null,
+                    bounceHandler: null
                 };
 
-                pair.logo.addEventListener("animationend", function handler(event) {
-                    if (event.animationName !== "oakwoodBearingSpin") return;
-                    pair.logo.removeEventListener("animationend", handler);
-                    pair.logo.classList.remove("oakwood-logo-spin");
-
-                    /* Keep the bounce running until its own animation finishes. */
-                    if (!pair.motion.classList.contains("oakwood-logo-bounce")) {
-                        cleanup();
+                effect.bounceHandler = event => {
+                    if (
+                        event.target !== pair.motion ||
+                        event.animationName !== "oakwoodScaleBounce"
+                    ) {
+                        return;
                     }
-                });
 
-                pair.motion.addEventListener("animationend", function handler(event) {
-                    if (event.animationName !== "oakwoodScaleBounce") return;
-                    pair.motion.removeEventListener("animationend", handler);
                     pair.motion.classList.remove("oakwood-logo-bounce");
+                    pair.motion.removeEventListener(
+                        "animationend",
+                        effect.bounceHandler
+                    );
 
-                    if (!pair.logo.classList.contains("oakwood-logo-spin")) {
-                        cleanup();
+                    const current = runningEffects.get(pair.motion);
+                    if (current === effect) {
+                        runningEffects.delete(pair.motion);
                     }
-                });
+                };
 
-                const fallback = window.setTimeout(cleanup, 3500);
-                activeAnimations.set(pair.motion, [
-                    { cancel: () => window.clearTimeout(fallback) }
-                ]);
+                pair.motion.addEventListener(
+                    "animationend",
+                    effect.bounceHandler
+                );
+
+                runningEffects.set(pair.motion, effect);
+                frameId = requestAnimationFrame(animateSpin);
+                effect.frameId = frameId;
             }
 
             function handleLogoClick(pair) {
@@ -608,7 +615,9 @@
                 clickCounts.set(key, count);
 
                 const oldTimer = resetTimers.get(key);
-                if (oldTimer) window.clearTimeout(oldTimer);
+                if (oldTimer) {
+                    window.clearTimeout(oldTimer);
+                }
 
                 if (count >= 3) {
                     clickCounts.set(key, 0);
@@ -686,7 +695,9 @@
                 document.body.classList.toggle("light-theme");
                 document.documentElement.classList.toggle("light-theme");
 
-                const isLight = document.body.classList.contains("light-theme");
+                const isLight =
+                    document.body.classList.contains("light-theme");
+
                 try {
                     localStorage.setItem(
                         "oakwood-theme",
@@ -707,23 +718,32 @@
             });
         })();
 
-        /* Notes persistence, if local storage is available. */
+        /* Notes persistence. */
         (() => {
             const notesArea = document.getElementById("notesArea");
             const notesStatus = document.getElementById("notesStatus");
             if (!notesArea) return;
 
             try {
-                notesArea.value = localStorage.getItem("oakwood-notes") || "";
+                notesArea.value =
+                    localStorage.getItem("oakwood-notes") || "";
             } catch (_) {}
 
             let saveTimeout;
+
             notesArea.addEventListener("input", () => {
                 window.clearTimeout(saveTimeout);
+
                 saveTimeout = window.setTimeout(() => {
                     try {
-                        localStorage.setItem("oakwood-notes", notesArea.value);
-                        if (notesStatus) notesStatus.textContent = "Saved.";
+                        localStorage.setItem(
+                            "oakwood-notes",
+                            notesArea.value
+                        );
+
+                        if (notesStatus) {
+                            notesStatus.textContent = "Saved.";
+                        }
                     } catch (_) {
                         if (notesStatus) {
                             notesStatus.textContent =
@@ -736,9 +756,12 @@
 
         /* Backup controls connect to the existing backup script functions. */
         (() => {
-            const exportButton = document.getElementById("exportBackupButton");
-            const importButton = document.getElementById("importBackupButton");
-            const fileInput = document.getElementById("importBackupFile");
+            const exportButton =
+                document.getElementById("exportBackupButton");
+            const importButton =
+                document.getElementById("importBackupButton");
+            const fileInput =
+                document.getElementById("importBackupFile");
 
             if (exportButton) {
                 exportButton.addEventListener("click", () => {
@@ -747,13 +770,17 @@
                     } else if (typeof exportData === "function") {
                         exportData();
                     } else {
-                        alert("The export function was not found in backup.js.");
+                        alert(
+                            "The export function was not found in backup.js."
+                        );
                     }
                 });
             }
 
             if (importButton && fileInput) {
-                importButton.addEventListener("click", () => fileInput.click());
+                importButton.addEventListener("click", () => {
+                    fileInput.click();
+                });
 
                 fileInput.addEventListener("change", () => {
                     if (!fileInput.files || !fileInput.files[0]) return;
@@ -763,7 +790,9 @@
                     } else if (typeof importData === "function") {
                         importData(fileInput.files[0]);
                     } else {
-                        alert("The import function was not found in backup.js.");
+                        alert(
+                            "The import function was not found in backup.js."
+                        );
                     }
                 });
             }
@@ -783,7 +812,9 @@
             }
         }
 
-        const nightdriveFrame = document.getElementById("nightdriveFrame");
+        const nightdriveFrame =
+            document.getElementById("nightdriveFrame");
+
         if (nightdriveFrame) {
             nightdriveFrame.addEventListener("load", () => {
                 console.log("Night Drive loaded.");
