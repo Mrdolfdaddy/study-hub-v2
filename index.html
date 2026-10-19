@@ -18,6 +18,7 @@
     display: block;
     width: 38px;
     height: 38px;
+    object-fit: contain;
     flex-shrink: 0;
     cursor: pointer;
     transform-origin: center;
@@ -45,6 +46,7 @@
     display: block;
     width: 110px;
     height: 110px;
+    object-fit: contain;
     margin-bottom: 18px;
     cursor: pointer;
     transform-origin: center;
@@ -94,12 +96,17 @@
     margin-bottom: 18px;
 }
 
-.oakwood-logo-motion > svg {
+.oakwood-logo-motion > img {
     display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     flex-shrink: 0;
     transform-origin: center center;
     backface-visibility: hidden;
 }
+
+/* SCALE BOUNCE */
 
 .oakwood-logo-bounce {
     animation: oakwoodScaleBounce 2.8s both;
@@ -121,11 +128,12 @@
     100% { transform: scale(1); }
 }
 
+/* SMOOTH SPIN */
+
 .oakwood-logo-spin {
     animation: oakwoodBearingSpin 3.2s
         cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
     transform-origin: center center;
-    transform-box: fill-box;
     backface-visibility: hidden;
     will-change: transform;
 }
@@ -166,6 +174,8 @@
         animation-duration: 0.8s;
     }
 }
+
+/* NIGHT DRIVE */
 
 .nightdrive-page {
     max-width: 1600px !important;
@@ -242,25 +252,14 @@
 <body>
 <div class="app">
 
+<!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="logo">
-        <svg class="oakwood-sidebar-logo"
-             viewBox="0 0 100 100"
-             xmlns="http://www.w3.org/2000/svg"
-             role="img"
-             aria-label="Oakwood circular symbol">
-            <path d="M50 14 A36 36 0 0 0 50 86"
-                  fill="none"
-                  stroke="#2bb7b4"
-                  stroke-width="10"
-                  stroke-linecap="butt"/>
-            <path d="M50 14 A36 36 0 0 1 50 86"
-                  fill="none"
-                  stroke="#ed684d"
-                  stroke-width="10"
-                  stroke-linecap="butt"/>
-        </svg>
-
+        <img
+            class="oakwood-sidebar-logo"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAaVBMVEX////P7e2X2tm15OP208zvq5v32dI2v74du7rzxLrjXzXkYzzkaUXyu67s+PhRxsUpvbya2trkZkDlbkzlcVD76eXc8vL0ysDjXDDlbEms4eD7/v5hysnrloHtoI12z8/qkHnof2PuppXTvfBaAAAAtUlEQVR4Aa3S0Q6CMAwF0CsKGzBltigOQNT//0i3uMSBSX3Q83rTbWuLf9hkW2CXF/i0VVpnQFnVZo+lQ6OVskcfEjO1JyTOWvlM+7C7kGNXFUldKLP9gKB0hrl61zY+G30UTcSOEfXaZ0hMhinHS7hvQKp1XMf/+cIeCx0xdQgyq/SAJWJzRTBb1WDlZtw9vtXOWHkY5u/hKBwrPEj+itAEoX1C4508MmnY8pqk+mTBxNX83RPj7Q8tVR6g8gAAAABJRU5ErkJggg=="
+            alt="Oakwood logo"
+        >
         <div class="logo-title">Oakwood Workspace</div>
     </div>
 
@@ -279,24 +278,14 @@
 
 <main class="main">
 
+<!-- DASHBOARD -->
 <section id="dashboard" class="page active">
     <div class="welcome-hero">
-        <svg class="oakwood-welcome-logo"
-             viewBox="0 0 100 100"
-             xmlns="http://www.w3.org/2000/svg"
-             role="img"
-             aria-label="Oakwood circular symbol">
-            <path d="M50 14 A36 36 0 0 0 50 86"
-                  fill="none"
-                  stroke="#2bb7b4"
-                  stroke-width="10"
-                  stroke-linecap="butt"/>
-            <path d="M50 14 A36 36 0 0 1 50 86"
-                  fill="none"
-                  stroke="#ed684d"
-                  stroke-width="10"
-                  stroke-linecap="butt"/>
-        </svg>
+        <img
+            class="oakwood-welcome-logo"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAaVBMVEX////P7e2X2tm15OP208zvq5v32dI2v74du7rzxLrjXzXkYzzkaUXyu67s+PhRxsUpvbya2trkZkDlbkzlcVD76eXc8vL0ysDjXDDlbEms4eD7/v5hysnrloHtoI12z8/qkHnof2PuppXTvfBaAAAAtUlEQVR4Aa3S0Q6CMAwF0CsKGzBltigOQNT//0i3uMSBSX3Q83rTbWuLf9hkW2CXF/i0VVpnQFnVZo+lQ6OVskcfEjO1JyTOWvlM+7C7kGNXFUldKLP9gKB0hrl61zY+G30UTcSOEfXaZ0hMhinHS7hvQKp1XMf/+cIeCx0xdQgyq/SAJWJzRTBb1WDlZtw9vtXOWHkY5u/hKBwrPEj+itAEoX1C4508MmnY8pqk+mTBxNX83RPj7Q8tVR6g8gAAAABJRU5ErkJggg=="
+            alt="Oakwood logo"
+        >
 
         <h1>Welcome to the Oakwood Workspace</h1>
         <p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
@@ -365,6 +354,7 @@
     </div>
 </section>
 
+<!-- PLANNER -->
 <section id="planner" class="page">
     <h1>📖 Learning Planner</h1>
     <div class="planner-controls">
@@ -376,6 +366,7 @@
     </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects" class="page">
     <h1>🚀 Projects</h1>
     <div class="planner-actions">
@@ -386,6 +377,7 @@
     </div>
 </section>
 
+<!-- NOTES -->
 <section id="notes" class="page">
     <h1>📝 Notes</h1>
     <div class="card">
@@ -393,6 +385,7 @@
     </div>
 </section>
 
+<!-- TOOLS -->
 <section id="tools" class="page">
     <h1>🛠 Tools</h1>
     <div class="card">
@@ -405,6 +398,7 @@
     </div>
 </section>
 
+<!-- NIGHT DRIVE -->
 <section id="nightdrive" class="page nightdrive-page">
     <h1>🌙 Night Drive</h1>
 
@@ -417,14 +411,17 @@
     </div>
 
     <div class="nightdrive-container">
-        <iframe id="nightdriveFrame"
-                class="nightdrive-frame"
-                src="night-drive.html"
-                title="Night Drive Racing Game"
-                allow="autoplay"></iframe>
+        <iframe
+            id="nightdriveFrame"
+            class="nightdrive-frame"
+            src="night-drive.html"
+            title="Night Drive Racing Game"
+            allow="autoplay">
+        </iframe>
     </div>
 </section>
 
+<!-- SETTINGS -->
 <section id="settings" class="page">
     <h1>⚙️ Settings</h1>
     <div class="card">
