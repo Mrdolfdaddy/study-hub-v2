@@ -260,7 +260,6 @@
              role="img"
              aria-label="Oakwood circular symbol">
 
-            <!-- Turquoise semicircle -->
             <path
                 d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
                 fill="none"
@@ -269,7 +268,6 @@
                 stroke-linecap="butt"
             />
 
-            <!-- Orange semicircle, same radius, tiny endpoint gaps -->
             <path
                 d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
                 fill="none"
@@ -331,6 +329,7 @@
         <div class="card dashboard-card">
             <h2>📅 Today</h2>
             <p id="date"></p>
+            <p id="today-details"></p>
             <div id="clock" class="dashboard-clock"></div>
         </div>
 
@@ -484,6 +483,97 @@
 <script src="projects.js"></script>
 <script src="backup.js"></script>
 <script src="app.js"></script>
+
+<!-- TODAY DATE/TIME DETAILS -->
+<script>
+(() => {
+    function updateDashboardDateTime() {
+        const now = new Date();
+        const dateElement = document.getElementById("date");
+        const clockElement = document.getElementById("clock");
+        const detailsElement = document.getElementById("today-details");
+
+        // Date format: DD/MM/YYYY
+        if (dateElement) {
+            const day = String(now.getDate()).padStart(2, "0");
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            dateElement.textContent =
+                `${day}/${month}/${now.getFullYear()}`;
+        }
+
+        // Show 24-hour and 12-hour time together
+        if (clockElement) {
+            const time24 = now.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            });
+
+            const time12 = now.toLocaleTimeString("en-AU", {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+
+            clockElement.textContent = `${time24} · ${time12}`;
+        }
+
+        // Day of the year and days remaining
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+
+        const dayOfYear = Math.floor(
+            (today - startOfYear) / 86400000
+        ) + 1;
+
+        const daysInYear = (
+            new Date(now.getFullYear() + 1, 0, 1) -
+            startOfYear
+        ) / 86400000;
+
+        const daysRemaining = daysInYear - dayOfYear;
+
+        // ISO week number
+        const isoDate = new Date(Date.UTC(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        ));
+
+        const weekday = isoDate.getUTCDay() || 7;
+
+        isoDate.setUTCDate(
+            isoDate.getUTCDate() + 4 - weekday
+        );
+
+        const isoYearStart = new Date(Date.UTC(
+            isoDate.getUTCFullYear(),
+            0,
+            1
+        ));
+
+        const weekOfYear = Math.ceil(
+            (((isoDate - isoYearStart) / 86400000) + 1) / 7
+        );
+
+        if (detailsElement) {
+            detailsElement.textContent =
+                `Week ${weekOfYear} · ` +
+                `Day ${dayOfYear} · ` +
+                `${daysRemaining} days left in the year`;
+        }
+    }
+
+    updateDashboardDateTime();
+    setInterval(updateDashboardDateTime, 1000);
+})();
+</script>
 
 <!-- NIGHT DRIVE INTEGRATION -->
 <script>
@@ -837,7 +927,6 @@ if (nightdriveFrame) {
              role="img"
              aria-label="Oakwood circular symbol">
 
-            <!-- Turquoise semicircle -->
             <path
                 d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
                 fill="none"
@@ -846,7 +935,6 @@ if (nightdriveFrame) {
                 stroke-linecap="butt"
             />
 
-            <!-- Orange semicircle, same radius, tiny endpoint gaps -->
             <path
                 d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
                 fill="none"
@@ -908,6 +996,7 @@ if (nightdriveFrame) {
         <div class="card dashboard-card">
             <h2>📅 Today</h2>
             <p id="date"></p>
+            <p id="today-details"></p>
             <div id="clock" class="dashboard-clock"></div>
         </div>
 
@@ -1061,6 +1150,97 @@ if (nightdriveFrame) {
 <script src="projects.js"></script>
 <script src="backup.js"></script>
 <script src="app.js"></script>
+
+<!-- TODAY DATE/TIME DETAILS -->
+<script>
+(() => {
+    function updateDashboardDateTime() {
+        const now = new Date();
+        const dateElement = document.getElementById("date");
+        const clockElement = document.getElementById("clock");
+        const detailsElement = document.getElementById("today-details");
+
+        // Date format: DD/MM/YYYY
+        if (dateElement) {
+            const day = String(now.getDate()).padStart(2, "0");
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            dateElement.textContent =
+                `${day}/${month}/${now.getFullYear()}`;
+        }
+
+        // Show 24-hour and 12-hour time together
+        if (clockElement) {
+            const time24 = now.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            });
+
+            const time12 = now.toLocaleTimeString("en-AU", {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+
+            clockElement.textContent = `${time24} · ${time12}`;
+        }
+
+        // Day of the year and days remaining
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+
+        const dayOfYear = Math.floor(
+            (today - startOfYear) / 86400000
+        ) + 1;
+
+        const daysInYear = (
+            new Date(now.getFullYear() + 1, 0, 1) -
+            startOfYear
+        ) / 86400000;
+
+        const daysRemaining = daysInYear - dayOfYear;
+
+        // ISO week number
+        const isoDate = new Date(Date.UTC(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        ));
+
+        const weekday = isoDate.getUTCDay() || 7;
+
+        isoDate.setUTCDate(
+            isoDate.getUTCDate() + 4 - weekday
+        );
+
+        const isoYearStart = new Date(Date.UTC(
+            isoDate.getUTCFullYear(),
+            0,
+            1
+        ));
+
+        const weekOfYear = Math.ceil(
+            (((isoDate - isoYearStart) / 86400000) + 1) / 7
+        );
+
+        if (detailsElement) {
+            detailsElement.textContent =
+                `Week ${weekOfYear} · ` +
+                `Day ${dayOfYear} · ` +
+                `${daysRemaining} days left in the year`;
+        }
+    }
+
+    updateDashboardDateTime();
+    setInterval(updateDashboardDateTime, 1000);
+})();
+</script>
 
 <!-- NIGHT DRIVE INTEGRATION -->
 <script>
