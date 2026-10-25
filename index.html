@@ -1,101 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oakwood Workspace</title>
+<link rel="stylesheet" href="main.css">
+
 <style>
-.oakwood-sidebar-logo,
-.oakwood-welcome-logo {
-    display: block;
-    object-fit: contain;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+/* OAKWOOD WORKSPACE WELCOME */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .oakwood-sidebar-logo {
+    display: block;
     width: 38px;
     height: 38px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.logo-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.welcome-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px 15px 30px;
+    animation: oakwoodWelcomeIn 0.8s ease both;
 }
 
 .oakwood-welcome-logo {
+    display: block;
     width: 110px;
     height: 110px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    animation: oakwoodLogoIn 0.9s ease both;
 }
+
+.welcome-hero h1 {
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.welcome-credit {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+@keyframes oakwoodWelcomeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oakwoodLogoIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* LOGO ANIMATION WRAPPER */
 
 .oakwood-logo-motion {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+    flex-shrink: 0;
+    transform-origin: center center;
+    will-change: transform;
 }
 
-.oakwood-logo-motion img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-</style>
-
-<script>
-const oakwoodLogoPNG =
-"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAaVBMVEX////P7e2X2tm15OP208zvq5v32dI2v74du7rzxLrjXzXkYzzkaUXyu67s+PhRxsUpvbya2trkZkDlbkzlcVD76eXc8vL0ysDjXDDlbEms4eD7/v5hysnrloHtoI12z8/qkHnof2PuppXTvfBaAAAAtUlEQVR4Aa3S0Q6CMAwF0CsKGzBltigOQNT//0i3uMSBSX3Q83rTbWuLf9hkW2CXF/i0VVpnQFnVZo+lQ6OVskcfEjO1JyTOWvlM+7C7kGNXFUldKLP9gKB0hrl61zY+G30UTcSOEfXaZ0hMhinHS7hvQKp1XMf/+cIeCx0xdQgyq/SAJWJzRTBb1WDlZtw9vtXOWHkY5u/hKBwrPEj+itAEoX1C4508MmnY8pqk+mTBxNX83RPj7Q8tVR6g8gAAAABJRU5ErkJggg==";
-
-document.querySelectorAll(
-    ".oakwood-sidebar-logo, .oakwood-welcome-logo"
-).forEach(img => {
-    img.src = oakwoodLogoPNG;
-    img.style.background = "transparent";
-});
-</script><style>
-.oakwood-sidebar-logo,
-.oakwood-welcome-logo {
-    display: block;
-    object-fit: contain;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.oakwood-sidebar-logo {
+.logo .oakwood-logo-motion {
     width: 38px;
     height: 38px;
 }
 
-.oakwood-welcome-logo {
+.welcome-hero .oakwood-logo-motion {
     width: 110px;
     height: 110px;
+    margin-bottom: 18px;
 }
 
-.oakwood-logo-motion {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+.oakwood-logo-motion > svg {
+    display: block;
+    flex-shrink: 0;
+    transform-origin: center center;
+    backface-visibility: hidden;
 }
 
-.oakwood-logo-motion img {
+/* SCALE BOUNCE */
+
+.oakwood-logo-bounce {
+    animation: oakwoodScaleBounce 2.8s both;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes oakwoodScaleBounce {
+    0%   { transform: scale(1); }
+    8%   { transform: scale(1.16); }
+    16%  { transform: scale(0.94); }
+    25%  { transform: scale(1.11); }
+    35%  { transform: scale(0.97); }
+    46%  { transform: scale(1.07); }
+    58%  { transform: scale(0.985); }
+    70%  { transform: scale(1.035); }
+    82%  { transform: scale(0.995); }
+    92%  { transform: scale(1.012); }
+    100% { transform: scale(1); }
+}
+
+/* SMOOTH SPIN */
+
+.oakwood-logo-spin {
+    animation: oakwoodBearingSpin 3.2s
+        cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
+    transform-origin: center center;
+    transform-box: fill-box;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+@keyframes oakwoodBearingSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(2520deg); }
+}
+
+@media (max-width: 600px) {
+    .oakwood-welcome-logo {
+        width: 85px;
+        height: 85px;
+    }
+
+    .welcome-hero .oakwood-logo-motion {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 18px;
+    }
+
+    .welcome-hero h1 {
+        font-size: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-hero,
+    .oakwood-welcome-logo {
+        animation: none;
+    }
+
+    .oakwood-logo-spin {
+        animation-duration: 1.2s !important;
+    }
+
+    .oakwood-logo-bounce {
+        animation-duration: 0.8s;
+    }
+}
+
+/* NIGHT DRIVE */
+
+.nightdrive-page {
+    max-width: 1600px !important;
+    padding-bottom: 40px;
+}
+
+.nightdrive-page h1 {
+    margin-bottom: 20px !important;
+}
+
+.nightdrive-container {
+    width: 100%;
+    min-height: calc(100vh - 150px);
+    background: #05070d;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35),
+        0 0 40px rgba(139,92,246,.08);
+}
+
+.nightdrive-frame {
     display: block;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+    height: calc(100vh - 170px);
+    min-height: 750px;
+    border: none;
+    background: #05070d;
+}
+
+.nightdrive-launch-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(20px);
+}
+
+.nightdrive-launch-info h2 {
+    margin: 0 0 6px;
+}
+
+.nightdrive-launch-info p {
+    margin: 0;
+    opacity: .65;
+}
+
+.nightdrive-open-button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .nightdrive-container {
+        border-radius: 18px;
+    }
+
+    .nightdrive-frame {
+        min-height: 800px;
+        height: calc(100vh - 180px);
+    }
+
+    .nightdrive-launch-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 </style>
+</head>
 
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo">
+        <svg class="oakwood-sidebar-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
+
+            <!-- Turquoise semicircle -->
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+
+            <!-- Orange semicircle, same radius, tiny endpoint gaps -->
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
+
+        <div class="logo-title">Oakwood Workspace</div>
+    </div>
+
+    <nav>
+        <button class="nav-btn active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+        <button class="nav-btn" onclick="showPage('planner', this)">📖 Learning Planner</button>
+        <button class="nav-btn" onclick="showPage('projects', this)">🚀 Projects</button>
+        <button class="nav-btn" onclick="showPage('notes', this)">📝 Notes</button>
+        <button class="nav-btn" onclick="showPage('tools', this)">🛠 Tools</button>
+        <button class="nav-btn" onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+        <button class="nav-btn" onclick="showPage('settings', this)">⚙️ Settings</button>
+    </nav>
+
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+    <div class="welcome-hero">
+        <svg class="oakwood-welcome-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
+
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
+
+        <h1>Welcome to the Oakwood Workspace</h1>
+        <p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card dashboard-card">
+            <h2>📅 Today</h2>
+            <p id="date"></p>
+            <div id="clock" class="dashboard-clock"></div>
+        </div>
+
+        <div class="card dashboard-card">
+            <h2>📊 Overall Progress</h2>
+            <div id="dashboardProgress" class="progress-box">0%</div>
+            <div class="dashboard-progress-bar">
+                <div id="dashboardProgressFill" class="dashboard-progress-fill" style="width:0%"></div>
+            </div>
+            <p id="progressText">0 / 0 tasks completed</p>
+        </div>
+
+        <div class="card dashboard-card">
+            <h2>🚀 Projects</h2>
+            <div id="projectCount" class="dashboard-number">0 Projects</div>
+            <p id="projectProgressText">No projects yet.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>✅ Tasks</h2>
+                <p>Your unfinished work</p>
+            </div>
+            <button onclick="showPage('projects', this)">View Projects</button>
+        </div>
+        <div id="todayTasks" class="dashboard-task-list">
+            <p>No unfinished tasks.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>📖 Learning Planner</h2>
+                <p>Your current study progress</p>
+            </div>
+            <button onclick="showPage('planner', this)">Open Planner</button>
+        </div>
+        <div class="dashboard-planner-stats">
+            <div><span id="plannerCompleted">0</span><small>Completed</small></div>
+            <div><span id="plannerRemaining">0</span><small>Remaining</small></div>
+            <div><span id="plannerProgress">0%</span><small>Progress</small></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⚡ Quick Actions</h2>
+        <div class="quick-actions">
+            <button onclick="createProject()">➕ New Project</button>
+            <button onclick="showPage('planner', this)">📖 Open Planner</button>
+            <button onclick="showPage('notes', this)">📝 Open Notes</button>
+            <button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+            <button onclick="exportBackup()">💾 Backup Now</button>
+        </div>
+    </div>
+</section>
+
+<!-- PLANNER -->
+<section id="planner" class="page">
+    <h1>📖 Learning Planner</h1>
+    <div class="planner-controls">
+        <button onclick="createPlan()">➕ New Week</button>
+        <select id="planSelector" onchange="changePlan(this.value)"></select>
+    </div>
+    <div id="plannerContainer">
+        <div class="card"><h2>Loading Planner...</h2></div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="page">
+    <h1>🚀 Projects</h1>
+    <div class="planner-actions">
+        <button onclick="createProject()">➕ New Project</button>
+    </div>
+    <div id="projectsContainer">
+        <div class="card"><h2>Loading Projects...</h2></div>
+    </div>
+</section>
+
+<!-- NOTES -->
+<section id="notes" class="page">
+    <h1>📝 Notes</h1>
+    <div class="card">
+        <textarea placeholder="Write notes here..."></textarea>
+    </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="page">
+    <h1>🛠 Tools</h1>
+    <div class="card">
+        <h2>Tools &amp; Games</h2>
+        <p>Your collection of useful tools, games and resources.</p>
+        <br>
+        <button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
+            🌙 Open Night Drive
+        </button>
+    </div>
+</section>
+
+<!-- NIGHT DRIVE -->
+<section id="nightdrive" class="page nightdrive-page">
+    <h1>🌙 Night Drive</h1>
+
+    <div class="nightdrive-launch-card">
+        <div class="nightdrive-launch-info">
+            <h2>NIGHT DRIVE</h2>
+            <p>Race through the night. Dodge traffic. Push your limits.</p>
+        </div>
+        <button class="nightdrive-open-button" onclick="openNightDriveFullscreen()">⛶ Fullscreen</button>
+    </div>
+
+    <div class="nightdrive-container">
+        <iframe
+            id="nightdriveFrame"
+            class="nightdrive-frame"
+            src="night-drive.html"
+            title="Night Drive Racing Game"
+            allow="autoplay">
+        </iframe>
+    </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+    <h1>⚙️ Settings</h1>
+    <div class="card">
+        <h2>Oakwood Workspace</h2>
+        <p>Your personal learning dashboard.</p>
+        <hr>
+        <h3>💾 Backup</h3>
+        <button onclick="exportBackup()">💾 Export Backup</button>
+        <br><br>
+        <label>
+            📂 Import Backup
+            <br><br>
+            <input type="file" accept=".json" onchange="importBackup(event)">
+        </label>
+    </div>
+</section>
+
+</main>
+</div>
+
+<!-- EXISTING SCRIPTS -->
+<script src="storage.js"></script>
+<script src="planner.js"></script>
+<script src="projects.js"></script>
+<script src="backup.js"></script>
+<script src="app.js"></script>
+
+<!-- NIGHT DRIVE INTEGRATION -->
 <script>
-const oakwoodLogoPNG =
-"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAaVBMVEX////P7e2X2tm15OP208zvq5v32dI2v74du7rzxLrjXzXkYzzkaUXyu67s+PhRxsUpvbya2trkZkDlbkzlcVD76eXc8vL0ysDjXDDlbEms4eD7/v5hysnrloHtoI12z8/qkHnof2PuppXTvfBaAAAAtUlEQVR4Aa3S0Q6CMAwF0CsKGzBltigOQNT//0i3uMSBSX3Q83rTbWuLf9hkW2CXF/i0VVpnQFnVZo+lQ6OVskcfEjO1JyTOWvlM+7C7kGNXFUldKLP9gKB0hrl61zY+G30UTcSOEfXaZ0hMhinHS7hvQKp1XMf/+cIeCx0xdQgyq/SAJWJzRTBb1WDlZtw9vtXOWHkY5u/hKBwrPEj+itAEoX1C4508MmnY8pqk+mTBxNX83RPj7Q8tVR6g8gAAAABJRU5ErkJggg==";
+function openNightDriveFullscreen() {
+    const frame = document.getElementById("nightdriveFrame");
+    if (!frame) return;
 
-document.querySelectorAll(
-    ".oakwood-sidebar-logo, .oakwood-welcome-logo"
-).forEach(img => {
-    img.src = oakwoodLogoPNG;
-    img.style.background = "transparent";
-});
+    if (frame.requestFullscreen) {
+        frame.requestFullscreen().catch(() => {});
+    } else if (frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+    } else if (frame.msRequestFullscreen) {
+        frame.msRequestFullscreen();
+    }
+}
+
+const nightdriveFrame = document.getElementById("nightdriveFrame");
+
+if (nightdriveFrame) {
+    nightdriveFrame.addEventListener("load", function() {
+        console.log("Night Drive loaded successfully.");
+    });
+}
 </script>
+
+<!-- THREE-CLICK SPIN AND SCALE-BOUNCE EASTER EGG -->
+<script>
+(() => {
+    const logos = document.querySelectorAll(
+        ".oakwood-sidebar-logo, .oakwood-welcome-logo"
+    );
+
+    logos.forEach(logo => {
+        let clicks = 0;
+        let clickTimer = null;
+        let spinning = false;
+
+        const wrapper = document.createElement("span");
+        wrapper.className = "oakwood-logo-motion";
+
+        logo.parentNode.insertBefore(wrapper, logo);
+        wrapper.appendChild(logo);
+
+        logo.addEventListener("click", () => {
+            if (spinning) return;
+
+            clicks++;
+
+            if (clickTimer !== null) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+            }
+
+            if (clicks >= 3) {
+                clicks = 0;
+                spinning = true;
+
+                logo.classList.remove("oakwood-logo-spin");
+                wrapper.classList.remove("oakwood-logo-bounce");
+
+                void logo.getBoundingClientRect();
+                void wrapper.getBoundingClientRect();
+
+                logo.classList.add("oakwood-logo-spin");
+                wrapper.classList.add("oakwood-logo-bounce");
+                return;
+            }
+
+            clickTimer = setTimeout(() => {
+                clicks = 0;
+                clickTimer = null;
+            }, 650);
+        });
+
+        logo.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodBearingSpin") return;
+
+            logo.classList.remove("oakwood-logo-spin");
+            spinning = false;
+        });
+
+        wrapper.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodScaleBounce") return;
+
+            wrapper.classList.remove("oakwood-logo-bounce");
+        });
+    });
+})();
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oakwood Workspace</title>
+<link rel="stylesheet" href="main.css">
+
+<style>
+/* OAKWOOD WORKSPACE WELCOME */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.oakwood-sidebar-logo {
+    display: block;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.logo-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.welcome-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px 15px 30px;
+    animation: oakwoodWelcomeIn 0.8s ease both;
+}
+
+.oakwood-welcome-logo {
+    display: block;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    transform-origin: center;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    animation: oakwoodLogoIn 0.9s ease both;
+}
+
+.welcome-hero h1 {
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.welcome-credit {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+@keyframes oakwoodWelcomeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oakwoodLogoIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* LOGO ANIMATION WRAPPER */
+
+.oakwood-logo-motion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.logo .oakwood-logo-motion {
+    width: 38px;
+    height: 38px;
+}
+
+.welcome-hero .oakwood-logo-motion {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 18px;
+}
+
+.oakwood-logo-motion > svg {
+    display: block;
+    flex-shrink: 0;
+    transform-origin: center center;
+    backface-visibility: hidden;
+}
+
+/* SCALE BOUNCE */
+
+.oakwood-logo-bounce {
+    animation: oakwoodScaleBounce 2.8s both;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes oakwoodScaleBounce {
+    0%   { transform: scale(1); }
+    8%   { transform: scale(1.16); }
+    16%  { transform: scale(0.94); }
+    25%  { transform: scale(1.11); }
+    35%  { transform: scale(0.97); }
+    46%  { transform: scale(1.07); }
+    58%  { transform: scale(0.985); }
+    70%  { transform: scale(1.035); }
+    82%  { transform: scale(0.995); }
+    92%  { transform: scale(1.012); }
+    100% { transform: scale(1); }
+}
+
+/* SMOOTH SPIN */
+
+.oakwood-logo-spin {
+    animation: oakwoodBearingSpin 3.2s
+        cubic-bezier(0.12, 0.65, 0.15, 1) forwards !important;
+    transform-origin: center center;
+    transform-box: fill-box;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+@keyframes oakwoodBearingSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(2520deg); }
+}
+
+@media (max-width: 600px) {
+    .oakwood-welcome-logo {
+        width: 85px;
+        height: 85px;
+    }
+
+    .welcome-hero .oakwood-logo-motion {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 18px;
+    }
+
+    .welcome-hero h1 {
+        font-size: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-hero,
+    .oakwood-welcome-logo {
+        animation: none;
+    }
+
+    .oakwood-logo-spin {
+        animation-duration: 1.2s !important;
+    }
+
+    .oakwood-logo-bounce {
+        animation-duration: 0.8s;
+    }
+}
+
+/* NIGHT DRIVE */
+
+.nightdrive-page {
+    max-width: 1600px !important;
+    padding-bottom: 40px;
+}
+
+.nightdrive-page h1 {
+    margin-bottom: 20px !important;
+}
+
+.nightdrive-container {
+    width: 100%;
+    min-height: calc(100vh - 150px);
+    background: #05070d;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35),
+        0 0 40px rgba(139,92,246,.08);
+}
+
+.nightdrive-frame {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 170px);
+    min-height: 750px;
+    border: none;
+    background: #05070d;
+}
+
+.nightdrive-launch-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(20px);
+}
+
+.nightdrive-launch-info h2 {
+    margin: 0 0 6px;
+}
+
+.nightdrive-launch-info p {
+    margin: 0;
+    opacity: .65;
+}
+
+.nightdrive-open-button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .nightdrive-container {
+        border-radius: 18px;
+    }
+
+    .nightdrive-frame {
+        min-height: 800px;
+        height: calc(100vh - 180px);
+    }
+
+    .nightdrive-launch-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo">
+        <svg class="oakwood-sidebar-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
+
+            <!-- Turquoise semicircle -->
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+
+            <!-- Orange semicircle, same radius, tiny endpoint gaps -->
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
+
+        <div class="logo-title">Oakwood Workspace</div>
+    </div>
+
+    <nav>
+        <button class="nav-btn active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+        <button class="nav-btn" onclick="showPage('planner', this)">📖 Learning Planner</button>
+        <button class="nav-btn" onclick="showPage('projects', this)">🚀 Projects</button>
+        <button class="nav-btn" onclick="showPage('notes', this)">📝 Notes</button>
+        <button class="nav-btn" onclick="showPage('tools', this)">🛠 Tools</button>
+        <button class="nav-btn" onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+        <button class="nav-btn" onclick="showPage('settings', this)">⚙️ Settings</button>
+    </nav>
+
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+    <div class="welcome-hero">
+        <svg class="oakwood-welcome-logo"
+             viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Oakwood circular symbol">
+
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 0 50 82.8"
+                fill="none"
+                stroke="#2bb7b4"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+
+            <path
+                d="M50 17.2 A32.8 32.8 0 0 1 50 82.8"
+                fill="none"
+                stroke="#ed684d"
+                stroke-width="13"
+                stroke-linecap="butt"
+            />
+        </svg>
+
+        <h1>Welcome to the Oakwood Workspace</h1>
+        <p class="welcome-credit">Made by Narayan Brennan, the All-Time UNO Champ</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card dashboard-card">
+            <h2>📅 Today</h2>
+            <p id="date"></p>
+            <div id="clock" class="dashboard-clock"></div>
+        </div>
+
+        <div class="card dashboard-card">
+            <h2>📊 Overall Progress</h2>
+            <div id="dashboardProgress" class="progress-box">0%</div>
+            <div class="dashboard-progress-bar">
+                <div id="dashboardProgressFill" class="dashboard-progress-fill" style="width:0%"></div>
+            </div>
+            <p id="progressText">0 / 0 tasks completed</p>
+        </div>
+
+        <div class="card dashboard-card">
+            <h2>🚀 Projects</h2>
+            <div id="projectCount" class="dashboard-number">0 Projects</div>
+            <p id="projectProgressText">No projects yet.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>✅ Tasks</h2>
+                <p>Your unfinished work</p>
+            </div>
+            <button onclick="showPage('projects', this)">View Projects</button>
+        </div>
+        <div id="todayTasks" class="dashboard-task-list">
+            <p>No unfinished tasks.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="dashboard-section-header">
+            <div>
+                <h2>📖 Learning Planner</h2>
+                <p>Your current study progress</p>
+            </div>
+            <button onclick="showPage('planner', this)">Open Planner</button>
+        </div>
+        <div class="dashboard-planner-stats">
+            <div><span id="plannerCompleted">0</span><small>Completed</small></div>
+            <div><span id="plannerRemaining">0</span><small>Remaining</small></div>
+            <div><span id="plannerProgress">0%</span><small>Progress</small></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⚡ Quick Actions</h2>
+        <div class="quick-actions">
+            <button onclick="createProject()">➕ New Project</button>
+            <button onclick="showPage('planner', this)">📖 Open Planner</button>
+            <button onclick="showPage('notes', this)">📝 Open Notes</button>
+            <button onclick="showPage('nightdrive', this)">🌙 Night Drive</button>
+            <button onclick="exportBackup()">💾 Backup Now</button>
+        </div>
+    </div>
+</section>
+
+<!-- PLANNER -->
+<section id="planner" class="page">
+    <h1>📖 Learning Planner</h1>
+    <div class="planner-controls">
+        <button onclick="createPlan()">➕ New Week</button>
+        <select id="planSelector" onchange="changePlan(this.value)"></select>
+    </div>
+    <div id="plannerContainer">
+        <div class="card"><h2>Loading Planner...</h2></div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="page">
+    <h1>🚀 Projects</h1>
+    <div class="planner-actions">
+        <button onclick="createProject()">➕ New Project</button>
+    </div>
+    <div id="projectsContainer">
+        <div class="card"><h2>Loading Projects...</h2></div>
+    </div>
+</section>
+
+<!-- NOTES -->
+<section id="notes" class="page">
+    <h1>📝 Notes</h1>
+    <div class="card">
+        <textarea placeholder="Write notes here..."></textarea>
+    </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="page">
+    <h1>🛠 Tools</h1>
+    <div class="card">
+        <h2>Tools &amp; Games</h2>
+        <p>Your collection of useful tools, games and resources.</p>
+        <br>
+        <button onclick="showPage('nightdrive', document.querySelector('.nav-btn:nth-child(6)'))">
+            🌙 Open Night Drive
+        </button>
+    </div>
+</section>
+
+<!-- NIGHT DRIVE -->
+<section id="nightdrive" class="page nightdrive-page">
+    <h1>🌙 Night Drive</h1>
+
+    <div class="nightdrive-launch-card">
+        <div class="nightdrive-launch-info">
+            <h2>NIGHT DRIVE</h2>
+            <p>Race through the night. Dodge traffic. Push your limits.</p>
+        </div>
+        <button class="nightdrive-open-button" onclick="openNightDriveFullscreen()">⛶ Fullscreen</button>
+    </div>
+
+    <div class="nightdrive-container">
+        <iframe
+            id="nightdriveFrame"
+            class="nightdrive-frame"
+            src="night-drive.html"
+            title="Night Drive Racing Game"
+            allow="autoplay">
+        </iframe>
+    </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+    <h1>⚙️ Settings</h1>
+    <div class="card">
+        <h2>Oakwood Workspace</h2>
+        <p>Your personal learning dashboard.</p>
+        <hr>
+        <h3>💾 Backup</h3>
+        <button onclick="exportBackup()">💾 Export Backup</button>
+        <br><br>
+        <label>
+            📂 Import Backup
+            <br><br>
+            <input type="file" accept=".json" onchange="importBackup(event)">
+        </label>
+    </div>
+</section>
+
+</main>
+</div>
+
+<!-- EXISTING SCRIPTS -->
+<script src="storage.js"></script>
+<script src="planner.js"></script>
+<script src="projects.js"></script>
+<script src="backup.js"></script>
+<script src="app.js"></script>
+
+<!-- NIGHT DRIVE INTEGRATION -->
+<script>
+function openNightDriveFullscreen() {
+    const frame = document.getElementById("nightdriveFrame");
+    if (!frame) return;
+
+    if (frame.requestFullscreen) {
+        frame.requestFullscreen().catch(() => {});
+    } else if (frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+    } else if (frame.msRequestFullscreen) {
+        frame.msRequestFullscreen();
+    }
+}
+
+const nightdriveFrame = document.getElementById("nightdriveFrame");
+
+if (nightdriveFrame) {
+    nightdriveFrame.addEventListener("load", function() {
+        console.log("Night Drive loaded successfully.");
+    });
+}
+</script>
+
+<!-- THREE-CLICK SPIN AND SCALE-BOUNCE EASTER EGG -->
+<script>
+(() => {
+    const logos = document.querySelectorAll(
+        ".oakwood-sidebar-logo, .oakwood-welcome-logo"
+    );
+
+    logos.forEach(logo => {
+        let clicks = 0;
+        let clickTimer = null;
+        let spinning = false;
+
+        const wrapper = document.createElement("span");
+        wrapper.className = "oakwood-logo-motion";
+
+        logo.parentNode.insertBefore(wrapper, logo);
+        wrapper.appendChild(logo);
+
+        logo.addEventListener("click", () => {
+            if (spinning) return;
+
+            clicks++;
+
+            if (clickTimer !== null) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+            }
+
+            if (clicks >= 3) {
+                clicks = 0;
+                spinning = true;
+
+                logo.classList.remove("oakwood-logo-spin");
+                wrapper.classList.remove("oakwood-logo-bounce");
+
+                void logo.getBoundingClientRect();
+                void wrapper.getBoundingClientRect();
+
+                logo.classList.add("oakwood-logo-spin");
+                wrapper.classList.add("oakwood-logo-bounce");
+                return;
+            }
+
+            clickTimer = setTimeout(() => {
+                clicks = 0;
+                clickTimer = null;
+            }, 650);
+        });
+
+        logo.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodBearingSpin") return;
+
+            logo.classList.remove("oakwood-logo-spin");
+            spinning = false;
+        });
+
+        wrapper.addEventListener("animationend", event => {
+            if (event.animationName !== "oakwoodScaleBounce") return;
+
+            wrapper.classList.remove("oakwood-logo-bounce");
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
